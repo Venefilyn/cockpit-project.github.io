@@ -74,6 +74,7 @@ exclude:
   - README.md
   - bin
   - LICENSE
+  - vendor/bundle
 
 include:
   - _stylesheets
@@ -98,7 +99,7 @@ plugins:
   - jekyll-paginate
   - jekyll-coffeescript
   - jekyll-seo-tag
-  - jekyll-github-metadata
+  # - jekyll-github-metadata
 
 whitelist:
   - jekyll-redirect-from
@@ -111,4 +112,4 @@ whitelist:
   - jekyll-paginate
   - jekyll-coffeescript
   - jekyll-seo-tag
-  - jekyll-github-metadata
+  # - jekyll-github-metadata
