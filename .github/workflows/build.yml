@@ -1,6 +1,9 @@
-name: Surge PR Preview - Build Stage
+name: Build Cockpit site
 
 on:
+  push:
+    branches:
+      - 'main'
   pull_request:
 
 env:
@@ -8,10 +11,11 @@ env:
   REPO_NAME: "${{ github.event.repository.name }}"
   PR_NUMBER: "${{ github.event.pull_request.number }}"
   PAGES_REPO_NWO: "${{ github.repository_owner }}/${{ github.event.repository.name }}"
+  PREVIEW_DIR: "preview-pr"
 
 jobs:
-  build-preview:
-    runs-on: ubuntu-24.04
+  build:
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
@@ -29,14 +33,32 @@ jobs:
         run: |
           echo "repo_name=${REPO_NAME//./-}" >> $GITHUB_OUTPUT
 
+      - name: Get domain name
+        id: domain
+        run: |
+          if [[ ${{ env.REPO_OWNER }} == "cockpit-project" ]]
+          then
+            echo "domain_name=$(cat CNAME)" >> $GITHUB_OUTPUT
+          else
+            echo "domain_name=${{ env.REPO_OWNER }}.github.io/${{ env.REPO_NAME }}" >> $GITHUB_OUTPUT
+          fi
+
       - name: Build with Jekyll
+        if: ${{ github.event_name != 'pull_request' }}
         env:
           JEKYLL_ENV: production
         # Outputs to the './_site' directory by default
-        run: bundle exec jekyll build --baseurl "https://${{ env.REPO_OWNER}}-${{ steps.clean-repo-name.outputs.repo_name }}-deploy-pr-${{ env.PR_NUMBER }}.surge.sh"
+        run: bundle exec jekyll build --baseurl "https://${{ steps.domain.outputs.domain_name }}"
+
+      - name: Build PR Preview with Jekyll
+        if: ${{ github.event_name == 'pull_request' }}
+        env:
+          JEKYLL_ENV: production
+        # Outputs to the './_site' directory by default
+        run: bundle exec jekyll build --baseurl "https://${{ steps.domain.outputs.domain_name }}/${{ env.PREVIEW_DIR }}/${{ env.PR_NUMBER }}"
 
       - name: Upload site artifact
         uses: actions/upload-artifact@v7
         with:
-          name: pr-build-dist
+          name: build-dist
           path: _site/
