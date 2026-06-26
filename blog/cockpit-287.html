@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html class=" -path-blog-cockpit-287.html" lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Cockpit 287 &mdash; Cockpit Project</title>
+
+    <link rel="canonical" href="https://github.comhttps://cockpit-project.org/blog/cockpit-287.html">
+
+    <link rel="manifest" href="https://cockpit-project.org/manifest.json">
+
+    <meta name="description" content="Cockpit makes it easy to administer your Linux servers via a web browser.
+">
+    <meta property="og:site_name" content="Cockpit Project">
+    <meta property="og:title" content="Cockpit 287">
+    <meta property="og:description" content="Pinned services update, esbuild developer information">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.comhttps://cockpit-project.org/blog/cockpit-287.html">
+    <meta name="author" content="Garrett LeSage">
+    <meta property="og:image" content="https://cockpit-project.org/images/site/opengraph.png">
+    <meta name="theme-color" content="#3e5375">
+
+    <!-- Favicon -->
+    
+    
+      <link rel="shortcut icon" href="https://cockpit-project.org/images/favicon.png" type="image/png">
+    
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://cockpit-project.org/assets/main.js"></script>
+    <link rel="stylesheet" href="https://cockpit-project.org/assets/main.css">
+  </head>
+
+
+  <body id="page-top">
+    
+    
+      
+      
+      
+      
+
+      
+        
+        <header class="masthead hidden-print" id="branding" role="banner">
+
+  <section class="hgroup">
+    
+    
+
+    
+      <h1><a href="https://cockpit-project.org/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://cockpit-project.org/images/site/cockpit-logo.svg"></a></h1>
+    
+
+    
+  </section>
+
+  
+
+    <div class="nav-wrap">
+      
+
+
+  <nav role="navigation" class="">
+
+
+  <ul class="nav-menu" role="menubar">
+    
+      
+
+      <li class="nav--home" role="menuitem">
+        
+          <a href="https://cockpit-project.org/"><span class="label">Home</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--install" role="menuitem">
+        
+          <a href="https://cockpit-project.org/running.html"><span class="label">Install</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--documentation" role="menuitem">
+        
+          <a href="https://cockpit-project.org/documentation.html"><span class="label">Documentation</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--contribute" role="menuitem">
+        
+          <a href="https://cockpit-project.org/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--blog" role="menuitem">
+        
+          <a href="https://cockpit-project.org/blog/"><span class="label">Blog</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--search" role="menuitem">
+        
+          <a href="https://cockpit-project.org/search.html"><span class="label">Search</span></a>
+        
+        
+      </li>
+    
+
+  </ul>
+
+
+  </nav>
+
+
+    </div>
+
+  
+
+</header>
+
+
+<div class="page-content" id="page-wrap" role="main">
+  <div class="wrapper">
+    
+
+
+
+
+
+
+
+
+
+
+
+<article class="post hentry" id="-blog-cockpit-287.html">
+  <header class="post-header">
+    <h2 class="post-title entry-title">
+      
+        Cockpit 287
+      
+    </h2>
+    <header class="post-meta">
+      
+        
+          <span class="byline">
+            by
+            <span class="author vcard">
+              <a href="https://cockpit-project.org/blog/authors#garrett">Garrett LeSage</a>
+            </span>
+          </span>
+        
+        –
+      
+      <time class="published" datetime="4">
+        Mar 9, 2023
+      </time>
+
+      
+        
+        
+        
+
+        <div class="category">
+          
+            category: <a href="https://cockpit-project.org/blog/category/release.html">release</a>
+          
+        </div>
+      
+    </header>
+  </header>
+
+  
+  
+  
+  
+
+  <section class="post-content entry-content">
+    
+      <p>Cockpit is the <a href="https://cockpit-project.org/">modern Linux admin interface</a>.
+We release regularly.</p>
+
+<p>Here are the release notes from Cockpit 287 and cockpit-podman 64:</p>
+
+<h2 id="services-pinned-units-need-to-be-re-done">Services: Pinned units need to be re-done</h2>
+
+<p>The data storage for “pinned” systemd units has changed. After upgrading to this Cockpit version, you need to re-pin units.</p>
+
+<h2 id="development-cockpit-now-supports-the-esbuild-bundler">Development: Cockpit now supports the esbuild bundler</h2>
+
+<p><a href="https://esbuild.github.io/">esbuild</a> is a much faster bundler alternative for <a href="https://webpack.js.org/">webpack</a>. It also  natively understands <a href="https://reactjs.org/docs/introducing-jsx.html">JSX</a>, so that it is not necessary any more to use <a href="https://babeljs.io/">babel</a>. Cockpit’s shared components and bundler plugins in <a href="https://github.com/cockpit-project/cockpit/tree/main/pkg/lib">pkg/lib/</a> now support both eslint and webpack, so that projects can pick either. <a href="https://github.com/cockpit-project/cockpit-podman">cockpit-podman</a> moved to esbuild in <a href="https://github.com/cockpit-project/cockpit-podman/commit/d48f58297f66d2f6390aa85b54883d9be980850b">this commit</a>. You may choose to do the same for your project.</p>
+
+<h2 id="try-it-out">Try it out</h2>
+
+<p>Cockpit 287 and cockpit-podman 64 are available now:</p>
+
+<ul>
+  <li><a href="https://cockpit-project.org/running.html">For your Linux system</a></li>
+  <li>
+    <p><a href="https://flathub.org/apps/details/org.cockpit_project.CockpitClient">Cockpit Client</a></p>
+  </li>
+  <li><a href="https://github.com/cockpit-project/cockpit/releases/tag/287">Cockpit Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2023-6987aaacad">Cockpit Fedora 38</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2023-2e47853ed4">Cockpit Fedora 37</a></li>
+  <li><a href="https://github.com/cockpit-project/cockpit-machines/releases/tag/285">cockpit-machines Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2023-99b4679f77">cockpit-machines Fedora 38</a></li>
+  <li>[cockpit-machines Fedora 37]https://bodhi.fedoraproject.org/updates/FEDORA-2023-9893be2f68()</li>
+  <li><a href="https://github.com/cockpit-project/cockpit-podman/releases/tag/64">cockpit-podman Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2023-82b8596f0f">cockpit-podman Fedora 38</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2023-ff01f5ff9e">cockpit-podman Fedora 37</a></li>
+</ul>
+
+
+    
+  </section>
+
+  
+
+</article>
+
+
+  
+  <div class="author-info author-card" id="author-info">
+    <h2>About Garrett LeSage</h2>
+    <div class="author-blurb">
+      <p>Garrett has been a designer in the FOSS (free and open source software)
+world since the late 90s and works at Red Hat in the Cockpit team.</p>
+
+
+      <div class="more-link">
+        <a href="https://cockpit-project.org/blog/authors#garrett">
+          View all posts by Garrett LeSage »
+        </a>
+      </div>
+
+      
+    </div>
+  </div>
+
+
+
+  </div>
+</div>
+
+<footer class="footer-cockpit" role="contentinfo">
+    <p class="copyright">
+        
+
+        © 2013 - 2026
+
+        &mdash;
+
+        Cockpit is a <a href="https://redhat.com/">Red Hat</a> sponsored
+        free software project released under the
+        <a href="https://opensource.org/licenses/lgpl-2.1.php">LGPL v2.1+</a>
+    </p>
+
+    <p class="policy">
+        <a href="https://cockpit-project.org/privacy.html">
+            Privacy Policy
+        </a>
+        &mdash;
+        <a href="https://cockpit-project.org/code-of-conduct.html">
+            Code of Conduct
+        </a>
+    </p>
+
+    <p class="edit-page"><a
+      href="https://github.com/Venefilyn/cockpit-project.github.io/edit/main/_posts/2023-03-09-cockpit-287.md">Edit page on GitHub</a>
+</p>
+</footer>
+
+
+      
+    
+  </body>
+
+</html>

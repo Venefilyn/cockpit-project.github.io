@@ -1,0 +1,42 @@
+.pagination {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+
+  li {
+    text-align: center;
+    display: block;
+    float: left;
+    list-style: none;
+
+    + li {
+      margin-inline-start: -1px;
+    }
+
+    &:first-child {
+      a, span {
+        border-radius: var(--border-radius) 0 0 var(--border-radius);
+      }
+    }
+
+    &:last-child {
+      a, span {
+        border-radius: 0 var(--border-radius) var(--border-radius) 0;
+      }
+    }
+  }
+
+  a, span {
+    border: 1px solid transparent;
+    display: block;
+    padding: 0.5ex 1ex;
+    min-width: 2ex;
+  }
+
+  span {
+    background: color-mix(in srgb, var(--color-badge) 40%, var(--color-background));
+    border-color: var(--color-badge-base);
+    color: color-mix(in srgb, var(--color-badge-base) 40%, var(--color-text));
+    border-radius: 6px;
+  }
+}

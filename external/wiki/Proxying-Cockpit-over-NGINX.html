@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html class=" -path-external-wiki-Proxying-Cockpit-over-NGINX" lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Proxying Cockpit over NGINX &mdash; Cockpit Project</title>
+
+    <link rel="canonical" href="https://github.comhttps://cockpit-project.org/external/wiki/Proxying-Cockpit-over-NGINX">
+
+    <link rel="manifest" href="https://cockpit-project.org/manifest.json">
+
+    <meta name="description" content="Cockpit makes it easy to administer your Linux servers via a web browser.
+">
+    <meta property="og:site_name" content="Cockpit Project">
+    <meta property="og:title" content="Proxying Cockpit over NGINX">
+    <meta property="og:description" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.comhttps://cockpit-project.org/external/wiki/Proxying-Cockpit-over-NGINX">
+    <meta name="author" content="">
+    <meta property="og:image" content="https://cockpit-project.org/images/site/opengraph.png">
+    <meta name="theme-color" content="#3e5375">
+
+    <!-- Favicon -->
+    
+    
+      <link rel="shortcut icon" href="https://cockpit-project.org/images/favicon.png" type="image/png">
+    
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://cockpit-project.org/assets/main.js"></script>
+    <link rel="stylesheet" href="https://cockpit-project.org/assets/main.css">
+  </head>
+
+
+  <body id="page-top">
+    
+    
+      
+      
+      
+      
+
+      
+        
+        <header class="masthead hidden-print" id="branding" role="banner">
+
+  <section class="hgroup">
+    
+    
+
+    
+      <h1><a href="https://cockpit-project.org/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://cockpit-project.org/images/site/cockpit-logo.svg"></a></h1>
+    
+
+    
+  </section>
+
+  
+
+    <div class="nav-wrap">
+      
+
+
+  <nav role="navigation" class="">
+
+
+  <ul class="nav-menu" role="menubar">
+    
+      
+
+      <li class="nav--home" role="menuitem">
+        
+          <a href="https://cockpit-project.org/"><span class="label">Home</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--install" role="menuitem">
+        
+          <a href="https://cockpit-project.org/running.html"><span class="label">Install</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--documentation" role="menuitem">
+        
+          <a href="https://cockpit-project.org/documentation.html"><span class="label">Documentation</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--contribute" role="menuitem">
+        
+          <a href="https://cockpit-project.org/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--blog" role="menuitem">
+        
+          <a href="https://cockpit-project.org/blog/"><span class="label">Blog</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--search" role="menuitem">
+        
+          <a href="https://cockpit-project.org/search.html"><span class="label">Search</span></a>
+        
+        
+      </li>
+    
+
+  </ul>
+
+
+  </nav>
+
+
+    </div>
+
+  
+
+</header>
+
+
+<div class="page-content" id="page-wrap" role="main">
+  <div class="wrapper">
+    <header class="post-header">
+  <h2 class="post-title">Proxying Cockpit over NGINX</h2>
+</header>
+
+<article class="post-content">
+  <h2 id="preamble">Preamble</h2>
+
+<p>Cockpit uses web sockets to deliver active content back and forth between the client and the server in real time. One of the challenges of placing Cockpit behind a proxy server such as <a href="https://nginx.org">nginx</a> is that additional configuration is required to ensure that web socket connections are proxied as well.</p>
+
+<p>For the purposes of this example we will assume:</p>
+<ul>
+  <li>Cockpit is listening on port 9090</li>
+  <li>Nginx is listening on port 80 (http) and port 443 (https)</li>
+  <li>You have a subdomain of cockpit.domain.tld pointed to your nginx instance</li>
+  <li>You can access your nginx instance by connecting to http://cockpit.domain.tld, even if you just get the default page</li>
+</ul>
+
+<h2 id="make-cockpit-proxy-aware">Make Cockpit proxy aware</h2>
+
+<p>For security Cockpit will be unable to serve requests from origins it is unfamiliar with due to <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">cross domain limitations</a>. In our example, Cockpit will see the origin as cockpit.domain.tld however it will believe it’s running on 127.0.0.1 and therefore be unable to serve the request.</p>
+
+<p>To make Cockpit proxy aware, you will need to modify the <a href="https://cockpit-project.org/guide/latest/cockpit.conf.5.html">Cockpit config file</a> located at /etc/cockpit/cockpit.conf. This file may not exist and if it doesn’t you should create it.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[WebService]
+Origins = https://cockpit.domain.tld wss://cockpit.domain.tld
+ProtocolHeader = X-Forwarded-Proto
+</code></pre></div></div>
+
+<p>These changes will let Cockpit know that connections will come through for https (secure http) and wss (secure websockets) on the subdomain cockpit.domain.tld, and that it should look for the <code class="language-plaintext highlighter-rouge">X-Forwarded-Proto</code> header to determine if the connection is secure or not, this is important as Cockpit will <a href="https://cockpit-project.org/guide/149/https.html">redirect any non-local connection from http to https automatically</a> and sees cockpit.domain.tld is non-local.</p>
+
+<p>Once these changes are made you will need to restart cockpit.</p>
+
+<h2 id="virtual-host-file">Virtual host file</h2>
+
+<p>To create a proxy you will first need to create a <a href="https://www.nginx.com/resources/wiki/start/topics/examples/server_blocks/">virtual server block</a> so nginx is aware of what to do when it receives a request for your subdomain. If this block doesn’t exist, nginx will just serve the default page.</p>
+
+<p>This server block will allow you to access Cockpit via http://cockpit.domain.tld:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>server {
+    listen         80;
+    listen         443 ssl;
+    server_name    cockpit.domain.tld;
+
+    location / {
+        # Required to proxy the connection to Cockpit
+        proxy_pass https://127.0.0.1:9090;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # Required for web sockets to function
+        proxy_http_version 1.1;
+        proxy_buffering off;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+
+        # Pass ETag header from Cockpit to clients.
+        # See: https://github.com/cockpit-project/cockpit/issues/5239
+        gzip off;
+    }
+}
+</code></pre></div></div>
+
+<blockquote>
+  <p><strong><em>NOTE:</em></strong> Since Cockpit automatically handles the http to https redirect you can have one server block which covers both http and https connections.</p>
+</blockquote>
+
+<p>Once you have added the new virtual host block you will need to restart nginx.</p>
+
+<h2 id="security">Security</h2>
+
+<p>It is recommended you generate a valid, signed certificate for your server, you can do this for free by using <a href="https://certbot.eff.org">Certbot</a> and <a href="https://letsencrypt.org">Let’s Encrypt</a>.</p>
+
+<blockquote>
+  <p><strong><em>NOTE:</em></strong> Once you have a certificate you will need to update the certificate and keys paths in the virtual server block.</p>
+</blockquote>
+
+<p>Alternatively if you don’t require a valid certificate you can <a href="https://www.digitalocean.com/community/tutorials/openssl-essentials-working-with-ssl-certificates-private-keys-and-csrs#generating-ssl-certificates">generate your own certificate</a>. This approach is only recommended for testing as you will get browser security warnings notifying you the connection is not secure.</p>
+
+<p>If all else fails you can use cockpits self signed certificates which are stored in <code class="language-plaintext highlighter-rouge">/etc/cockpit/ws-certs.d/</code>. To do this you will need to split the <code class="language-plaintext highlighter-rouge">0-self-signed.cert</code> into two files, one containing the key and one containing the certificate.</p>
+
+<h3 id="502-bad-gateway--selinux">502 Bad Gateway &amp; SELinux</h3>
+<p>If SELinux is enabled, change boolean setting (solves 502 gateway error):</p>
+
+<p><code class="language-plaintext highlighter-rouge">setsebool -P httpd_can_network_connect on</code></p>
+
+<h2 id="other-configurations">Other configurations</h2>
+
+<p>There are other common ways you can configure your proxy.</p>
+
+<h3 id="serving-via-a-subdirectory-rather-than-subdomain">Serving via a subdirectory rather than subdomain</h3>
+
+<p>You may want to serve cockpit from a subdirectory rather than a subdomain.</p>
+
+<p>For this example we will assume:</p>
+<ul>
+  <li>Cockpit is listening on port 9090</li>
+  <li>Nginx is listening on on port 80 (http) and port 443 (https)</li>
+  <li>You have a domain of domain.tld pointed to your nginx instance</li>
+  <li>You can access your nginx instance by connecting to http://domain.tld, even if you just get the default page</li>
+  <li>You want to access Cockpit via http://domain.tld/secret/</li>
+  <li>You already have a virtual server block for this domain with existing content in it</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>server {
+    ...
+
+    location /secret/ {
+        # Required to proxy the connection to Cockpit
+        proxy_pass https://127.0.0.1:9090/secret/;
+
+        ...
+    }
+}
+</code></pre></div></div>
+
+<p>The /secret/ location block here contains the exact same information as the location block in the <a href="#virtual-host-file">original example</a>, the /secret/ location block should be placed at the end of the virtual server block.</p>
+
+<p>You will also need to let Cockpit know that you are serving the requests from a subdirectory by modifying the cockpit.conf file:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[WebService]
+Origins = https://domain.tld wss://domain.tld
+ProtocolHeader = X-Forwarded-Proto
+UrlRoot=/secret
+</code></pre></div></div>
+
+<h3 id="using-an-external-proxy">Using an external proxy</h3>
+
+<p>If you’re not running nginx locally alongside Cockpit you will need to adjust the configuration so it works across a network IP address. This may be an instance where nginx is on another server or running in a docker container or otherwise doesn’t have access to 127.0.0.1.</p>
+
+<p>For this example we will assume:</p>
+<ul>
+  <li>Cockpit is listening on port 9090 on system 192.168.10.15</li>
+  <li>Nginx is listening on on port 80 (http) and port 443 (https) on system 192.168.10.29</li>
+  <li>You have a domain of domain.tld pointed to your nginx instance</li>
+  <li>You can access your nginx instance by connecting to http://domain.tld, even if you just get the default page</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>server {
+    ...
+
+    location / {
+        # Required to proxy the connection to Cockpit
+        proxy_pass https://192.168.10.15:9090;
+
+        ...
+    }
+}
+</code></pre></div></div>
+
+<p>For nginx to proxy the connection successfully you’ll need to ensure the proxy pass is also using https. By default nginx doesn’t check the validity of the SSL certificates for proxied connections, this means you can proxy directly to cockpit using https without needing to tell nginx it’s using a self signed certificate.</p>
+
+<h3 id="insecure-connections">Insecure connections</h3>
+
+<p>If you really want to disable the secure connection requirement in Cockpit and instead proxy to http this is possible by disabling the secure connection requirement in the cockpit.conf file:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[WebService]
+AllowUnencrypted=true
+</code></pre></div></div>
+
+<p>Disabling the secure connection requirement doesn’t provide any real advantage since nginx doesn’t check the certificate for validity. Since you are transmitting sensitive information to Cockpit it is recommended to leave this setting intact unless you are troubleshooting or have no other option but to serve requests over http.</p>
+
+</article>
+  </div>
+</div>
+
+<footer class="footer-cockpit" role="contentinfo">
+    <p class="copyright">
+        
+
+        © 2013 - 2026
+
+        &mdash;
+
+        Cockpit is a <a href="https://redhat.com/">Red Hat</a> sponsored
+        free software project released under the
+        <a href="https://opensource.org/licenses/lgpl-2.1.php">LGPL v2.1+</a>
+    </p>
+
+    <p class="policy">
+        <a href="https://cockpit-project.org/privacy.html">
+            Privacy Policy
+        </a>
+        &mdash;
+        <a href="https://cockpit-project.org/code-of-conduct.html">
+            Code of Conduct
+        </a>
+    </p>
+
+    <p class="edit-page"><a href="https://github.com/cockpit-project/cockpit/wiki/Proxying-Cockpit-over-NGINX/_edit">Edit page on GitHub</a>
+</p>
+</footer>
+
+
+      
+    
+  </body>
+
+</html>

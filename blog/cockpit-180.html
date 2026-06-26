@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html class=" -path-blog-cockpit-180.html" lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Cockpit 180 &mdash; Cockpit Project</title>
+
+    <link rel="canonical" href="https://github.comhttps://cockpit-project.org/blog/cockpit-180.html">
+
+    <link rel="manifest" href="https://cockpit-project.org/manifest.json">
+
+    <meta name="description" content="Cockpit makes it easy to administer your Linux servers via a web browser.
+">
+    <meta property="og:site_name" content="Cockpit Project">
+    <meta property="og:title" content="Cockpit 180">
+    <meta property="og:description" content="Cockpit with ssh and virtual machines improvements">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.comhttps://cockpit-project.org/blog/cockpit-180.html">
+    <meta name="author" content="Martin Pitt">
+    <meta property="og:image" content="https://cockpit-project.org/images/site/opengraph.png">
+    <meta name="theme-color" content="#3e5375">
+
+    <!-- Favicon -->
+    
+    
+      <link rel="shortcut icon" href="https://cockpit-project.org/images/favicon.png" type="image/png">
+    
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://cockpit-project.org/assets/main.js"></script>
+    <link rel="stylesheet" href="https://cockpit-project.org/assets/main.css">
+  </head>
+
+
+  <body id="page-top">
+    
+    
+      
+      
+      
+      
+
+      
+        
+        <header class="masthead hidden-print" id="branding" role="banner">
+
+  <section class="hgroup">
+    
+    
+
+    
+      <h1><a href="https://cockpit-project.org/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://cockpit-project.org/images/site/cockpit-logo.svg"></a></h1>
+    
+
+    
+  </section>
+
+  
+
+    <div class="nav-wrap">
+      
+
+
+  <nav role="navigation" class="">
+
+
+  <ul class="nav-menu" role="menubar">
+    
+      
+
+      <li class="nav--home" role="menuitem">
+        
+          <a href="https://cockpit-project.org/"><span class="label">Home</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--install" role="menuitem">
+        
+          <a href="https://cockpit-project.org/running.html"><span class="label">Install</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--documentation" role="menuitem">
+        
+          <a href="https://cockpit-project.org/documentation.html"><span class="label">Documentation</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--contribute" role="menuitem">
+        
+          <a href="https://cockpit-project.org/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--blog" role="menuitem">
+        
+          <a href="https://cockpit-project.org/blog/"><span class="label">Blog</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--search" role="menuitem">
+        
+          <a href="https://cockpit-project.org/search.html"><span class="label">Search</span></a>
+        
+        
+      </li>
+    
+
+  </ul>
+
+
+  </nav>
+
+
+    </div>
+
+  
+
+</header>
+
+
+<div class="page-content" id="page-wrap" role="main">
+  <div class="wrapper">
+    
+
+
+
+
+
+
+
+
+
+
+
+<article class="post hentry" id="-blog-cockpit-180.html">
+  <header class="post-header">
+    <h2 class="post-title entry-title">
+      
+        Cockpit 180
+      
+    </h2>
+    <header class="post-meta">
+      
+        
+          <span class="byline">
+            by
+            <span class="author vcard">
+              <a href="https://cockpit-project.org/blog/authors#pitti">Martin Pitt</a>
+            </span>
+          </span>
+        
+        –
+      
+      <time class="published" datetime="4">
+        Oct 4, 2018
+      </time>
+
+      
+        
+        
+        
+
+        <div class="category">
+          
+            category: <a href="https://cockpit-project.org/blog/category/release.html">release</a>
+          
+        </div>
+      
+    </header>
+  </header>
+
+  
+  
+  
+  
+
+  <section class="post-content entry-content">
+    
+      <p>Cockpit is the <a href="https://cockpit-project.org/">modern Linux admin interface</a>. We
+release regularly.  Here are the release notes from version 180.</p>
+
+<h3 id="move-to-ssh-sha256-fingerprints">Move to ssh SHA256 fingerprints</h3>
+
+<p>Until version 179, Cockpit has shown MD5 based SSH host key fingerprints when
+connecting to unknown remote machines.</p>
+
+<p>The “ssh” command line program hasn’t shown MD5 fingerprints in a long time,
+but uses SHA1 and SHA256. MD5 and SHA1 are cryptographically weak, and using
+them is not allowed when running in <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/security_guide/sect-security_guide-federal_standards_and_regulations-federal_information_processing_standard"><abbr title="Federal Information Processing Standard">FIPS</abbr> mode</a>.</p>
+
+<p>Cockpit will now show SHA256 fingerprints when available:</p>
+
+<p><img loading="lazy" src="https://cockpit-project.org/images/ssh-sha256-fingerprints.png" alt="ssh SHA256 fingerprints" /></p>
+
+<p>This feature requires libssh 0.8, so it is only available on more recent
+operating system releases. MD5 fingerprints are being used on older ones.</p>
+
+<h3 id="machines-show-error-messages-in-the-correct-place">Machines: Show error messages in the correct place</h3>
+
+<p>If there is an error with applying changes to a <abbr title="virtual machine">VM</abbr>’s networking configuration,
+the error message is now shown in the correct (“Networking”) tab:</p>
+
+<p><img loading="lazy" src="https://cockpit-project.org/images/machines-network-errors.png" alt="Detach disk" /></p>
+
+<p>Previously it was only shown in the “Overview” tab, and thus not immediately
+visible.</p>
+
+<p><em>Thanks to Katerina Koukiou for this improvement!</em></p>
+
+<h3 id="try-it-out">Try it out</h3>
+
+<p>Cockpit 180 is available now:</p>
+
+<ul>
+  <li><a href="https://cockpit-project.org/running.html">For your Linux system</a></li>
+  <li><a href="https://github.com/cockpit-project/cockpit/releases/tag/180">Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/cockpit-180-1.fc28">Fedora 28</a></li>
+</ul>
+
+
+    
+  </section>
+
+  
+
+</article>
+
+
+  
+  <div class="author-info author-card" id="author-info">
+    <h2>About Martin Pitt</h2>
+    <div class="author-blurb">
+      
+
+
+      <div class="more-link">
+        <a href="https://cockpit-project.org/blog/authors#pitti">
+          View all posts by Martin Pitt »
+        </a>
+      </div>
+
+      
+    </div>
+  </div>
+
+
+
+  </div>
+</div>
+
+<footer class="footer-cockpit" role="contentinfo">
+    <p class="copyright">
+        
+
+        © 2013 - 2026
+
+        &mdash;
+
+        Cockpit is a <a href="https://redhat.com/">Red Hat</a> sponsored
+        free software project released under the
+        <a href="https://opensource.org/licenses/lgpl-2.1.php">LGPL v2.1+</a>
+    </p>
+
+    <p class="policy">
+        <a href="https://cockpit-project.org/privacy.html">
+            Privacy Policy
+        </a>
+        &mdash;
+        <a href="https://cockpit-project.org/code-of-conduct.html">
+            Code of Conduct
+        </a>
+    </p>
+
+    <p class="edit-page"><a
+      href="https://github.com/Venefilyn/cockpit-project.github.io/edit/main/_posts/2018-10-04-cockpit-180.md">Edit page on GitHub</a>
+</p>
+</footer>
+
+
+      
+    
+  </body>
+
+</html>

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html class=" -path-blog-cockpit-209.html" lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Cockpit 209 &mdash; Cockpit Project</title>
+
+    <link rel="canonical" href="https://github.comhttps://cockpit-project.org/blog/cockpit-209.html">
+
+    <link rel="manifest" href="https://cockpit-project.org/manifest.json">
+
+    <meta name="description" content="Cockpit makes it easy to administer your Linux servers via a web browser.
+">
+    <meta property="og:site_name" content="Cockpit Project">
+    <meta property="og:title" content="Cockpit 209">
+    <meta property="og:description" content="Cockpit with Overview improvements">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.comhttps://cockpit-project.org/blog/cockpit-209.html">
+    <meta name="author" content="Marius Vollmer">
+    <meta property="og:image" content="https://cockpit-project.org/images/site/opengraph.png">
+    <meta name="theme-color" content="#3e5375">
+
+    <!-- Favicon -->
+    
+    
+      <link rel="shortcut icon" href="https://cockpit-project.org/images/favicon.png" type="image/png">
+    
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://cockpit-project.org/assets/main.js"></script>
+    <link rel="stylesheet" href="https://cockpit-project.org/assets/main.css">
+  </head>
+
+
+  <body id="page-top">
+    
+    
+      
+      
+      
+      
+
+      
+        
+        <header class="masthead hidden-print" id="branding" role="banner">
+
+  <section class="hgroup">
+    
+    
+
+    
+      <h1><a href="https://cockpit-project.org/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://cockpit-project.org/images/site/cockpit-logo.svg"></a></h1>
+    
+
+    
+  </section>
+
+  
+
+    <div class="nav-wrap">
+      
+
+
+  <nav role="navigation" class="">
+
+
+  <ul class="nav-menu" role="menubar">
+    
+      
+
+      <li class="nav--home" role="menuitem">
+        
+          <a href="https://cockpit-project.org/"><span class="label">Home</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--install" role="menuitem">
+        
+          <a href="https://cockpit-project.org/running.html"><span class="label">Install</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--documentation" role="menuitem">
+        
+          <a href="https://cockpit-project.org/documentation.html"><span class="label">Documentation</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--contribute" role="menuitem">
+        
+          <a href="https://cockpit-project.org/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--blog" role="menuitem">
+        
+          <a href="https://cockpit-project.org/blog/"><span class="label">Blog</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--search" role="menuitem">
+        
+          <a href="https://cockpit-project.org/search.html"><span class="label">Search</span></a>
+        
+        
+      </li>
+    
+
+  </ul>
+
+
+  </nav>
+
+
+    </div>
+
+  
+
+</header>
+
+
+<div class="page-content" id="page-wrap" role="main">
+  <div class="wrapper">
+    
+
+
+
+
+
+
+
+
+
+
+
+<article class="post hentry" id="-blog-cockpit-209.html">
+  <header class="post-header">
+    <h2 class="post-title entry-title">
+      
+        Cockpit 209
+      
+    </h2>
+    <header class="post-meta">
+      
+        
+          <span class="byline">
+            by
+            <span class="author vcard">
+              <a href="https://cockpit-project.org/blog/authors#mvo">Marius Vollmer</a>
+            </span>
+          </span>
+        
+        –
+      
+      <time class="published" datetime="5">
+        Dec 13, 2019
+      </time>
+
+      
+        
+        
+        
+
+        <div class="category">
+          
+            category: <a href="https://cockpit-project.org/blog/category/release.html">release</a>
+          
+        </div>
+      
+    </header>
+  </header>
+
+  
+  
+  
+  
+
+  <section class="post-content entry-content">
+    
+      <p>Cockpit is the <a href="https://cockpit-project.org/">modern Linux admin interface</a>. We release regularly.  Here are the release notes from version 209.</p>
+
+<h3 id="a-new-design-for-the-overview-page">A new design for the Overview page</h3>
+
+<p>The landing page has been completely redesigned.  Information is
+grouped into easier to understand panels, health information is much
+more prominent, the resource graphs have been moved to their own page,
+and the hardware information page should now be easier to find.</p>
+
+<p><img loading="lazy" src="https://cockpit-project.org/images/new-overview.png" alt="Overview" /></p>
+
+<h3 id="session-timeouts">Session timeouts</h3>
+
+<p>Cockpit will automatically log you out of your current session after
+15 minutes of inactivity.</p>
+
+<p><img loading="lazy" src="https://cockpit-project.org/images/session-timeout.png" alt="Automatic logout" /></p>
+
+<p>You can configure the timeout, in minutes, in
+<code class="language-plaintext highlighter-rouge">/etc/cockpit/cockpit.conf</code>.  For example, this will disable automatic
+logouts completely:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Session]
+IdleTimeout=0
+</code></pre></div></div>
+
+<h3 id="support-for-banners-on-the-login-page">Support for banners on the login page</h3>
+
+<p>Like SSH, Cockpit can now optionally show the content of banner files
+on the login screen.</p>
+
+<p><img loading="lazy" src="https://cockpit-project.org/images/etc-issue.png" alt="/etc/issue" /></p>
+
+<p>This needs to be configured in <code class="language-plaintext highlighter-rouge">/etc/cockpit/cockpit.conf</code>.  For example:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Session]
+Banner=/etc/issue.cockpit
+</code></pre></div></div>
+
+<h3 id="support-for-tls-client-certificate-authentication">Support for TLS client certificate authentication</h3>
+
+<p>You can now log into Cockpit with a TLS client certificate that is
+provided by your browser or a device like a Smart Card or YubiKey.</p>
+
+<p>See it in action:</p>
+
+<iframe width="960" height="540" src="https://www.youtube-nocookie.com/embed/v07cHZQsRyo" frameborder="0" allowfullscreen=""></iframe>
+
+<p>And read the documentation <a href="https://cockpit-project.org/guide/latest/cert-authentication.html">here</a>.</p>
+
+<h3 id="support-for-fedora-coreos">Support for Fedora CoreOS</h3>
+
+<p><a href="https://docs.fedoraproject.org/en-US/fedora-coreos/">Fedora CoreOS</a>
+is a minimal and robust Fedora based operating system for hosting
+container workloads. It is the successor of <a href="http://www.projectatomic.io/">Fedora Atomic
+Host</a>, which is not supported any more.</p>
+
+<p>We now fully support running Cockpit on this platform.</p>
+
+<p>Please see the <a href="https://cockpit-project.org/running.html">Running
+Cockpit</a> documentation or
+the <a href="https://hub.docker.com/r/cockpit/ws/">cockpit/ws docker hub</a> page
+for how to install Cockpit on Fedora CoreOS.</p>
+
+<h3 id="list-cockpit-logins-in-wtmputmp">List cockpit logins in wtmp/utmp</h3>
+
+<p>Logins via the web console are now correctly registered in utmp and
+wtmp, allowing them to be visible in tools such as <code class="language-plaintext highlighter-rouge">who</code>, <code class="language-plaintext highlighter-rouge">w</code>, and
+<code class="language-plaintext highlighter-rouge">last</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@m1 ~]# who
+root     pts/0        2019-12-13 08:09 (172.27.0.2)
+admin    web console  2019-12-13 08:09
+</code></pre></div></div>
+
+<h3 id="dropped-support-for-the-pam_rhost-module">Dropped support for the pam_rhost module</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">pam_rhosts</code> module is not in Cockpit’s PAM stack by default (nor
+in any other stack) and the remote IP is not a reliable piece of
+information.  NAT, VPNs, or reverse proxies (such as Cockpit’s own
+cockpit-tls) all destroy the actual IP of the browser’s machine.</p>
+
+<p>For these reasons, Cockpit does not set the <code class="language-plaintext highlighter-rouge">PAM_RHOST</code> variable
+anymore when running its PAM stack.</p>
+
+<h3 id="try-it-out">Try it out</h3>
+
+<p>Cockpit 209 is available now:</p>
+
+<ul>
+  <li><a href="https://cockpit-project.org/running.html">For your Linux system</a></li>
+  <li><a href="https://github.com/cockpit-project/cockpit/releases/tag/209">Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2019-53834396c7">Fedora 30</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2019-3df1269346">Fedora 31</a></li>
+</ul>
+
+    
+  </section>
+
+  
+
+</article>
+
+
+  
+  <div class="author-info author-card" id="author-info">
+    <h2>About Marius Vollmer</h2>
+    <div class="author-blurb">
+      
+
+
+      <div class="more-link">
+        <a href="https://cockpit-project.org/blog/authors#mvo">
+          View all posts by Marius Vollmer »
+        </a>
+      </div>
+
+      
+    </div>
+  </div>
+
+
+
+  </div>
+</div>
+
+<footer class="footer-cockpit" role="contentinfo">
+    <p class="copyright">
+        
+
+        © 2013 - 2026
+
+        &mdash;
+
+        Cockpit is a <a href="https://redhat.com/">Red Hat</a> sponsored
+        free software project released under the
+        <a href="https://opensource.org/licenses/lgpl-2.1.php">LGPL v2.1+</a>
+    </p>
+
+    <p class="policy">
+        <a href="https://cockpit-project.org/privacy.html">
+            Privacy Policy
+        </a>
+        &mdash;
+        <a href="https://cockpit-project.org/code-of-conduct.html">
+            Code of Conduct
+        </a>
+    </p>
+
+    <p class="edit-page"><a
+      href="https://github.com/Venefilyn/cockpit-project.github.io/edit/main/_posts/2019-12-13-cockpit-209.md">Edit page on GitHub</a>
+</p>
+</footer>
+
+
+      
+    
+  </body>
+
+</html>

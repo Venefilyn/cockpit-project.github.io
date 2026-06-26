@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html class=" -path-external-source-HACKING" lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Hacking on Cockpit &mdash; Cockpit Project</title>
+
+    <link rel="canonical" href="https://github.comhttps://cockpit-project.org/external/source/HACKING">
+
+    <link rel="manifest" href="https://cockpit-project.org/manifest.json">
+
+    <meta name="description" content="Cockpit makes it easy to administer your Linux servers via a web browser.
+">
+    <meta property="og:site_name" content="Cockpit Project">
+    <meta property="og:title" content="Hacking on Cockpit">
+    <meta property="og:description" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.comhttps://cockpit-project.org/external/source/HACKING">
+    <meta name="author" content="">
+    <meta property="og:image" content="https://cockpit-project.org/images/site/opengraph.png">
+    <meta name="theme-color" content="#3e5375">
+
+    <!-- Favicon -->
+    
+    
+      <link rel="shortcut icon" href="https://cockpit-project.org/images/favicon.png" type="image/png">
+    
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://cockpit-project.org/assets/main.js"></script>
+    <link rel="stylesheet" href="https://cockpit-project.org/assets/main.css">
+  </head>
+
+
+  <body id="page-top">
+    
+    
+      
+      
+      
+      
+
+      
+        
+        <header class="masthead hidden-print" id="branding" role="banner">
+
+  <section class="hgroup">
+    
+    
+
+    
+      <h1><a href="https://cockpit-project.org/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://cockpit-project.org/images/site/cockpit-logo.svg"></a></h1>
+    
+
+    
+  </section>
+
+  
+
+    <div class="nav-wrap">
+      
+
+
+  <nav role="navigation" class="">
+
+
+  <ul class="nav-menu" role="menubar">
+    
+      
+
+      <li class="nav--home" role="menuitem">
+        
+          <a href="https://cockpit-project.org/"><span class="label">Home</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--install" role="menuitem">
+        
+          <a href="https://cockpit-project.org/running.html"><span class="label">Install</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--documentation" role="menuitem">
+        
+          <a href="https://cockpit-project.org/documentation.html"><span class="label">Documentation</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--contribute" role="menuitem">
+        
+          <a href="https://cockpit-project.org/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--blog" role="menuitem">
+        
+          <a href="https://cockpit-project.org/blog/"><span class="label">Blog</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--search" role="menuitem">
+        
+          <a href="https://cockpit-project.org/search.html"><span class="label">Search</span></a>
+        
+        
+      </li>
+    
+
+  </ul>
+
+
+  </nav>
+
+
+    </div>
+
+  
+
+</header>
+
+
+<div class="page-content" id="page-wrap" role="main">
+  <div class="wrapper">
+    <header class="post-header">
+  <h2 class="post-title">Hacking on Cockpit</h2>
+</header>
+
+<article class="post-content">
+  <p>Start by getting the code:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/cockpit-project/cockpit
+cd cockpit/
+</code></pre></div></div>
+
+<p>The remainder of the commands assume you’re in the top level of the
+Cockpit git repository checkout.</p>
+
+<p><strong>Do not clone a fork!</strong> This will not work for various reasons (missing tags,
+determining version, integration with bots commands). Please keep <code class="language-plaintext highlighter-rouge">origin</code> as
+the read-only actual upstream project, and add your fork as a separate writable
+remote, for example with</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git remote add my git@github.com:yourgithubid/cockpit.git
+</code></pre></div></div>
+
+<h2 id="setting-up-development-container">Setting up development container</h2>
+
+<p>The cockpit team maintains a <a href="https://ghcr.io/cockpit-project/tasks">cockpit/tasks container</a>
+for both local development and CI. If you can install <a href="https://containertoolbx.org/">toolbx</a> or
+<a href="https://distrobox.privatedns.org/">distrobox</a> on your system, it is highly
+recommended to do that:</p>
+
+<ul>
+  <li>It is <em>the</em> official environment for CI, known to work, and gives you reproducible results.</li>
+  <li>It avoids having to install development packages on your main machine.</li>
+  <li>It avoids having to map the build and test dependencies to package names of various distributions.</li>
+</ul>
+
+<ol>
+  <li>
+    <p>Install <code class="language-plaintext highlighter-rouge">toolbox</code></p>
+
+    <ul>
+      <li>
+        <p>Fedora/CentOS/RHEL based distributions:</p>
+
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo dnf install toolbox
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>Debian/Ubuntu based distributions:</p>
+
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt install podman-toolbox
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Create a development toolbox for Cockpit</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>toolbox create --image ghcr.io/cockpit-project/tasks -c cockpit
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Enter the toolbox:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>toolbox enter cockpit
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>Your home directory, user D-Bus, etc. are shared with the host, so you can
+edit files as you normally would. Building and running tests happens inside the
+toolbox container. If desired, you can install additional packages with
+<code class="language-plaintext highlighter-rouge">sudo dnf install</code>.</p>
+
+<p>The Cockpit team occasionally refreshes the <code class="language-plaintext highlighter-rouge">tasks</code> container image.
+To re-create your development container from the latest image, run:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>podman pull ghcr.io/cockpit-project/tasks
+toolbox rm cockpit
+</code></pre></div></div>
+
+<p>…and then repeat steps 2 and 3 from above.</p>
+
+<h2 id="working-on-cockpits-session-pages">Working on Cockpit’s session pages</h2>
+
+<p>Most contributors want to work on the web (HTML, JavaScript, CSS) parts of Cockpit.</p>
+
+<h3 id="install-cockpit">Install Cockpit</h3>
+
+<p>First, install Cockpit on your local machine as described in:</p>
+
+<p><a href="https://cockpit-project.org/running.html">https://cockpit-project.org/running.html</a></p>
+
+<h3 id="build-session-pages">Build session pages</h3>
+
+<p>Next, run this command from your top level Cockpit checkout directory, and make
+sure to run it as the same user that you’ll use to log into Cockpit below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir -p ~/.local/share/
+ln -s $(pwd)/dist ~/.local/share/cockpit
+</code></pre></div></div>
+
+<p>This will cause Cockpit to read JavaScript, HTML, and CSS files directly from the
+locally built package output directory instead of using the system-installed Cockpit
+files.</p>
+
+<p>The recommended way to build bundles is to use the “watch” mode
+(<code class="language-plaintext highlighter-rouge">-w</code> or<code class="language-plaintext highlighter-rouge">--watch</code>) on the page you are working on. For example, if you want to
+work on anything in <a href="https://github.com/cockpit-project/cockpit/tree/main/pkg/systemd/">pkg/systemd</a>, run:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./build.js -w systemd
+</code></pre></div></div>
+
+<p>See <a href="https://github.com/cockpit-project/cockpit/tree/main/pkg">pkg/</a> for a list of all pages.</p>
+
+<p>If you work on a change that affects multiple pages (such as a file in
+pkg/lib/), you can also build all pages:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./build.js -w
+</code></pre></div></div>
+
+<p>Now you can log into Cockpit on your local Linux machine at the following
+address, using the same username and password as your desktop login:</p>
+
+<p><a href="http://localhost:9090">http://localhost:9090</a></p>
+
+<p>Watch mode automatically rebuilds when source files are modified. Once it
+finishes building, refresh your browser to see the changes in Cockpit.
+Press <code class="language-plaintext highlighter-rouge">Ctrl-C</code> to stop watch mode when you are done changing the code.</p>
+
+<h3 id="testing">Testing</h3>
+
+<p>You often need to test code changes in a VM. You can set the <code class="language-plaintext highlighter-rouge">$RSYNC</code> env
+variable to copy the built page into the given SSH target’s
+/usr/local/share/cockpit/ directory. If you use Cockpit’s own test VMs and set up the
+SSH <code class="language-plaintext highlighter-rouge">c</code> alias as described in <a href="/https://cockpit-project.org/external/source/test/README">test/README.md</a>, you can use
+one of these commands:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>RSYNC=c ./build.js -w kdump
+RSYNC=c ./build.js -w
+</code></pre></div></div>
+
+<h3 id="returning-to-system-packages">Returning to system packages</h3>
+
+<p>To make Cockpit use system packages again, instead of your checkout directory,
+remove the symlink with the following command and log back into Cockpit:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rm ~/.local/share/cockpit
+</code></pre></div></div>
+
+<h2 id="building-and-unit-tests">Building and unit tests</h2>
+
+<p>Cockpit uses autotools, so there are familiar <code class="language-plaintext highlighter-rouge">./configure</code> script and
+Makefile targets.</p>
+
+<p>After a fresh clone of the Cockpit sources, you need to prepare them by running
+<code class="language-plaintext highlighter-rouge">autogen.sh</code> like this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./autogen.sh --prefix=/usr --enable-debug
+</code></pre></div></div>
+
+<p>As shown, <code class="language-plaintext highlighter-rouge">autogen.sh</code> runs ‘configure’ with the given options, and it also
+prepares the build tree by downloading various nodejs dependencies.</p>
+
+<p>When working with a Git clone, it is best to always run <code class="language-plaintext highlighter-rouge">./autogen.sh</code>
+instead of <code class="language-plaintext highlighter-rouge">./configure</code>.</p>
+
+<p>Then run</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make
+</code></pre></div></div>
+
+<p>to build everything. Cockpit has a single non-recursive Makefile. You can only
+run <code class="language-plaintext highlighter-rouge">make</code> from the top-level and it will always rebuild the whole project.</p>
+
+<p>You can run unit tests of the current checkout:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make check
+</code></pre></div></div>
+
+<p>These should finish very quickly. It is a good practice to do this often.</p>
+
+<p>For debugging individual tests, there are compiled binaries in the build
+directory. For QUnit tests (JavaScript), you can run</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./test-server
+</code></pre></div></div>
+
+<p>which will output a URL to connect to with a browser, such as
+<a href="http://localhost:8765/qunit/base1/test-dbus.html">http://localhost:8765/qunit/base1/test-dbus.html</a>. Adjust the path for different
+tests and inspect the results there.</p>
+
+<p>QUnit tests are run as part of a pytest test called <code class="language-plaintext highlighter-rouge">test_browser</code>.  You can
+run individual tests via <code class="language-plaintext highlighter-rouge">pytest -k</code>, like so:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pytest -k test-fsinfo.html
+</code></pre></div></div>
+
+<p>You can see JavaScript code coverage information for QUnit tests.  For a
+summary table:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pytest -k test_browser --js-cov
+</code></pre></div></div>
+
+<p>And for detailed output on uncovered sections in a specific file, something
+like:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pytest -k test-fsinfo.html --js-cov-files='*/fsinfo.ts'
+</code></pre></div></div>
+
+<p>Coverage information is gathered into the pytest tmpdir, regardless of which
+coverage-related commandline flags are given, so it’s also possible to drill
+down after the fact — without re-running tests — using something like:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>test/common/js_coverage.py -m '*/fsinfo.ts' /tmp/pytest-of-*/pytest-current/js-coverage/*
+</code></pre></div></div>
+
+<p>There are also static code and syntax checks which you should run often:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>test/common/static-code
+</code></pre></div></div>
+
+<p>It is highly recommended to set up a git pre-push hook, to avoid pushing PRs
+that will fail on trivial errors:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ln -s ../../tools/git-hook-pre-push .git/hooks/pre-push
+</code></pre></div></div>
+
+<p>This calls <code class="language-plaintext highlighter-rouge">test/common/static-code</code> for each commit you’re trying to push.</p>
+
+<p>You can also set up a post-commit hook to do the same, after each commit:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ln -s ../../tools/git-hook-post-commit .git/hooks/post-commit
+</code></pre></div></div>
+
+<p>We also have a hook to ameliorate one of the more annoying drawbacks of using
+git submodules:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ln -s ../../tools/git-hook-pre-rebase .git/hooks/pre-rebase
+</code></pre></div></div>
+
+<h2 id="running-the-integration-test-suite">Running the integration test suite</h2>
+
+<p>Refer to the <a href="/https://cockpit-project.org/external/source/test/README">testing README</a> for details on running the Cockpit
+integration tests locally.</p>
+
+<h2 id="bridge">Bridge</h2>
+
+<p>The Cockpit bridge is the initial program launched in a Cockpit Linux session:
+Its stdin/out is connected to the web socket (and thus to JavaScript in the
+<a href="pkg/">pages</a>), where it speaks a <a href="doc/protocol.md">JSON protocol</a> that
+multiplexes “channels” – abstractions of operating system APIs that the pages
+use to implement their functionality. This protocol is translated into
+operating system calls such as opening or writing files, D-Bus calls, or HTTP
+queries. Think of the bridge as the moral equivalent of “bash” in a human SSH
+session.</p>
+
+<p>The bridge resides in <code class="language-plaintext highlighter-rouge">src/cockpit</code> with most of its rules in <code class="language-plaintext highlighter-rouge">src/Makefile.am</code>.
+This directory was chosen because it matches the standard so-called “src
+layout” convention for Python packages, where each package (<code class="language-plaintext highlighter-rouge">cockpit</code>) is a
+subdirectory of the <code class="language-plaintext highlighter-rouge">src</code> directory.</p>
+
+<h3 id="running-the-bridge">Running the bridge</h3>
+
+<p>The bridge can be used interactively on a local machine out of the source tree:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PYTHONPATH=src python3 -m cockpit.bridge
+</code></pre></div></div>
+
+<p>To make it easy to test out channels without having to write out messages
+manually, <code class="language-plaintext highlighter-rouge">cockpit.misc.print</code> can be used:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PYTHONPATH=src python3 -m cockpit.misc.print open fsinfo path=/etc 'attrs=["type", "entries"]' | PYTHONPATH=src python3 -m cockpit.bridge
+</code></pre></div></div>
+
+<p>These shell aliases might be useful when experimenting with the protocol:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>alias cpy='PYTHONPATH=src python3 -m cockpit.bridge'
+alias cpf='PYTHONPATH=src python3 -m cockpit.misc.print'
+</code></pre></div></div>
+
+<p>You can then for example run a metrics channel:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cpf open metrics1 source=internal interval=1000 metrics='[{"name": "cpu.basic.user", "derive": "rate"}]' : wait | cpy
+</code></pre></div></div>
+
+<p>To enable debug logging in journal on a test image, you can pass <code class="language-plaintext highlighter-rouge">--debug</code> to
+<code class="language-plaintext highlighter-rouge">image-prepare</code>. This will set <code class="language-plaintext highlighter-rouge">COCKPIT_DEBUG=all</code> to <code class="language-plaintext highlighter-rouge">/etc/environment</code>, if
+you are only interested channel debug messages change <code class="language-plaintext highlighter-rouge">all</code> to
+<code class="language-plaintext highlighter-rouge">cockpit.channel</code>.</p>
+
+<h3 id="iterating-on-the-bridge-with-the-ws-container">Iterating on the bridge with the ws container</h3>
+
+<p>Our fedora-coreos and -bootc images use the <a href="https://quay.io/repository/cockpit/ws">cockpit/ws container</a>
+instead of <code class="language-plaintext highlighter-rouge">cockpit-bridge.rpm</code>. You can do fast “edit bridge” → “run
+integration test” iterations by modifying <code class="language-plaintext highlighter-rouge">MachineCase.login_and_go()</code> to
+upload the local dev tree bridge code to the VM, then onwards into the running
+container, and bind-mount it into the correct path:</p>
+
+<div class="language-diff highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gd">--- test/common/testlib.py
+</span><span class="gi">+++ test/common/testlib.py
+</span><span class="p">@@ -1933,6 +1933,14 @@</span> class MachineCase(unittest.TestCase):
+         if enable_root_login:
+             self.enable_root_login()
+         self.machine.start_cockpit(tls=tls)
+<span class="gi">+
++        m = self.machine
++        m.execute("umount /usr/lib/python3.14/site-packages/cockpit || true")
++        m.upload(["../src/cockpit"], "/tmp/")
++        m.execute("podman cp /tmp/cockpit ws:/tmp/")
++        m.execute("podman exec ws mount -o bind /tmp/cockpit /usr/lib/python3.14/site-packages/cockpit")
++
+</span>         # first load after starting cockpit tends to take longer, due to on-demand service start
+         with self.browser.wait_timeout(30):
+             self.browser.login_and_go(path, user=user, password=password, host=host, superuser=superuser,
+</code></pre></div></div>
+
+<p>Replace <code class="language-plaintext highlighter-rouge">3.14</code> with the Python version du jour.</p>
+
+<h3 id="testing-the-bridge">Testing the bridge</h3>
+
+<p>There are a growing number of <a href="https://docs.pytest.org">pytest</a> tests being written to test
+the bridge code.  You can run these with <code class="language-plaintext highlighter-rouge">make pytest</code> or
+<code class="language-plaintext highlighter-rouge">make pytest-cov</code>.  Those are both just rules to make sure that the
+<code class="language-plaintext highlighter-rouge">systemd_ctypes</code> submodule is checked out before running <code class="language-plaintext highlighter-rouge">pytest</code> from the
+source directory.</p>
+
+<p>The tests require at least <code class="language-plaintext highlighter-rouge">pytest</code> 7.0.0 or higher to run.</p>
+
+<h2 id="running-eslint">Running eslint</h2>
+
+<p>Cockpit uses <a href="https://eslint.org/">ESLint</a> to automatically check JavaScript
+code style in <code class="language-plaintext highlighter-rouge">.js</code> and <code class="language-plaintext highlighter-rouge">.jsx</code> files.</p>
+
+<p>The linter is executed as part of <code class="language-plaintext highlighter-rouge">test/common/static-code</code>.</p>
+
+<p>For developer convenience, the ESLint can be started explicitly by:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm run eslint
+</code></pre></div></div>
+
+<p>Most rule violations can be automatically fixed by running:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm run eslint:fix
+</code></pre></div></div>
+
+<p>Rules configuration can be found in the <code class="language-plaintext highlighter-rouge">.eslintrc.json</code> file.</p>
+
+<p>During fast iterative development, you can also choose to not run eslint, by
+running <code class="language-plaintext highlighter-rouge">./build.js</code> with the <code class="language-plaintext highlighter-rouge">-e</code>/<code class="language-plaintext highlighter-rouge">--no-eslint</code> option. This
+speeds up the build and avoid build failures due to ill-formatted comments,
+unused identifiers, and other JavaScript-related issues.</p>
+
+<h2 id="running-stylelint">Running stylelint</h2>
+
+<p>Cockpit uses <a href="https://stylelint.io/">Stylelint</a> to automatically check CSS code
+style in <code class="language-plaintext highlighter-rouge">.css</code> and <code class="language-plaintext highlighter-rouge">.scss</code> files.</p>
+
+<p>The linter is executed as part of <code class="language-plaintext highlighter-rouge">test/common/static-code</code>.</p>
+
+<p>For developer convenience, the Stylelint can be started explicitly by:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm run stylelint
+</code></pre></div></div>
+
+<p>But note that this only covers files in <code class="language-plaintext highlighter-rouge">pkg/</code>. <code class="language-plaintext highlighter-rouge">test/common/static-code</code> covers
+<em>all</em> (S)CSS files tracked in git.</p>
+
+<p>Some rule violations can be automatically fixed by running:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm run stylelint:fix
+</code></pre></div></div>
+
+<p>Rules configuration can be found in the <code class="language-plaintext highlighter-rouge">.stylelintrc.json</code> file.</p>
+
+<p>During fast iterative development, you can also choose to not run stylelint, by
+running <code class="language-plaintext highlighter-rouge">./build.js</code> with the <code class="language-plaintext highlighter-rouge">-s</code>/<code class="language-plaintext highlighter-rouge">--no-stylelint</code> option. This speeds up the
+build and avoids build failures due to ill-formatted CSS or other issues.</p>
+
+<h2 id="working-on-your-local-machine-systemd-sysext">Working on your local machine: systemd-sysext</h2>
+
+<p>If you want to safely test your local changes directly on it, Cockpit supports
+installation as a <a href="https://www.freedesktop.org/software/systemd/man/latest/systemd-sysext.html">systemd-sysext</a>.
+This covers all parts of Cockpit (ws, tls, session, bridge, login page, systemd
+units, PAM configuration, and the session pages) except for the SELinux policy.
+It gets installed into <code class="language-plaintext highlighter-rouge">/run/extensions/</code>, so nothing ever hits the disk and
+this also works on read-only installations (CoreOS, OSTree, bootc).</p>
+
+<p>Just run:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tools/make-sysext
+</code></pre></div></div>
+
+<p>This runs <code class="language-plaintext highlighter-rouge">./autogen.sh</code> if necessary, and then just re-<code class="language-plaintext highlighter-rouge">make</code>s your tree,
+re-installs it into <code class="language-plaintext highlighter-rouge">/run/extensions</code>, and reloads the sysext in systemd.
+Afterwards you can connect to http://localhost:9090 as usual.</p>
+
+<p>To remove this, reboot or run</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tools/make-sysext stop
+</code></pre></div></div>
+
+<p><strong>Attention</strong>: This is not currently compatible with SELinux in enforcing mode.
+If you have that, you need to disable it:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo setenforce 0
+</code></pre></div></div>
+
+<h2 id="working-on-your-local-machine-web-server">Working on your local machine: Web server</h2>
+
+<p>If the above systemd-sysext approach does not work for you, you can also test
+changes with some bind mounts.</p>
+
+<p>To test changes to the login page, you can bind-mount the build tree’s
+<code class="language-plaintext highlighter-rouge">dist/</code> directory over the system one:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo mount -o bind dist /usr/share/cockpit
+</code></pre></div></div>
+
+<p>Likewise, to test changes to the branding, use:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo mount -o bind src/branding/ /usr/share/cockpit/branding/
+</code></pre></div></div>
+
+<p>Do <code class="language-plaintext highlighter-rouge">mkdir dist/branding</code> if you run both of these commands at the same time.</p>
+
+<p>After that, run <code class="language-plaintext highlighter-rouge">systemctl stop cockpit.service</code> to ensure that the web server
+restarts on the next browser request.</p>
+
+<p>To make Cockpit use system-installed code again, umount the paths:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo umount /usr/share/cockpit /usr/share/cockpit/branding/
+systemctl stop cockpit.service
+</code></pre></div></div>
+
+<p>Similarly, if you change <code class="language-plaintext highlighter-rouge">cockpit-ws</code> itself, you can make the system (systemd
+units, cockpit-tls, etc.) use this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo mount -o bind cockpit-ws /usr/libexec/cockpit-ws
+</code></pre></div></div>
+
+<p>On Debian-based OSes (including Ubuntu), the path will be
+<code class="language-plaintext highlighter-rouge">/usr/lib/cockpit/cockpit-ws</code> instead.</p>
+
+<p>On Fedora, CentOS, Red Hat Enterprise Linux, and related distributions, you also
+need to disable SELinux with:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo setenforce 0
+</code></pre></div></div>
+
+<p>for this to work, as your local build tree does not otherwise have the expected
+SELinux type.</p>
+
+<p>Some cockpit binaries rely on specific paths in /usr/share or libexecdir to be
+set correctly. By default they are set to <code class="language-plaintext highlighter-rouge">/usr/local</code>.</p>
+
+<p>On RPM based systems, this can be set using an autogen.sh argument;
+afterwards you need to rebuild:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./autogen.sh rpm
+</code></pre></div></div>
+
+<h2 id="installation-from-upstream-sources">Installation from upstream sources</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make
+sudo make install
+</code></pre></div></div>
+
+<p>This will install Cockpit and all support files. If you have a
+Fedora/RHEL/CentOS based distribution, install a PAM configuration with</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo cp tools/cockpit.pam /etc/pam.d/cockpit
+</code></pre></div></div>
+
+<p>If you have a Debian/Ubuntu based distribution, install this PAM config instead:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo cp tools/cockpit.debian.pam /etc/pam.d/cockpit
+</code></pre></div></div>
+
+<p>For other distributions you need to create a PAM config yourself.</p>
+
+<p>If you prefer to install to a different <code class="language-plaintext highlighter-rouge">--prefix</code> and would prefer
+that <code class="language-plaintext highlighter-rouge">make install</code> not write outside that prefix, then specify the
+<code class="language-plaintext highlighter-rouge">--enable-prefix-only</code> option to <code class="language-plaintext highlighter-rouge">autogen.sh</code>. This will result in an
+installation of Cockpit that does not work without further tweaking.
+For advanced users only.</p>
+
+<h2 id="build-distribution-packages">Build distribution packages</h2>
+
+<p>Instead of a direct <code class="language-plaintext highlighter-rouge">make install</code> as above, you can also build distribution
+packages and install them. This is generally more robust, as they upgrade and
+remove cleanly, and don’t interfere with distribution packages in <code class="language-plaintext highlighter-rouge">/usr</code>.</p>
+
+<p>In a Fedora/RHEL build environment you can build binary RPMs with</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tools/make-rpms --quick
+</code></pre></div></div>
+
+<p>In a Debian/Ubuntu build environment you can build debs with</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tools/make-debs --quick
+</code></pre></div></div>
+
+<h2 id="updating-node_modules">Updating <code class="language-plaintext highlighter-rouge">node_modules</code></h2>
+
+<p>During a normal build from a git checkout, the <code class="language-plaintext highlighter-rouge">node_modules</code> will be
+automatically unpacked from a cache kept in a separate git repository.  You can
+force the unpack to occur using the <code class="language-plaintext highlighter-rouge">tools/node-modules checkout</code> command, but
+this shouldn’t be necessary.  In the event that you need to modify
+<code class="language-plaintext highlighter-rouge">package.json</code> (to install a new module, for example) then you’ll need to run
+<code class="language-plaintext highlighter-rouge">tools/node-modules install</code> to create a new cache from the result of running
+<code class="language-plaintext highlighter-rouge">npm install</code> on your new <code class="language-plaintext highlighter-rouge">package.json</code>.</p>
+
+<p>Your locally rebuilt changes to <code class="language-plaintext highlighter-rouge">node_modules</code> won’t be used by others.  A new
+version will be created by a GitHub workflow when you open your pull request.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">tools/node-modules</code> script inspects the <code class="language-plaintext highlighter-rouge">GITHUB_BASE</code> environment variable
+to determine the correct repository to use when fetching and pushing.  It will
+strip the repository name (leaving the project- or username) and use the
+<code class="language-plaintext highlighter-rouge">node-cache.git</code> repository in that namespace.  If <code class="language-plaintext highlighter-rouge">GITHUB_BASE</code> is unset, it
+will default to <code class="language-plaintext highlighter-rouge">cockpit-project/node-cache.git</code>.</p>
+
+<p>A local cache is maintained in <code class="language-plaintext highlighter-rouge">~/.cache/cockpit-dev</code>.</p>
+
+<h2 id="contributing-a-change">Contributing a change</h2>
+
+<p>Make a pull request on github.com with your change. All changes get reviewed,
+tested, and iterated on before getting into Cockpit. The general workflow is
+described in the <a href="https://github.com/cockpit-project/cockpit/wiki/Workflow">wiki</a>.</p>
+
+<p>You need to be familiar with git to contribute a change. Do your changes
+on a branch. Your change should be one or more git commits that each contain one
+single logical simple reviewable change, without modifications that are
+unrelated to the commit message.</p>
+
+<p>Don’t feel bad if there’s multiple steps back and forth asking for changes or
+tweaks before your change gets in. If you fix your commits after getting a
+review, just force-push to your branch – this will update the pull request
+automatically. Do <em>not</em> close it and open a new one; that would destroy the
+conversation and reviews.</p>
+
+<p>Cockpit is a designed project. Anything that the user will see should have
+design done first. This is done on the wiki and mailing list.</p>
+
+<p>Bigger changes need to be discussed on the
+<a href="https://matrix.to/#/#cockpit:fedoraproject.org">#cockpit:fedoraproject.org</a>
+Matrix channel or our mailing list
+<a href="https://lists.fedorahosted.org/admin/lists/cockpit-devel.lists.fedorahosted.org/">cockpit-devel@lists.fedoraproject.org</a>
+before you invest too much time and energy.</p>
+
+<p>Feature changes should have a video and/or screenshots that show the change.
+This video should be uploaded directly to GitHub on the pull request or issue
+or uploaded to YouTube or another service that allows video embedding.</p>
+
+<p>Use a command like this to record a video including the browser
+frame:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>recordmydesktop -x 1 -y 200 --width 1024 --height 576 \
+   --fps 24 --freq 44100 --v_bitrate 2000000
+</code></pre></div></div>
+
+<p>(This command only works on X11 and requires the <code class="language-plaintext highlighter-rouge">recordmydesktop</code> program to
+be installed.)</p>
+
+<p>You can also resize your browser window and move it to the right location with
+a script. In Firefox you can open the Scratchpad (<code class="language-plaintext highlighter-rouge">Shift+F4</code>) and enter the
+following commands:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>window.resizeTo(1024, 576);
+window.moveTo(1, 200);
+</code></pre></div></div>
+
+<p>Then run it with <code class="language-plaintext highlighter-rouge">Ctrl+R</code> when the browser is showing an empty tab, e.g.
+<code class="language-plaintext highlighter-rouge">about:newtab</code>. You may need to adjust the positions for your environment.</p>
+
+<h2 id="adding-a-release-note-in-pr">Adding a release note in PR</h2>
+
+<p>Optional but highly quality of life feature we have relates to automatic
+release blog post generation.</p>
+
+<p>There is an automated release note process for PRs where any PRs that include
+a label <code class="language-plaintext highlighter-rouge">release-note</code> and contains a release note segment in the description
+will be used when generating the release blog post for https://cockpit-project.org.</p>
+
+<p>To create a release note you need a h2-header at the end of your PR description
+where everything underneath will be taken by the automation for the blog
+generation. It will also take any images and videos uploaded and add them to
+the blog post PR as well. For example:</p>
+
+<div class="language-md highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[...truncated PR description...]
+
+<span class="gu">## Release note title</span>
+
+Release note text that will be picked up by automation
+
+<span class="nt">&lt;img</span> <span class="na">for</span> <span class="na">release</span> <span class="na">note</span><span class="nt">&gt;</span>
+</code></pre></div></div>
+
+<p>You can see this in action in <a href="https://github.com/cockpit-project/cockpit-machines/pull/2268">this cockpit-machines
+PR</a> where we
+have an h2-header together with text which in turn was taken by the
+automation and shown inside <a href="https://cockpit-project.org/blog/cockpit-347.html">the blog
+post</a> for the release
+that included it.</p>
+
+<h2 id="debug-logging">Debug logging</h2>
+
+<p>All messages from the various cockpit processes go to the journal and can be
+seen with commands like:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo journalctl -f
+</code></pre></div></div>
+
+<p>Cockpit’s web server has verbose internal debug logging that can be enabled when
+trying to track down a problem. To turn it on add a file to your system like
+this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo mkdir -p /etc/systemd/system/cockpit-wsinstance-http.service.d
+sudo sh -c 'printf "[Service]\nEnvironment=G_MESSAGES_DEBUG=all\n" &gt; /etc/systemd/system/cockpit-wsinstance-http.service.d/debug.conf'
+sudo systemctl daemon-reload
+sudo systemctl stop cockpit
+</code></pre></div></div>
+
+<p>Instead of <code class="language-plaintext highlighter-rouge">all</code>, you can also specify a log domain:</p>
+
+<ul>
+  <li>cockpit-protocol: Very verbose low level traffic logging</li>
+  <li>cockpit-ws: Cockpit Web Service detailed debug messages</li>
+  <li>WebSocket: Verbose low level WebSocket logging</li>
+</ul>
+
+<p>To revert the above logging changes:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo rm /etc/systemd/system/cockpit-wsinstance-http.service.d/debug.conf
+sudo systemctl daemon-reload
+sudo systemctl stop cockpit
+</code></pre></div></div>
+
+<p>To debug HTTPS connections, replace <code class="language-plaintext highlighter-rouge">http</code> with <code class="language-plaintext highlighter-rouge">https@</code> in the above commands.</p>
+
+<p>The bridge runs in the user session, not in a systemd service. See “Running the
+bridge” section for how to enable debug logging.</p>
+
+<h2 id="debug-logging-in-javascript-console">Debug logging in Javascript console</h2>
+
+<p>Various javascript methods in Cockpit can show debug messages. You can turn them
+on by setting a <code class="language-plaintext highlighter-rouge">window.debugging</code> global, or setting up a <code class="language-plaintext highlighter-rouge">debugging</code> property
+in the browser storage. To do this run the following in your javascript console:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt;&gt; sessionStorage.debugging = "all"
+</code></pre></div></div>
+
+<p>You’ll notice that there’s a ton of messages that get shown. If you
+want to be more specific, instead of “all” use one or more of the following
+specific types:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"all"      // All available debug messages
+"channel"  // All channel messages sent to server
+"dbus"     // DBus related debug messages
+"http"     // HTTP (via the server) related debug messages
+"spawn"    // Debug messages related to executing processes
+</code></pre></div></div>
+
+<p>There are other strings related to the code you may be working on. For example,
+the metrics page shows debug information with the value <code class="language-plaintext highlighter-rouge">metrics</code>. Do
+<code class="language-plaintext highlighter-rouge">git grep window.debugging pkg</code> to find out all available ones.</p>
+
+<p>In addition, if you want your debug setting to survive a browser refresh or
+Cockpit log out, use something like:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt;&gt; localStorage.debugging = "spawn"
+</code></pre></div></div>
+
+<h2 id="using-react-developer-tools">Using React Developer Tools</h2>
+
+<p>Cockpit uses React for the JavaScript frontend, <a href="https://react.dev/learn/react-developer-tools">React Developer
+Tools</a> is a browser extension to
+inspect React components, edit props and state. Out of the box the developer
+tools do not work with Cockpit due to the pages being loaded in a separate
+iframe. A workaround is to load the page directly by embedding, for example for
+the system overview page:</p>
+
+<p><a href="http://localhost:9090/cockpit/@localhost/system/index.html">http://localhost:9090/cockpit/@localhost/system/index.html</a></p>
+
+<p>This loads the system overview as a standalone page allowing React Developer
+tools to inspect its state.</p>
+
+<h2 id="running-cockpit-processes-under-a-debugger">Running Cockpit processes under a debugger</h2>
+
+<p>You may want to run cockpit-ws under a debugger such as valgrind or gdb. You can
+run these processes as your own user, although you won’t be able to debug all
+the authentication logic in those cases.</p>
+
+<p>First of all, make sure Cockpit is correctly installed. Even though we will be
+running <code class="language-plaintext highlighter-rouge">cockpit-ws</code> from the built sources, this still relies on some of the right
+software being installed in order for Cockpit to work. (Such as: PAM stack,
+UI files, cockpit-bridge, etc.)</p>
+
+<p>This is how you would run cockpit-ws under gdb:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export G_DEBUG=fatal-criticals
+export G_MESSAGES_DEBUG=cockpit-ws,cockpit-wrapper,cockpit-bridge
+gdb --args ./cockpit-ws --port 10000 --no-tls
+</code></pre></div></div>
+
+<p>And you can run cockpit-ws and cockpit-bridge under valgrind like this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export G_DEBUG=fatal-criticals
+export G_MESSAGES_DEBUG=cockpit-ws,cockpit-wrapper,cockpit-bridge
+valgrind --trace-children=yes --trace-children-skip='*unix_chkpwd*' \
+      ./cockpit-ws --port 10000 --no-tls
+</code></pre></div></div>
+
+<p>Note that cockpit-session and cockpit-bridge will run from the installed
+prefix, rather than your build tree.</p>
+
+<h2 id="debug-hard-to-grab-elements">Debug hard-to-grab elements</h2>
+
+<p>In most cases, you can use the browser debugger to directly attach breakpoints
+to interesting elements. But that’s not directly possible with e.g. popup menus
+or other elements which react to <code class="language-plaintext highlighter-rouge">mouseenter</code>/<code class="language-plaintext highlighter-rouge">mouseleave</code>. For these, run this
+in the developer console:</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="k">debugger</span> <span class="p">},</span> <span class="mi">5000</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>then do the mouse action (like hovering over an element) and wait until the
+timeout.</p>
+
+<h2 id="start-login-session-and-web-socket-with-curl">Start login session and web socket with curl</h2>
+
+<p>For iterating on the login / web socket ←→ bridge integration, this command
+logs into our standard test VM (https://127.0.0.2:9091) and establishes the web
+socket connection and user session:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-ksS</span> <span class="nt">-D-</span> <span class="nt">-u</span> admin:foobar <span class="nt">--cookie-jar</span> /tmp/cookie https://127.0.0.2:9091/cockpit/login <span class="nt">--no-buffer</span> <span class="nt">-H</span><span class="s2">"Connection: Upgrade"</span> <span class="nt">-H</span><span class="s2">"Upgrade: websocket"</span> <span class="nt">-H</span><span class="s2">"Host: 127.0.0.2:9091"</span> <span class="nt">-H</span><span class="s2">"Origin: https://127.0.0.2:9091"</span> <span class="nt">-H</span><span class="s2">"Sec-Websocket-Key: 3sc2c9IzwRUc3BlSIYwtSA=="</span> <span class="nt">-H</span><span class="s2">"Sec-WebSocket-Version: 13"</span> https://127.0.0.2:9091/cockpit/socket
+</code></pre></div></div>
+
+<p>It replies with a message like</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{"csrf-token":"e3074fc5e06cb3804ad8c3463fc6727c67ac245dd3c39590e486644759a42818"}HTTP/1.1 101 Switching Protocols
+</code></pre></div></div>
+
+<p>which contains the session token. You can use the <code class="language-plaintext highlighter-rouge">--cookie-jar</code> to issue
+further authenticated HTTP requests. Note that as there is no browser attached,
+the session times out after some 10 seconds of inactivity.</p>
+
+<h2 id="manually-installing-the-development-dependencies">Manually installing the development dependencies</h2>
+
+<p><em>If at all possible, use the cockpit/tasks container with toolbox/distrobox as
+documented above. Installing all necessary development packages manually on
+your machine is intrusive, error prone, difficult, and hard to debug.</em></p>
+
+<p>You will need at least node.js and NPM.</p>
+
+<p>On Fedora or CentOS (&gt;= 9):</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo dnf install npm
+</code></pre></div></div>
+
+<p>On Debian/Ubuntu:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt install npm
+</code></pre></div></div>
+
+<p>For running tests, the following dependencies are required:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo dnf install curl expect xz rpm-build chromium-headless dbus-daemon \
+    libvirt-daemon-driver-storage-core libvirt-daemon-driver-qemu libvirt-client python3-libvirt \
+    python3-pyyaml
+</code></pre></div></div>
+
+<p>For compiling the C parts, you will need the package build dependencies:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo dnf install dnf-utils python-srpm-macros
+sudo dnf builddep --spec tools/cockpit.spec
+</code></pre></div></div>
+
+</article>
+  </div>
+</div>
+
+<footer class="footer-cockpit" role="contentinfo">
+    <p class="copyright">
+        
+
+        © 2013 - 2026
+
+        &mdash;
+
+        Cockpit is a <a href="https://redhat.com/">Red Hat</a> sponsored
+        free software project released under the
+        <a href="https://opensource.org/licenses/lgpl-2.1.php">LGPL v2.1+</a>
+    </p>
+
+    <p class="policy">
+        <a href="https://cockpit-project.org/privacy.html">
+            Privacy Policy
+        </a>
+        &mdash;
+        <a href="https://cockpit-project.org/code-of-conduct.html">
+            Code of Conduct
+        </a>
+    </p>
+
+    <p class="edit-page"><a href="https://github.com/cockpit-project/cockpit/edit/master/HACKING.md">Edit page on GitHub</a>
+</p>
+</footer>
+
+
+      
+    
+  </body>
+
+</html>

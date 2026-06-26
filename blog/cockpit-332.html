@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html class=" -path-blog-cockpit-332.html" lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Cockpit 332 &mdash; Cockpit Project</title>
+
+    <link rel="canonical" href="https://github.comhttps://cockpit-project.org/blog/cockpit-332.html">
+
+    <link rel="manifest" href="https://cockpit-project.org/manifest.json">
+
+    <meta name="description" content="Cockpit makes it easy to administer your Linux servers via a web browser.
+">
+    <meta property="og:site_name" content="Cockpit Project">
+    <meta property="og:title" content="Cockpit 332">
+    <meta property="og:description" content="package-less session support for more operation systems, show system boot times in metrics, automatically start podman.socket and improve quadlet support in cockpit-podman, show user group in files footer">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.comhttps://cockpit-project.org/blog/cockpit-332.html">
+    <meta name="author" content="Jelle van der Waa">
+    <meta property="og:image" content="https://cockpit-project.org/images/site/opengraph.png">
+    <meta name="theme-color" content="#3e5375">
+
+    <!-- Favicon -->
+    
+    
+      <link rel="shortcut icon" href="https://cockpit-project.org/images/favicon.png" type="image/png">
+    
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://cockpit-project.org/assets/main.js"></script>
+    <link rel="stylesheet" href="https://cockpit-project.org/assets/main.css">
+  </head>
+
+
+  <body id="page-top">
+    
+    
+      
+      
+      
+      
+
+      
+        
+        <header class="masthead hidden-print" id="branding" role="banner">
+
+  <section class="hgroup">
+    
+    
+
+    
+      <h1><a href="https://cockpit-project.org/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://cockpit-project.org/images/site/cockpit-logo.svg"></a></h1>
+    
+
+    
+  </section>
+
+  
+
+    <div class="nav-wrap">
+      
+
+
+  <nav role="navigation" class="">
+
+
+  <ul class="nav-menu" role="menubar">
+    
+      
+
+      <li class="nav--home" role="menuitem">
+        
+          <a href="https://cockpit-project.org/"><span class="label">Home</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--install" role="menuitem">
+        
+          <a href="https://cockpit-project.org/running.html"><span class="label">Install</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--documentation" role="menuitem">
+        
+          <a href="https://cockpit-project.org/documentation.html"><span class="label">Documentation</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--contribute" role="menuitem">
+        
+          <a href="https://cockpit-project.org/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--blog" role="menuitem">
+        
+          <a href="https://cockpit-project.org/blog/"><span class="label">Blog</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--search" role="menuitem">
+        
+          <a href="https://cockpit-project.org/search.html"><span class="label">Search</span></a>
+        
+        
+      </li>
+    
+
+  </ul>
+
+
+  </nav>
+
+
+    </div>
+
+  
+
+</header>
+
+
+<div class="page-content" id="page-wrap" role="main">
+  <div class="wrapper">
+    
+
+
+
+
+
+
+
+
+
+
+
+<article class="post hentry" id="-blog-cockpit-332.html">
+  <header class="post-header">
+    <h2 class="post-title entry-title">
+      
+        Cockpit 332
+      
+    </h2>
+    <header class="post-meta">
+      
+        
+          <span class="byline">
+            by
+            <span class="author vcard">
+              <a href="https://cockpit-project.org/blog/authors#jelle">Jelle van der Waa</a>
+            </span>
+          </span>
+        
+        –
+      
+      <time class="published" datetime="3">
+        Jan 29, 2025
+      </time>
+
+      
+        
+        
+        
+
+        <div class="category">
+          
+            category: <a href="https://cockpit-project.org/blog/category/release.html">release</a>
+          
+        </div>
+      
+    </header>
+  </header>
+
+  
+  
+  
+  
+
+  <section class="post-content entry-content">
+    
+      <p>Cockpit is the <a href="https://cockpit-project.org/">modern Linux admin interface</a>.
+We release regularly.</p>
+
+<p>Here are the release notes from Cockpit 332, cockpit-machines 327, cockpit-podman 100, and cockpit-files 15:</p>
+
+<h2 id="cockpitws-container-include-cockpit-files">cockpit/ws container: Include cockpit-files</h2>
+
+<p>The <a href="https://quay.io/repository/cockpit/ws">cockpit/ws container</a> now includes <a href="https://github.com/cockpit-project/cockpit-files/">cockpit-files</a>. When you log into a remote machine that does not have any Cockpit packages installed (package-less mode), the “Files” page is now available.</p>
+
+<h2 id="package-less-session-for-all-supported-operating-systems">Package-less session for all supported operating systems</h2>
+
+<p><a href="https://cockpit-project.org/blog/cockpit-327.html">Cockpit 327</a> introduced support for connecting to remote machines without any installed Cockpit packages. That only worked if the local and remote machine had the same operating system version. This version extends this “package-less session” feature to all operating systems which Cockpit <a href="https://cockpit-project.org/running.html#installation--setup">continuously tests</a>. At the time of writing this includes:</p>
+
+<ul>
+  <li>Arch Linux</li>
+  <li>CentOS Stream 9, 10</li>
+  <li>Debian 12, testing/unstable</li>
+  <li>Fedora Linux 40, 41, 42 (rawhide)</li>
+  <li>Red Hat Enterprise Linux 8, 9, 10</li>
+  <li>Ubuntu 22.04 LTS, 24.04 LTS, 24.10</li>
+</ul>
+
+<p>This list will change over time, due to new distribution releases and the end of support for each version.</p>
+
+<h2 id="overview-show-system-boot-in-metrics">Overview: Show system boot in metrics</h2>
+
+<p><img src="https://cockpit-project.org/images/332-show-system-boot-in-metrics.png" alt="screenshot of ## show system boot in metrics" /></p>
+
+<h2 id="machines-launch-viewer-now-uses-correct-address">Machines: “Launch viewer” now uses correct address</h2>
+
+<p>The “Launch viewer” button in a virtual machine’s “Console” card now uses the same address that Cockpit uses to connect to the virtual machine host. Previously, the button incorrectly attempted to connect to either the local machine where the browser is running (when the listening address was set to “localhost”) or to an invalid “0.0.0.0” address (when configured to listen to all interfaces).</p>
+
+<h2 id="podman-automatically-start-podmansocket">Podman: Automatically start podman.socket</h2>
+
+<p>If <code class="language-plaintext highlighter-rouge">podman.socket</code> is not already running on the system or user session, cockpit-podman will now automatically start the unit.  It is no longer necessary to manually start or enable the podman service.</p>
+
+<h2 id="podman-improve-quadlet-compatibility">Podman: Improve quadlet compatibility</h2>
+
+<p>Container-based services (aka: “quadlets”) are now labeled with a “service” badge in the containers overview. Additionally, the option to rename quadlets has been removed, as renaming must take place in the systemd service <code class="language-plaintext highlighter-rouge">.container</code> file, which are often found in <code class="language-plaintext highlighter-rouge">/etc/containers/systemd/</code>.</p>
+
+<p><img src="https://cockpit-project.org/images/332-podman-improve-quadlet-compatibility.png" alt="screenshot of improved quadlet compatibility" /></p>
+
+<h2 id="files-show-usergroup-in-the-footer">Files: Show user:group in the footer</h2>
+
+<p>The footer now shows the user and group of the current directory.</p>
+
+<p><img src="https://cockpit-project.org/images/332-files-show-user-group-in-the-footer.png" alt="screenshot of group in the footer" /></p>
+
+<h2 id="try-it-out">Try it out</h2>
+
+<p>Cockpit 332, cockpit-machines 327, cockpit-podman 100, and cockpit-files 15 are available now:</p>
+
+<ul>
+  <li><a href="https://cockpit-project.org/running.html">For your Linux system</a></li>
+  <li>
+    <p><a href="https://flathub.org/apps/details/org.cockpit_project.CockpitClient">Cockpit Client</a></p>
+  </li>
+  <li><a href="https://github.com/cockpit-project/cockpit/releases/tag/332">Cockpit Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2025-a4f4852087">cockpit Fedora 40</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2025-6dcfdb7080">cockpit Fedora 41</a></li>
+  <li><a href="https://github.com/cockpit-project/cockpit-machines/releases/tag/327">cockpit-machines Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2025-c1926a5602">cockpit-machines Fedora 41</a></li>
+  <li><a href="https://github.com/cockpit-project/cockpit-podman/releases/tag/100">cockpit-podman Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2025-2daeba9db7">cockpit-podman Fedora 41</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2025-40ecc431d1">cockpit-podman Fedora 40</a></li>
+  <li><a href="https://github.com/cockpit-project/cockpit-files/releases/tag/15">cockpit-files Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2025-5f545df041">cockpit-files Fedora 41</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2025-6b89f3e6c8">cockpit-files Fedora 40</a></li>
+</ul>
+
+
+    
+  </section>
+
+  
+
+</article>
+
+
+  
+  <div class="author-info author-card" id="author-info">
+    <h2>About Jelle van der Waa</h2>
+    <div class="author-blurb">
+      
+
+
+      <div class="more-link">
+        <a href="https://cockpit-project.org/blog/authors#jelle">
+          View all posts by Jelle van der Waa »
+        </a>
+      </div>
+
+      
+    </div>
+  </div>
+
+
+
+  </div>
+</div>
+
+<footer class="footer-cockpit" role="contentinfo">
+    <p class="copyright">
+        
+
+        © 2013 - 2026
+
+        &mdash;
+
+        Cockpit is a <a href="https://redhat.com/">Red Hat</a> sponsored
+        free software project released under the
+        <a href="https://opensource.org/licenses/lgpl-2.1.php">LGPL v2.1+</a>
+    </p>
+
+    <p class="policy">
+        <a href="https://cockpit-project.org/privacy.html">
+            Privacy Policy
+        </a>
+        &mdash;
+        <a href="https://cockpit-project.org/code-of-conduct.html">
+            Code of Conduct
+        </a>
+    </p>
+
+    <p class="edit-page"><a
+      href="https://github.com/Venefilyn/cockpit-project.github.io/edit/main/_posts/2025-01-29-cockpit-332.md">Edit page on GitHub</a>
+</p>
+</footer>
+
+
+      
+    
+  </body>
+
+</html>

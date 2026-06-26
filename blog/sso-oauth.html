@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html class=" -path-blog-sso-oauth.html" lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Seamless single-sign-on &mdash; Cockpit Project</title>
+
+    <link rel="canonical" href="https://github.comhttps://cockpit-project.org/blog/sso-oauth.html">
+
+    <link rel="manifest" href="https://cockpit-project.org/manifest.json">
+
+    <meta name="description" content="Cockpit makes it easy to administer your Linux servers via a web browser.
+">
+    <meta property="og:site_name" content="Cockpit Project">
+    <meta property="og:title" content="Seamless single-sign-on">
+    <meta property="og:description" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.comhttps://cockpit-project.org/blog/sso-oauth.html">
+    <meta name="author" content="Marius Vollmer">
+    <meta property="og:image" content="https://cockpit-project.org/images/site/opengraph.png">
+    <meta name="theme-color" content="#3e5375">
+
+    <!-- Favicon -->
+    
+    
+      <link rel="shortcut icon" href="https://cockpit-project.org/images/favicon.png" type="image/png">
+    
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://cockpit-project.org/assets/main.js"></script>
+    <link rel="stylesheet" href="https://cockpit-project.org/assets/main.css">
+  </head>
+
+
+  <body id="page-top">
+    
+    
+      
+      
+      
+      
+
+      
+        
+        <header class="masthead hidden-print" id="branding" role="banner">
+
+  <section class="hgroup">
+    
+    
+
+    
+      <h1><a href="https://cockpit-project.org/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://cockpit-project.org/images/site/cockpit-logo.svg"></a></h1>
+    
+
+    
+  </section>
+
+  
+
+    <div class="nav-wrap">
+      
+
+
+  <nav role="navigation" class="">
+
+
+  <ul class="nav-menu" role="menubar">
+    
+      
+
+      <li class="nav--home" role="menuitem">
+        
+          <a href="https://cockpit-project.org/"><span class="label">Home</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--install" role="menuitem">
+        
+          <a href="https://cockpit-project.org/running.html"><span class="label">Install</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--documentation" role="menuitem">
+        
+          <a href="https://cockpit-project.org/documentation.html"><span class="label">Documentation</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--contribute" role="menuitem">
+        
+          <a href="https://cockpit-project.org/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--blog" role="menuitem">
+        
+          <a href="https://cockpit-project.org/blog/"><span class="label">Blog</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--search" role="menuitem">
+        
+          <a href="https://cockpit-project.org/search.html"><span class="label">Search</span></a>
+        
+        
+      </li>
+    
+
+  </ul>
+
+
+  </nav>
+
+
+    </div>
+
+  
+
+</header>
+
+
+<div class="page-content" id="page-wrap" role="main">
+  <div class="wrapper">
+    
+
+
+
+
+
+
+
+
+
+
+
+<article class="post hentry" id="-blog-sso-oauth.html">
+  <header class="post-header">
+    <h2 class="post-title entry-title">
+      
+        Seamless single-sign-on
+      
+    </h2>
+    <header class="post-meta">
+      
+        
+          <span class="byline">
+            by
+            <span class="author vcard">
+              <a href="https://cockpit-project.org/blog/authors#mvo">Marius Vollmer</a>
+            </span>
+          </span>
+        
+        –
+      
+      <time class="published" datetime="1">
+        May 28, 2018
+      </time>
+
+      
+        
+        
+        
+
+        <div class="category">
+          
+            category: blog
+          
+        </div>
+      
+    </header>
+  </header>
+
+  
+  
+  
+  
+
+  <section class="post-content entry-content">
+    
+      <h2 id="beyond-a-single-pane-of-glass">Beyond a “<abbr title="console that provides high-level management of multiple machines, also known as a &quot;single-pane view&quot;">single pane of glass</abbr>”</h2>
+
+<p>Organizations who use several machines often run management display software in an attempt to integrate all infrastructure. <a href="http://manageiq.org/">ManageIQ</a> and <a href="https://www.theforeman.org/">Foreman</a> are great examples of this kind of software.</p>
+
+<p>Managing machines from the outside is usually adequate, but sometimes it’s best to log into the machine itself and have a look around. Cockpit excels in this task. In fact, both ManageIQ and Foreman have Cockpit integration built-in.</p>
+
+<h2 id="seamless-single-sign-on">Seamless single-sign-on</h2>
+
+<p>Machine management software already has administrative access over the machines (both virtual and on bare metal), so there should not be a need to type credentials a second time.</p>
+
+<p>Indeed, ManageIQ currently opens Cockpit in a seamless manner, using <a href="https://en.wikipedia.org/wiki/OAuth">OAuth</a> and external authentication helpers, all without requiring additional username and passwords.</p>
+
+<p>Foreman currently does not have a seamless handover; it simply provides a standard link. As a result, when Foreman opens Cockpit, you’re greeted with the log in page.</p>
+
+<h2 id="how-can-we-improve-foreman">How can we improve Foreman?</h2>
+
+<p>It would be ideal for Foreman to also have seamless Cockpit integration.</p>
+
+<ul>
+  <li>As a first step, I have written a prototype based on what I have figured out so far in <a href="https://github.com/mvollmer/seamless-cockpit">a <code class="language-plaintext highlighter-rouge">seamless-cockpit</code> git <abbr title="repository">repo</abbr></a>.</li>
+  <li>Additionally, I have also written a version that uses a reverse proxy on <a href="https://github.com/mvollmer/seamless-cockpit/tree/nginxed">the <code class="language-plaintext highlighter-rouge">nginxed</code> branch</a>. This approach is altogether nicer — but, before it works, we need to <a href="https://github.com/cockpit-project/cockpit/pull/9237" title="ws: Also strip query from original_path">fix a Cockpit bug (#9237)</a>.</li>
+</ul>
+
+<h2 id="test-it-out">Test it out</h2>
+
+<p>If you are using Foreman to manage your machines and would seamless credentials handover, we welcome you to try out the above code — and please let us know how it works for you!</p>
+
+
+    
+  </section>
+
+  
+
+</article>
+
+
+  
+  <div class="author-info author-card" id="author-info">
+    <h2>About Marius Vollmer</h2>
+    <div class="author-blurb">
+      
+
+
+      <div class="more-link">
+        <a href="https://cockpit-project.org/blog/authors#mvo">
+          View all posts by Marius Vollmer »
+        </a>
+      </div>
+
+      
+    </div>
+  </div>
+
+
+
+  </div>
+</div>
+
+<footer class="footer-cockpit" role="contentinfo">
+    <p class="copyright">
+        
+
+        © 2013 - 2026
+
+        &mdash;
+
+        Cockpit is a <a href="https://redhat.com/">Red Hat</a> sponsored
+        free software project released under the
+        <a href="https://opensource.org/licenses/lgpl-2.1.php">LGPL v2.1+</a>
+    </p>
+
+    <p class="policy">
+        <a href="https://cockpit-project.org/privacy.html">
+            Privacy Policy
+        </a>
+        &mdash;
+        <a href="https://cockpit-project.org/code-of-conduct.html">
+            Code of Conduct
+        </a>
+    </p>
+
+    <p class="edit-page"><a
+      href="https://github.com/Venefilyn/cockpit-project.github.io/edit/main/_posts/2018-05-28-sso-oauth.md">Edit page on GitHub</a>
+</p>
+</footer>
+
+
+      
+    
+  </body>
+
+</html>

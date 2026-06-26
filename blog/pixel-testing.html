@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html class=" -path-blog-pixel-testing.html" lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Testing all the pixels &mdash; Cockpit Project</title>
+
+    <link rel="canonical" href="https://github.comhttps://cockpit-project.org/blog/pixel-testing.html">
+
+    <link rel="manifest" href="https://cockpit-project.org/manifest.json">
+
+    <meta name="description" content="Cockpit makes it easy to administer your Linux servers via a web browser.
+">
+    <meta property="og:site_name" content="Cockpit Project">
+    <meta property="og:title" content="Testing all the pixels">
+    <meta property="og:description" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.comhttps://cockpit-project.org/blog/pixel-testing.html">
+    <meta name="author" content="Marius Vollmer">
+    <meta property="og:image" content="https://cockpit-project.org/images/site/opengraph.png">
+    <meta name="theme-color" content="#3e5375">
+
+    <!-- Favicon -->
+    
+    
+      <link rel="shortcut icon" href="https://cockpit-project.org/images/favicon.png" type="image/png">
+    
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://cockpit-project.org/assets/main.js"></script>
+    <link rel="stylesheet" href="https://cockpit-project.org/assets/main.css">
+  </head>
+
+
+  <body id="page-top">
+    
+    
+      
+      
+      
+      
+
+      
+        
+        <header class="masthead hidden-print" id="branding" role="banner">
+
+  <section class="hgroup">
+    
+    
+
+    
+      <h1><a href="https://cockpit-project.org/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://cockpit-project.org/images/site/cockpit-logo.svg"></a></h1>
+    
+
+    
+  </section>
+
+  
+
+    <div class="nav-wrap">
+      
+
+
+  <nav role="navigation" class="">
+
+
+  <ul class="nav-menu" role="menubar">
+    
+      
+
+      <li class="nav--home" role="menuitem">
+        
+          <a href="https://cockpit-project.org/"><span class="label">Home</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--install" role="menuitem">
+        
+          <a href="https://cockpit-project.org/running.html"><span class="label">Install</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--documentation" role="menuitem">
+        
+          <a href="https://cockpit-project.org/documentation.html"><span class="label">Documentation</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--contribute" role="menuitem">
+        
+          <a href="https://cockpit-project.org/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--blog" role="menuitem">
+        
+          <a href="https://cockpit-project.org/blog/"><span class="label">Blog</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--search" role="menuitem">
+        
+          <a href="https://cockpit-project.org/search.html"><span class="label">Search</span></a>
+        
+        
+      </li>
+    
+
+  </ul>
+
+
+  </nav>
+
+
+    </div>
+
+  
+
+</header>
+
+
+<div class="page-content" id="page-wrap" role="main">
+  <div class="wrapper">
+    
+
+
+
+
+
+
+
+
+
+
+
+<article class="post hentry" id="-blog-pixel-testing.html">
+  <header class="post-header">
+    <h2 class="post-title entry-title">
+      
+        Testing all the pixels
+      
+    </h2>
+    <header class="post-meta">
+      
+        
+          <span class="byline">
+            by
+            <span class="author vcard">
+              <a href="https://cockpit-project.org/blog/authors#mvo">Marius Vollmer</a>
+            </span>
+          </span>
+        
+        –
+      
+      <time class="published" datetime="4">
+        May 6, 2021
+      </time>
+
+      
+        
+        
+        
+
+        <div class="category">
+          
+            category: <a href="https://cockpit-project.org/blog/category/tutorial.html">tutorial</a>
+          
+        </div>
+      
+    </header>
+  </header>
+
+  
+  
+  
+  
+
+  <section class="post-content entry-content">
+    
+      <p>The Cockpit integration tests can now contain “pixel tests”. Such a
+ test will take a screenshot with the browser and compare it with a
+ reference.  The idea is that we can catch visual regressions much
+ easier this way than if we would hunt for them in a purely manual
+ fashion.</p>
+
+<h2 id="preparing-a-repository-for-pixel-tests">Preparing a repository for pixel tests</h2>
+
+<p>A pixel test will take a screenshot of part of the Cockpit UI and
+compare it with a reference.  Thus, these reference images are
+important and play the biggest role.</p>
+
+<p>A large part of dealing with pixel tests will consequently consist of
+maintaining the reference images.  At the same time, we don’t want to
+clog up our main source repository with them.  While the number and
+size of the reference images at any one point in time should not pose
+a problem, we will over time accumulate a history of them that we are
+afraid would dominate the source repository.</p>
+
+<p>Thus, the reference images are not stored in the source repository.
+Instead, we store them in an external repository that is linked into
+the source repository as a
+<a href="https://git-scm.com/book/en/v2/Git-Tools-Submodules">submodule</a>.
+That external repository doesn’t keep any history and can be
+aggressively pruned.</p>
+
+<p>Developers are mostly isolated from this via the new
+<code class="language-plaintext highlighter-rouge">test/common/pixel-tests</code> tool.  But if you are familiar with git
+submodules, there should be no surprises for you here.</p>
+
+<p>A source repository needs to be prepared before it can store reference
+images in a external storage repository. You can let the tool do it by
+running</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ./test/common/pixel-tests init
+</code></pre></div></div>
+
+<p>and then committing the changes it has done to the source repository.
+(Those changes will be a new or modified .gitmodules file, and a new
+gitlink at test/reference.)</p>
+
+<h2 id="adding-a-pixel-test">Adding a pixel test</h2>
+
+<p>To add a pixel test to a test program, call the new “assert_pixels”
+function of the Browser class:</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">def</span> <span class="nf">testSomeDialog</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="p">...</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">browser</span><span class="p">.</span><span class="n">assert_pixels</span><span class="p">(</span><span class="s">'#dialog button.apply'</span><span class="p">,</span> <span class="s">"button"</span><span class="p">)</span>
+        <span class="p">...</span>
+</code></pre></div></div>
+
+<p>The first argument is a CSS selector that identifies the part of the
+UI that you want to compare.  The screenshot will only include that
+element.  The second argument is an arbitrary but unique key for this
+test point.  It is used to name the files that go with it.</p>
+
+<p>For each such call, there needs to be a reference image in the
+<code class="language-plaintext highlighter-rouge">test/reference/</code> directory.</p>
+
+<p>As mentioned above, the <code class="language-plaintext highlighter-rouge">test/reference/</code> directory is very special
+indeed, and needs to be carefully managed with the
+<code class="language-plaintext highlighter-rouge">test/common/pixel-tests</code> tool (or even more carefully with <code class="language-plaintext highlighter-rouge">git
+submodule</code> et al).</p>
+
+<p>First, make sure <code class="language-plaintext highlighter-rouge">test/reference</code> is up-to-date:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ./test/common/pixel-tests pull
+</code></pre></div></div>
+
+<p>Then you can add new reference images to it.</p>
+
+<p>The easiest way to get a new reference image is to just run the test
+once (locally or in the CI machinery).  It will fail, but produce a
+reference image for the current state of the UI.</p>
+
+<p>When you run the test locally, the new reference image will appear in
+the current directory.  Just move it into test/reference/.  The next
+run of the test should then be green.</p>
+
+<p>When you run the tests in the CI machinery, you need to download the
+new reference images from the test results directory.  They show up as
+regular screenshots.</p>
+
+<p>If there are parts of the reference image that you want to ignore, you
+can pass a suitable “ignore” argument to assert_pixels.  It contains a
+list of CSS selectors, and any pixel that is within their bounding
+rectangles is ignored.  For example, this</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">def</span> <span class="nf">testSomeDialog</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="p">...</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">browser</span><span class="p">.</span><span class="n">assert_pixels</span><span class="p">(</span><span class="s">'#dialog'</span><span class="p">,</span> <span class="s">"dialog"</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="p">[</span><span class="s">"#memory-available"</span><span class="p">])</span>
+        <span class="p">...</span>
+</code></pre></div></div>
+
+<p>would compare a full dialog to a reference, but would exclude the DOM
+element that shows a number that is dependent on the environment that
+the test runs in.</p>
+
+<p>You can also change the transparency (alpha channel) of parts of the
+reference image itself (with the GIMP, say).  Any pixel that is not
+fully opaque will be ignored during comparison.</p>
+
+<p>When you are done adding images to <code class="language-plaintext highlighter-rouge">test/reference</code>, push them into
+the storage repository like so:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ./test/common/pixel-tests push
+</code></pre></div></div>
+
+<p>This <code class="language-plaintext highlighter-rouge">push</code> command will record a change to <code class="language-plaintext highlighter-rouge">test/reference</code> in the
+main repository, and you need to commit this change.  This is how the
+main repository specifies which reference images to use exactly for
+each of its commits.</p>
+
+<p>If you want to see what changes would be pushed without actually
+pushing them, you can run this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ./test/common/pixel-tests status
+</code></pre></div></div>
+
+<p>Here is a PR that adds two pixel test points to the starter-kit,
+complete with reference images:</p>
+
+<p><a href="https://github.com/cockpit-project/starter-kit/pull/436">starter-kit#436</a></p>
+
+<h2 id="debugging-a-failed-pixel-test">Debugging a failed pixel test</h2>
+
+<p>When making changes that change how the UI looks, some pixel tests
+will fail.  The test results will contain the new pixels, and you can
+compare them with the reference image right in the browser when looking
+at the test logs.</p>
+
+<p>Here is a PR that makes the two pixel tests fail that had been added
+in #436:</p>
+
+<p><a href="https://github.com/cockpit-project/starter-kit/pull/435">starter-kit#435</a></p>
+
+<p>As you can see, it has “changed pixels” links in the same place as the
+well known “screenshot” links.  Clicking on it gets you to a page
+where you can directly compare the previous and current UI.</p>
+
+<p>As the author of the pull request, you can decide from there whether
+these changes are intended or not.</p>
+
+<p>For a intended change, see the next section.  For unintended changes,
+you need to fix your code and try again, of course.</p>
+
+<h2 id="updating-a-pixel-test">Updating a pixel test</h2>
+
+<p>If you make a change that intentionally changes how Cockpit looks, you
+need to install new reference images in <code class="language-plaintext highlighter-rouge">test/reference/</code>.</p>
+
+<p>This is very similar to adding a new pixel test point.  Take the
+TestFoo-testBasic-pixels.png that was written by the failed test run,
+move it into <code class="language-plaintext highlighter-rouge">test/reference</code>, push it to the storage repository with
+<code class="language-plaintext highlighter-rouge">./test/common/pixel-tests push</code>, and commit <code class="language-plaintext highlighter-rouge">test/reference</code> in the
+main repository.</p>
+
+<p>A local test run has dropped the new reference image into the current
+directory, for a remote run it will be in the test results directory
+and the pixel comparison view has a link to it.</p>
+
+<p>When a test writes a new TestFoo-testBasic-pixels.png file for a
+failed test, it will have the alpha channel of the old reference
+copied into it.  That makes it easy to keep ignoring the same parts.</p>
+
+<h2 id="reviewing-a-changed-pixel-test">Reviewing a changed pixel test</h2>
+
+<p>Here is a second version of the starter-kit pull request from the
+previous section:</p>
+
+<p><a href="https://github.com/cockpit-project/starter-kit/pull/438">starter-kit#438</a></p>
+
+<p>It has the same code changes, but now the reference images have been
+updated as well, since the change in color was of course intended.</p>
+
+<p>Now this PR needs to be reviewed, and the changed visuals need to be
+approved.  But since the reference images are not stored in the main
+repository, Github will not include them in the PR diff view.</p>
+
+<p>Instead, the robots will automatically add a comment to a pull request
+with a link to a page that allows reviewing the changed reference
+images.</p>
+
+    
+  </section>
+
+  
+
+</article>
+
+
+  
+  <div class="author-info author-card" id="author-info">
+    <h2>About Marius Vollmer</h2>
+    <div class="author-blurb">
+      
+
+
+      <div class="more-link">
+        <a href="https://cockpit-project.org/blog/authors#mvo">
+          View all posts by Marius Vollmer »
+        </a>
+      </div>
+
+      
+    </div>
+  </div>
+
+
+
+  </div>
+</div>
+
+<footer class="footer-cockpit" role="contentinfo">
+    <p class="copyright">
+        
+
+        © 2013 - 2026
+
+        &mdash;
+
+        Cockpit is a <a href="https://redhat.com/">Red Hat</a> sponsored
+        free software project released under the
+        <a href="https://opensource.org/licenses/lgpl-2.1.php">LGPL v2.1+</a>
+    </p>
+
+    <p class="policy">
+        <a href="https://cockpit-project.org/privacy.html">
+            Privacy Policy
+        </a>
+        &mdash;
+        <a href="https://cockpit-project.org/code-of-conduct.html">
+            Code of Conduct
+        </a>
+    </p>
+
+    <p class="edit-page"><a
+      href="https://github.com/Venefilyn/cockpit-project.github.io/edit/main/_posts/2021-05-06-pixel-tests.md">Edit page on GitHub</a>
+</p>
+</footer>
+
+
+      
+    
+  </body>
+
+</html>

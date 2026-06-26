@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html class=" -path-blog-protocol-for-web-access-to-system-apis.html" lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Protocol for Web access to System APIs &mdash; Cockpit Project</title>
+
+    <link rel="canonical" href="https://github.comhttps://cockpit-project.org/blog/protocol-for-web-access-to-system-apis.html">
+
+    <link rel="manifest" href="https://cockpit-project.org/manifest.json">
+
+    <meta name="description" content="Cockpit makes it easy to administer your Linux servers via a web browser.
+">
+    <meta property="og:site_name" content="Cockpit Project">
+    <meta property="og:title" content="Protocol for Web access to System APIs">
+    <meta property="og:description" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.comhttps://cockpit-project.org/blog/protocol-for-web-access-to-system-apis.html">
+    <meta name="author" content="">
+    <meta property="og:image" content="https://cockpit-project.org/images/site/opengraph.png">
+    <meta name="theme-color" content="#3e5375">
+
+    <!-- Favicon -->
+    
+    
+      <link rel="shortcut icon" href="https://cockpit-project.org/images/favicon.png" type="image/png">
+    
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://cockpit-project.org/assets/main.js"></script>
+    <link rel="stylesheet" href="https://cockpit-project.org/assets/main.css">
+  </head>
+
+
+  <body id="page-top">
+    
+    
+      
+      
+      
+      
+
+      
+        
+        <header class="masthead hidden-print" id="branding" role="banner">
+
+  <section class="hgroup">
+    
+    
+
+    
+      <h1><a href="https://cockpit-project.org/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://cockpit-project.org/images/site/cockpit-logo.svg"></a></h1>
+    
+
+    
+  </section>
+
+  
+
+    <div class="nav-wrap">
+      
+
+
+  <nav role="navigation" class="">
+
+
+  <ul class="nav-menu" role="menubar">
+    
+      
+
+      <li class="nav--home" role="menuitem">
+        
+          <a href="https://cockpit-project.org/"><span class="label">Home</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--install" role="menuitem">
+        
+          <a href="https://cockpit-project.org/running.html"><span class="label">Install</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--documentation" role="menuitem">
+        
+          <a href="https://cockpit-project.org/documentation.html"><span class="label">Documentation</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--contribute" role="menuitem">
+        
+          <a href="https://cockpit-project.org/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--blog" role="menuitem">
+        
+          <a href="https://cockpit-project.org/blog/"><span class="label">Blog</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--search" role="menuitem">
+        
+          <a href="https://cockpit-project.org/search.html"><span class="label">Search</span></a>
+        
+        
+      </li>
+    
+
+  </ul>
+
+
+  </nav>
+
+
+    </div>
+
+  
+
+</header>
+
+
+<div class="page-content" id="page-wrap" role="main">
+  <div class="wrapper">
+    
+
+
+
+
+
+
+
+
+
+
+
+<article class="post hentry" id="-blog-protocol-for-web-access-to-system-apis.html">
+  <header class="post-header">
+    <h2 class="post-title entry-title">
+      
+        Protocol for Web access to System APIs
+      
+    </h2>
+    <header class="post-meta">
+      
+      <time class="published" datetime="2">
+        Dec 16, 2014
+      </time>
+
+      
+        
+        
+        
+
+        <div class="category">
+          
+            category: <a href="https://cockpit-project.org/blog/category/tutorial.html">tutorial</a>
+          
+        </div>
+      
+    </header>
+  </header>
+
+  
+  
+  
+  
+
+  <section class="post-content entry-content">
+    
+      <p class="note"><em>Note: This post has been updated for changes in Cockpit 0.48 and later.</em></p>
+
+<p>A Linux system today has a lot of local system configuration APIs. I’m not talking about library APIs here, but things like DBus services, command/scripts to be executed, or files placed in various locations. All of these constitute the API by which we configure a Linux system. In <a href="https://cockpit-project.org">Cockpit</a> we access these APIs from a web browser (after authentication of course).</p>
+
+<p>How do we access the system APIs? The answer is the <code class="language-plaintext highlighter-rouge">cockpit-bridge</code> tool. It proxies requests from the Cockpit user interface, running in a web browser, to the system. Typically the <code class="language-plaintext highlighter-rouge">cockpit-bridge</code> runs as the logged in user, in a user session. It has similar permissions and capabilities as if you had used <code class="language-plaintext highlighter-rouge">ssh</code> to log into the system.</p>
+
+<p>Lets look at an example DBus API that we call from Cockpit. systemd has an API to set the system host name, called <a href="http://www.freedesktop.org/wiki/Software/systemd/hostnamed/">SetStaticHostname</a>. In Cockpit we can invoke that API using simple JSON like this:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+  "call": [
+    "/org/freedesktop/hostname1",
+    "org.freedesktop.hostname1",
+    "SetStaticHostname", [ "mypinkpony.local", true ]
+  ]
+}
+</code></pre></div></div>
+
+<p>The protocol that the web browser uses is a <a href="https://github.com/cockpit-project/cockpit/blob/master/doc/protocol.md">message based protocol</a>, and runs over a <a href="http://en.wikipedia.org/wiki/WebSocket">WebSocket</a>. This is a “post-HTTP” protocol, and isn’t limited by the request/response semantics inherent to HTTP. Our protocol has a lot of JSON, and has a number of interesting characteristics, which you’ll see below. In general we’ve tried to keep this protocol readable and debuggable.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">cockpit-bridge</code> tool speaks this protocol on its standard in and standard output. The <code class="language-plaintext highlighter-rouge">cockpit-ws</code> process hosts the WebSocket and passes the messages to <code class="language-plaintext highlighter-rouge">cockpit-bridge</code> for processing.</p>
+
+<p><strong>Following along:</strong> In order to follow along with the stuff below, you’ll need at least Cockpit 0.48. The protocol is not yet frozen, and we merged some cleanup recently. You can install it on <a href="https://lists.fedorahosted.org/pipermail/cockpit-devel/2014-November/000196.html">Fedora 21 using a COPR</a> or <a href="https://github.com/cockpit-project/cockpit/blob/master/HACKING.md">build it from git</a>.</p>
+
+<h2 id="channels">Channels</h2>
+
+<p>Cockpit can be doing lots of things at the same time and we don’t want to have to open a new WebSocket each time. So we allow the protocol to be shared by multiple concurrent tasks. Each of these is assigned a <em>channel</em>. Channels have a string identifier. The data transferred in a channel is called the payload. To combine these into a message I simply concatenate the identifier, a new line, and the payload. Lets say I wanted to send the message <code class="language-plaintext highlighter-rouge">Oh marmalade!</code> over the channel called <code class="language-plaintext highlighter-rouge">scruffy</code> the message would look like this:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scruffy
+Oh marmalade!
+</code></pre></div></div>
+
+<p>How do we know what channel to send messages on? We send <em>control messages</em> on a <em>control channel</em> to open other channels, and indicate what they should do. The identifier for the control channel is an empty string. More on that below.</p>
+
+<h2 id="framing">Framing</h2>
+
+<p>In order to pass a message based protocol over a plain stream, such the standard in and standard out of <code class="language-plaintext highlighter-rouge">cockpit-bridge</code>, one needs some form of framing. This framing is not used when the messages are passed over a WebSocket, since WebSockets inherently have a message concept.</p>
+
+<p>The framing the <code class="language-plaintext highlighter-rouge">cockpit-bridge</code> uses is simply the byte length of the message, encoded as a string, and followed by a new line. So Scruffy’s 21 byte message above, when sent over a stream, would like this:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>21
+scruffy
+Oh marmalade!
+</code></pre></div></div>
+
+<p>Alternatively, when debugging or testing <code class="language-plaintext highlighter-rouge">cockpit-bridge</code> you can run in an interactive mode, where we frame our messages by using boundaries. That way we don’t have to count the byte length of all of our messages meticulously, if we’re writing them by hand. We specify the boundary when invoking <code class="language-plaintext highlighter-rouge">cockpit-bridge</code> like so:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ cockpit-bridge --interact=----
+</code></pre></div></div>
+
+<p>And then we can send a message by using the <code class="language-plaintext highlighter-rouge">----</code> boundary on a line by itself:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scruffy
+Oh marmalade!
+----
+</code></pre></div></div>
+
+<h2 id="control-channels">Control channels</h2>
+
+<p>Before we can use a channel, we need to tell <code class="language-plaintext highlighter-rouge">cockpit-bridge</code> about the channel and what that channel is meant to do. We do this with a <em>control message</em> sent on the <em>control channel</em>. The <em>control channel</em> is a channel with an empty string as an identifier. Each control message is a JSON object, or dict. Each control message has a <code class="language-plaintext highlighter-rouge">"command"</code> field, which determines what kind of control message it is.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">"open"</code> control message opens a new channel. The <code class="language-plaintext highlighter-rouge">"payload"</code> field indicates the type of the channel, so that <code class="language-plaintext highlighter-rouge">cockpit-bridge</code> knows what to do with the messages. The various <a href="https://github.com/cockpit-project/cockpit/blob/master/doc/protocol.md">channel types are documented</a>. Some channels connect talk to a DBus service, others spawn a process, etc.</p>
+
+<p>When you send an <code class="language-plaintext highlighter-rouge">"open"</code> you also choose a new channel identifier and place it in the <code class="language-plaintext highlighter-rouge">"channel"</code> field. This channel identifier must not already be in use.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">"echo"</code> channel type just sends the messages you send to the <code class="language-plaintext highlighter-rouge">cockpit-bridge</code> back to you. Here’s the control message that is used to open an echo channel. Note the empty channel identifier on the first line:</p>
+
+<pre>
+
+{
+  "command": "open",
+  "channel": "mychannel",
+  "payload": "echo"
+}
+</pre>
+
+<p>Now we’re ready to play … Well almost.</p>
+
+<p>The very first control message sent to and from <code class="language-plaintext highlighter-rouge">cockpit-bridge</code> should be an <code class="language-plaintext highlighter-rouge">"init"</code> message containing a version number. That version number is <code class="language-plaintext highlighter-rouge">1</code> for the foreseeable future.</p>
+
+<pre>
+
+{
+  "command": "init",
+  "version": 1
+}
+</pre>
+
+<h2 id="try-it-out">Try it out</h2>
+
+<p>So combining our knowledge so far, we can run the following:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ cockpit-bridge --interact=----
+</code></pre></div></div>
+
+<p>In this debugging mode sent by <code class="language-plaintext highlighter-rouge">cockpit-bridge</code> will be bold in your terminal. Now paste the following in:</p>
+
+<pre>
+
+{ "command": "open", "channel": "mychannel", "payload": "echo" }
+----
+mychannel
+This is a test
+----
+</pre>
+
+<p>You’ll notice that <code class="language-plaintext highlighter-rouge">cockpit-bridge</code> sends your message back. You can use this technique to experiment. Unfortunately
+<code class="language-plaintext highlighter-rouge">cockpit-bridge</code> exits immediately when it’s stdin closes, so you <a href="https://github.com/cockpit-project/cockpit/issues/1594">can’t yet use shell redirection from a file effectively</a>.</p>
+
+<h2 id="making-a-dbus-method-call">Making a DBus method call</h2>
+
+<p>To make a DBus method call, we open a channel with the payload type <code class="language-plaintext highlighter-rouge">"dbus-json3"</code>. Then we send JSON messages as payloads inside that channel. An additional field in the <code class="language-plaintext highlighter-rouge">"open"</code> control message is required. The <code class="language-plaintext highlighter-rouge">"name"</code> field is the bus name of the DBus service we want to talk to:</p>
+
+<pre>
+
+{
+  "command": "open",
+  "channel": "mydbus",
+  "payload": "dbus-json3",
+  "name": "org.freedesktop.hostname1"
+}
+</pre>
+
+<p>Once the channel is open we send a JSON object as a payload in the channel with a <code class="language-plaintext highlighter-rouge">"call"</code> field. It is set to an array with the DBus interface, DBus object path, method name, and an array of arguments.</p>
+
+<pre>
+mydbus
+{
+  "call": [ "/org/freedesktop/hostname1", "org.freedesktop.hostname1",
+```unknown
+        "SetStaticHostname", [ "mypinkpony.local", true ] ],
+  "id": "cookie"
+}
+</pre>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+If we want a reply from the service we specify an `"id"` field. The resulting `"reply"` will have a matching `"id"` and would look something like this:
+
+&lt;pre&gt;
+mydbus
+{
+  "reply": [ null ],
+  "id": "cookie"
+}
+&lt;/pre&gt;
+
+If an error occurred you would see a reply like this:
+
+&lt;pre&gt;
+mydbus
+{
+  "error": [
+```unknown
+"org.freedesktop.DBus.Error.UnknownMethod",
+[ "MyMethodName not available"]
+  ],
+  "id":"cookie"
+}
+&lt;/pre&gt;
+</code></pre></div></div>
+
+<p>This is just the basics. You can do much more than this with DBus, including watching for signals, lookup up properties, tracking when they change, introspecting services, watching for new objects to show up, and so on.</p>
+
+<h2 id="spawning-a-process">Spawning a process</h2>
+
+<p>Spawning a process is easier than calling a DBus method. You open the channel with the payload type <code class="language-plaintext highlighter-rouge">"stream"</code> and you specify the process you would like to spawn in the <code class="language-plaintext highlighter-rouge">"open"</code> control message:</p>
+
+<pre>
+
+{
+  "command": "open",
+  "channel": "myproc",
+  "payload": "stream",
+  "spawn": [ "ip", "addr", "show" ]
+}
+</pre>
+
+<p>The process will send its output in the payload of one or more messages of the <code class="language-plaintext highlighter-rouge">"myproc"</code> channel, and at the end you’ll encounter the <code class="language-plaintext highlighter-rouge">"close"</code> control message. We haven’t looked at until now. A <code class="language-plaintext highlighter-rouge">"close"</code> control message is sent when a channel closes. Either the <code class="language-plaintext highlighter-rouge">cockpit-bridge</code> or its caller can send this message to close a channel. Often the <code class="language-plaintext highlighter-rouge">"close"</code> message contains additional information, such as a problem encountered, or in this case the exit status of the process:</p>
+
+<pre>
+
+{
+  "command": "close",
+  "channel": "myproc",
+  "exit-status": 0
+}
+</pre>
+
+<h2 id="doing-it-over-a-websocket">Doing it over a WebSocket</h2>
+
+<p>Obviously in Cockpit we send all of these messages from the browser through a WebSocket hosted by <code class="language-plaintext highlighter-rouge">cockpit-ws</code>. <code class="language-plaintext highlighter-rouge">cockpit-ws</code> then passes them on to <code class="language-plaintext highlighter-rouge">cockpit-bridge</code>. You can communicate this way too, if you <a href="https://cockpit-project.org/guide/cockpit.conf.5.html">configure Cockpit to accept different Websocket Origins</a>.</p>
+
+<h2 id="and-on-it-goes">And on it goes</h2>
+
+<p>There are payload types for reading files, replacing them, connecting to unix sockets, accessing system resource metrics, doing local HTTP requests, and more. Once the protocol is stable, solid documentation is in order.</p>
+
+<p>I hope that this has given some insight into how Cockpit works under the hood. If you’re interested in using this same protocol, I’d love to get feedback … especially while the basics of the protocol are not yet frozen.</p>
+
+    
+  </section>
+
+  
+
+</article>
+
+
+  
+  <div class="author-info author-card" id="author-info">
+    <h2>Other posts</h2>
+    <div class="author-blurb">
+      
+
+
+      <div class="more-link">
+        <a href="https://cockpit-project.org/blog/authors#">
+          View all posts »
+        </a>
+      </div>
+
+      
+    </div>
+  </div>
+
+
+
+  </div>
+</div>
+
+<footer class="footer-cockpit" role="contentinfo">
+    <p class="copyright">
+        
+
+        © 2013 - 2026
+
+        &mdash;
+
+        Cockpit is a <a href="https://redhat.com/">Red Hat</a> sponsored
+        free software project released under the
+        <a href="https://opensource.org/licenses/lgpl-2.1.php">LGPL v2.1+</a>
+    </p>
+
+    <p class="policy">
+        <a href="https://cockpit-project.org/privacy.html">
+            Privacy Policy
+        </a>
+        &mdash;
+        <a href="https://cockpit-project.org/code-of-conduct.html">
+            Code of Conduct
+        </a>
+    </p>
+
+    <p class="edit-page"><a
+      href="https://github.com/Venefilyn/cockpit-project.github.io/edit/main/_posts/2014-12-16-protocol-interaction.md">Edit page on GitHub</a>
+</p>
+</footer>
+
+
+      
+    
+  </body>
+
+</html>

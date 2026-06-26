@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html class=" -path-blog-cockpit-247.html" lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Cockpit 247 &mdash; Cockpit Project</title>
+
+    <link rel="canonical" href="https://github.comhttps://cockpit-project.org/blog/cockpit-247.html">
+
+    <link rel="manifest" href="https://cockpit-project.org/manifest.json">
+
+    <meta name="description" content="Cockpit makes it easy to administer your Linux servers via a web browser.
+">
+    <meta property="og:site_name" content="Cockpit Project">
+    <meta property="og:title" content="Cockpit 247">
+    <meta property="og:description" content="Cockpit with Metrics and Virtual Machines improvements">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.comhttps://cockpit-project.org/blog/cockpit-247.html">
+    <meta name="author" content="Katerina Koukiou">
+    <meta property="og:image" content="https://cockpit-project.org/images/site/opengraph.png">
+    <meta name="theme-color" content="#3e5375">
+
+    <!-- Favicon -->
+    
+    
+      <link rel="shortcut icon" href="https://cockpit-project.org/images/favicon.png" type="image/png">
+    
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://cockpit-project.org/assets/main.js"></script>
+    <link rel="stylesheet" href="https://cockpit-project.org/assets/main.css">
+  </head>
+
+
+  <body id="page-top">
+    
+    
+      
+      
+      
+      
+
+      
+        
+        <header class="masthead hidden-print" id="branding" role="banner">
+
+  <section class="hgroup">
+    
+    
+
+    
+      <h1><a href="https://cockpit-project.org/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://cockpit-project.org/images/site/cockpit-logo.svg"></a></h1>
+    
+
+    
+  </section>
+
+  
+
+    <div class="nav-wrap">
+      
+
+
+  <nav role="navigation" class="">
+
+
+  <ul class="nav-menu" role="menubar">
+    
+      
+
+      <li class="nav--home" role="menuitem">
+        
+          <a href="https://cockpit-project.org/"><span class="label">Home</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--install" role="menuitem">
+        
+          <a href="https://cockpit-project.org/running.html"><span class="label">Install</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--documentation" role="menuitem">
+        
+          <a href="https://cockpit-project.org/documentation.html"><span class="label">Documentation</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--contribute" role="menuitem">
+        
+          <a href="https://cockpit-project.org/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--blog" role="menuitem">
+        
+          <a href="https://cockpit-project.org/blog/"><span class="label">Blog</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--search" role="menuitem">
+        
+          <a href="https://cockpit-project.org/search.html"><span class="label">Search</span></a>
+        
+        
+      </li>
+    
+
+  </ul>
+
+
+  </nav>
+
+
+    </div>
+
+  
+
+</header>
+
+
+<div class="page-content" id="page-wrap" role="main">
+  <div class="wrapper">
+    
+
+
+
+
+
+
+
+
+
+
+
+<article class="post hentry" id="-blog-cockpit-247.html">
+  <header class="post-header">
+    <h2 class="post-title entry-title">
+      
+        Cockpit 247
+      
+    </h2>
+    <header class="post-meta">
+      
+        
+          <span class="byline">
+            by
+            <span class="author vcard">
+              <a href="https://cockpit-project.org/blog/authors#kkoukiou">Katerina Koukiou</a>
+            </span>
+          </span>
+        
+        –
+      
+      <time class="published" datetime="3">
+        Jun 23, 2021
+      </time>
+
+      
+        
+        
+        
+
+        <div class="category">
+          
+            category: <a href="https://cockpit-project.org/blog/category/release.html">release</a>
+          
+        </div>
+      
+    </header>
+  </header>
+
+  
+  
+  
+  
+
+  <section class="post-content entry-content">
+    
+      <p>Cockpit is the <a href="https://cockpit-project.org/">modern Linux admin interface</a>.  We release regularly.</p>
+
+<p>Here are the release notes from Cockpit version 247 and Cockpit Machines version 246.</p>
+
+<h2 id="metrics-enable-grafana-client-setup">Metrics: Enable Grafana client setup</h2>
+
+<p>“Metrics settings”, <a href="https://cockpit-project.org/blog/cockpit-245.html">introduced in Cockpit 245</a>, has a new option to share Performance Co-Pilot data over the network. Enabling “export to network” enables a <a href="https://grafana-pcp.readthedocs.io/en/latest/datasources/redis.html">Redis</a> data source with the <a href="https://linux.die.net/man/1/pmproxy">pmproxy service</a>.</p>
+
+<p><img loading="lazy" src="https://cockpit-project.org/images/metrics-settings-2.png" alt="metrics settings" /></p>
+
+<p>If the machine uses firewalld, you can allow pmproxy in a particular zone afterwards:</p>
+
+<p><img loading="lazy" src="https://cockpit-project.org/images/metrics-fw-sel.png" alt="metrics firewall zone selector" /></p>
+
+<p>A remote <a href="https://grafana.com/">Grafana</a> instance can then read the machine’s metrics using the <a href="https://grafana-pcp.readthedocs.io/"><abbr title="Performance Co-Pilot">PCP</abbr> Grafana plugin</a>. More details are available on <a href="https://cockpit-project.org/guide/latest/feature-pcp.html">the <abbr title="Performance Co-Pilot">PCP</abbr> metrics feature page</a>.</p>
+
+<h2 id="machines-share-host-files-with-the-guest-using-virtiofs">Machines: Share host files with the guest using virtiofs</h2>
+
+<p>Cockpit Machines can now share a host directory with a guest <abbr title="Virtual Machine">VM</abbr>.</p>
+
+<p><a href="https://virtiofs.gitlab.io/">virtiofs</a> powers this sharing feature, offering local file system semantics and performance. virtiofs has been available in mainline Linux 5.4, QEMU 5.0, and libvirt 6.2. Sharing host files is available only when these versions are met.</p>
+
+<p><img loading="lazy" src="https://cockpit-project.org/images/machines-shared-directories-card.png" alt="shared directories card" /></p>
+
+<p><img loading="lazy" src="https://cockpit-project.org/images/machines-new-shared-directory-dialog.png" alt="machines new shared directory dialog" /></p>
+
+<h2 id="machines-show-list-of-pass-through-devices">Machines: Show list of pass-through devices</h2>
+
+<p>The virtual machines details page now shows the list of USB, PCI and SCSI host devices that are passed through to the guest <abbr title="Virtual Machine">VM</abbr>.</p>
+
+<p><img loading="lazy" src="https://cockpit-project.org/images/machines-host-devices-card.png" alt="machines host devices card" /></p>
+
+<h3 id="try-it-out">Try it out</h3>
+
+<p>Cockpit 247 and Cockpit Machines 246 are available now:</p>
+
+<ul>
+  <li><a href="https://cockpit-project.org/running.html">For your Linux system</a></li>
+  <li><a href="https://github.com/cockpit-project/cockpit/releases/tag/247">Cockpit Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2021-b61fc3e33d">Cockpit Fedora 34</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2021-914e35e595">Cockpit Fedora 33</a></li>
+  <li><a href="https://github.com/cockpit-project/cockpit-machines/releases/tag/246">cockpit-machines Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2021-d9dd21b606">cockpit-machines Fedora 34</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2021-115bb6f593">cockpit-machines Fedora 33</a></li>
+</ul>
+
+
+    
+  </section>
+
+  
+
+</article>
+
+
+  
+  <div class="author-info author-card" id="author-info">
+    <h2>About Katerina Koukiou</h2>
+    <div class="author-blurb">
+      
+
+
+      <div class="more-link">
+        <a href="https://cockpit-project.org/blog/authors#kkoukiou">
+          View all posts by Katerina Koukiou »
+        </a>
+      </div>
+
+      
+    </div>
+  </div>
+
+
+
+  </div>
+</div>
+
+<footer class="footer-cockpit" role="contentinfo">
+    <p class="copyright">
+        
+
+        © 2013 - 2026
+
+        &mdash;
+
+        Cockpit is a <a href="https://redhat.com/">Red Hat</a> sponsored
+        free software project released under the
+        <a href="https://opensource.org/licenses/lgpl-2.1.php">LGPL v2.1+</a>
+    </p>
+
+    <p class="policy">
+        <a href="https://cockpit-project.org/privacy.html">
+            Privacy Policy
+        </a>
+        &mdash;
+        <a href="https://cockpit-project.org/code-of-conduct.html">
+            Code of Conduct
+        </a>
+    </p>
+
+    <p class="edit-page"><a
+      href="https://github.com/Venefilyn/cockpit-project.github.io/edit/main/_posts/2021-06-23-cockpit-247.md">Edit page on GitHub</a>
+</p>
+</footer>
+
+
+      
+    
+  </body>
+
+</html>

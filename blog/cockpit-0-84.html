@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html class=" -path-blog-cockpit-0-84.html" lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Cockpit 0.83 and 0.84 Released &mdash; Cockpit Project</title>
+
+    <link rel="canonical" href="https://github.comhttps://cockpit-project.org/blog/cockpit-0-84.html">
+
+    <link rel="manifest" href="https://cockpit-project.org/manifest.json">
+
+    <meta name="description" content="Cockpit makes it easy to administer your Linux servers via a web browser.
+">
+    <meta property="og:site_name" content="Cockpit Project">
+    <meta property="og:title" content="Cockpit 0.83 and 0.84 Released">
+    <meta property="og:description" content="Cockpit releases every week. This week it was 0.84">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.comhttps://cockpit-project.org/blog/cockpit-0-84.html">
+    <meta name="author" content="">
+    <meta property="og:image" content="https://cockpit-project.org/images/site/opengraph.png">
+    <meta name="theme-color" content="#3e5375">
+
+    <!-- Favicon -->
+    
+    
+      <link rel="shortcut icon" href="https://cockpit-project.org/images/favicon.png" type="image/png">
+    
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://cockpit-project.org/assets/main.js"></script>
+    <link rel="stylesheet" href="https://cockpit-project.org/assets/main.css">
+  </head>
+
+
+  <body id="page-top">
+    
+    
+      
+      
+      
+      
+
+      
+        
+        <header class="masthead hidden-print" id="branding" role="banner">
+
+  <section class="hgroup">
+    
+    
+
+    
+      <h1><a href="https://cockpit-project.org/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://cockpit-project.org/images/site/cockpit-logo.svg"></a></h1>
+    
+
+    
+  </section>
+
+  
+
+    <div class="nav-wrap">
+      
+
+
+  <nav role="navigation" class="">
+
+
+  <ul class="nav-menu" role="menubar">
+    
+      
+
+      <li class="nav--home" role="menuitem">
+        
+          <a href="https://cockpit-project.org/"><span class="label">Home</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--install" role="menuitem">
+        
+          <a href="https://cockpit-project.org/running.html"><span class="label">Install</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--documentation" role="menuitem">
+        
+          <a href="https://cockpit-project.org/documentation.html"><span class="label">Documentation</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--contribute" role="menuitem">
+        
+          <a href="https://cockpit-project.org/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--blog" role="menuitem">
+        
+          <a href="https://cockpit-project.org/blog/"><span class="label">Blog</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--search" role="menuitem">
+        
+          <a href="https://cockpit-project.org/search.html"><span class="label">Search</span></a>
+        
+        
+      </li>
+    
+
+  </ul>
+
+
+  </nav>
+
+
+    </div>
+
+  
+
+</header>
+
+
+<div class="page-content" id="page-wrap" role="main">
+  <div class="wrapper">
+    
+
+
+
+
+
+
+
+
+
+
+
+<article class="post hentry" id="-blog-cockpit-0-84.html">
+  <header class="post-header">
+    <h2 class="post-title entry-title">
+      
+        Cockpit 0.83 and 0.84 Released
+      
+    </h2>
+    <header class="post-meta">
+      
+      <time class="published" datetime="4">
+        Nov 19, 2015
+      </time>
+
+      
+        
+        
+        
+
+        <div class="category">
+          
+            category: <a href="https://cockpit-project.org/blog/category/release.html">release</a>
+          
+        </div>
+      
+    </header>
+  </header>
+
+  
+  
+  
+  
+
+  <section class="post-content entry-content">
+    
+      <p>Cockpit releases every week. This week it was 0.84. I’ll also include notes from 0.83 here.</p>
+
+<h3 id="building-cockpit-on-debian">Building Cockpit on Debian</h3>
+
+<p>At systemd.conf Dominik worked with Michael Biebl one of the Debian systemd maintainers on packaging Cockpit for Debian. We’re still looking for a maintainer long term.</p>
+
+<p>Here’s a <a href="http://dominik.perpeet.eu/cockpit-on-debian-8-2">blog post</a> with more details.</p>
+
+<h3 id="cross-distro-integration-tests">Cross Distro Integration Tests</h3>
+
+<p>In Cockpit we run hundreds of tests on real operating systems for each pull request. Without running these tests on an OS it’s impossible to know that the features of Cockpit actually works. So far we’ve been running these tests on Fedora, Atomic, and RHEL. But we’d really like to run them on Debian as well. That’ll make Cockpit much more well rounded.</p>
+
+<p>Marius worked on the first steps toward running the tests on Debian, by doing the Cockpit <a href="https://github.com/cockpit-project/cockpit/pull/3138">build inside of our test VM images</a>. Hopefully we’ll see more progress on this.</p>
+
+<h3 id="selinux-certificate-file-type">SELinux certificate file type</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">cockpit.service</code> helpfully sets the appropriate user and group <a href="https://cockpit-project.org/guide/latest/https.html">on the certificates</a> that cockpit-ws will use for TLS. Now it also sets the SELinux file context type properly, so this is one less things to break for an admin.</p>
+
+<h3 id="cockpit-manual-page">Cockpit manual page</h3>
+
+<p>There is now a <code class="language-plaintext highlighter-rouge">man cockpit</code> overview manual page that links to the guide and elsewhere.</p>
+
+<h3 id="from-the-future">From the future</h3>
+
+<p>Marius has done work on an SOS reporting view. Needs some further backend work, but should be ready soon:</p>
+
+<iframe width="640" height="480" src="//www.youtube-nocookie.com/embed/-6rfWUoOQbs?rel=0" frameborder="0" allowfullscreen=""></iframe>
+
+<p>Peter has mostly completed the work to add machines with alternate users, and non-standard SSH ports. Among other things, this is useful for cloud instances. I’m looking forward to seeing this in Cockpit 0.85.</p>
+
+<p><a href="https://raw.githubusercontent.com/cockpit-project/cockpit-design/master/add-system/machine-dialogs.png"><img loading="lazy" src="https://cockpit-project.org/images/machine-dialogs.png" alt="Machine Dialogs Wireframes" /></a></p>
+
+<h3 id="try-it-out">Try it out</h3>
+
+<p>Cockpit 0.84 is available now:</p>
+
+<ul>
+  <li><a href="https://github.com/cockpit-project/cockpit/releases/tag/0.84">Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2015-96b41c5190">Fedora 23 and Fedora Rawhide</a></li>
+  <li><a href="https://copr.fedoraproject.org/coprs/g/cockpit/cockpit-preview/">COPR for Fedora 22, CentOS and RHEL</a></li>
+</ul>
+
+
+    
+  </section>
+
+  
+
+</article>
+
+
+  
+  <div class="author-info author-card" id="author-info">
+    <h2>Other posts</h2>
+    <div class="author-blurb">
+      
+
+
+      <div class="more-link">
+        <a href="https://cockpit-project.org/blog/authors#">
+          View all posts »
+        </a>
+      </div>
+
+      
+    </div>
+  </div>
+
+
+
+  </div>
+</div>
+
+<footer class="footer-cockpit" role="contentinfo">
+    <p class="copyright">
+        
+
+        © 2013 - 2026
+
+        &mdash;
+
+        Cockpit is a <a href="https://redhat.com/">Red Hat</a> sponsored
+        free software project released under the
+        <a href="https://opensource.org/licenses/lgpl-2.1.php">LGPL v2.1+</a>
+    </p>
+
+    <p class="policy">
+        <a href="https://cockpit-project.org/privacy.html">
+            Privacy Policy
+        </a>
+        &mdash;
+        <a href="https://cockpit-project.org/code-of-conduct.html">
+            Code of Conduct
+        </a>
+    </p>
+
+    <p class="edit-page"><a
+      href="https://github.com/Venefilyn/cockpit-project.github.io/edit/main/_posts/2015-11-19-cockpit-0.84.md">Edit page on GitHub</a>
+</p>
+</footer>
+
+
+      
+    
+  </body>
+
+</html>

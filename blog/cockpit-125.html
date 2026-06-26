@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html class=" -path-blog-cockpit-125.html" lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Cockpit 125 &mdash; Cockpit Project</title>
+
+    <link rel="canonical" href="https://github.comhttps://cockpit-project.org/blog/cockpit-125.html">
+
+    <link rel="manifest" href="https://cockpit-project.org/manifest.json">
+
+    <meta name="description" content="Cockpit makes it easy to administer your Linux servers via a web browser.
+">
+    <meta property="og:site_name" content="Cockpit Project">
+    <meta property="og:title" content="Cockpit 125">
+    <meta property="og:description" content="Cockpit is properly translatable and displays OSTree signatures.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.comhttps://cockpit-project.org/blog/cockpit-125.html">
+    <meta name="author" content="Stef Walter">
+    <meta property="og:image" content="https://cockpit-project.org/images/site/opengraph.png">
+    <meta name="theme-color" content="#3e5375">
+
+    <!-- Favicon -->
+    
+    
+      <link rel="shortcut icon" href="https://cockpit-project.org/images/favicon.png" type="image/png">
+    
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://cockpit-project.org/assets/main.js"></script>
+    <link rel="stylesheet" href="https://cockpit-project.org/assets/main.css">
+  </head>
+
+
+  <body id="page-top">
+    
+    
+      
+      
+      
+      
+
+      
+        
+        <header class="masthead hidden-print" id="branding" role="banner">
+
+  <section class="hgroup">
+    
+    
+
+    
+      <h1><a href="https://cockpit-project.org/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://cockpit-project.org/images/site/cockpit-logo.svg"></a></h1>
+    
+
+    
+  </section>
+
+  
+
+    <div class="nav-wrap">
+      
+
+
+  <nav role="navigation" class="">
+
+
+  <ul class="nav-menu" role="menubar">
+    
+      
+
+      <li class="nav--home" role="menuitem">
+        
+          <a href="https://cockpit-project.org/"><span class="label">Home</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--install" role="menuitem">
+        
+          <a href="https://cockpit-project.org/running.html"><span class="label">Install</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--documentation" role="menuitem">
+        
+          <a href="https://cockpit-project.org/documentation.html"><span class="label">Documentation</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--contribute" role="menuitem">
+        
+          <a href="https://cockpit-project.org/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--blog" role="menuitem">
+        
+          <a href="https://cockpit-project.org/blog/"><span class="label">Blog</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--search" role="menuitem">
+        
+          <a href="https://cockpit-project.org/search.html"><span class="label">Search</span></a>
+        
+        
+      </li>
+    
+
+  </ul>
+
+
+  </nav>
+
+
+    </div>
+
+  
+
+</header>
+
+
+<div class="page-content" id="page-wrap" role="main">
+  <div class="wrapper">
+    
+
+
+
+
+
+
+
+
+
+
+
+<article class="post hentry" id="-blog-cockpit-125.html">
+  <header class="post-header">
+    <h2 class="post-title entry-title">
+      
+        Cockpit 125
+      
+    </h2>
+    <header class="post-meta">
+      
+        
+          <span class="byline">
+            by
+            <span class="author vcard">
+              <a href="https://cockpit-project.org/blog/authors#stef">Stef Walter</a>
+            </span>
+          </span>
+        
+        –
+      
+      <time class="published" datetime="5">
+        Nov 25, 2016
+      </time>
+
+      
+        
+        
+        
+
+        <div class="category">
+          
+            category: <a href="https://cockpit-project.org/blog/category/release.html">release</a>
+          
+        </div>
+      
+    </header>
+  </header>
+
+  
+  
+  
+  
+
+  <section class="post-content entry-content">
+    
+      <p>Cockpit is the <a href="https://cockpit-project.org/">modern Linux admin interface</a>. We release
+regularly. Here are the release notes from version 123, 124 and 125.</p>
+
+<h3 id="cockpit-is-now-properly-translatable">Cockpit is now properly translatable</h3>
+
+<p>Cockpit is now properly translatable. It was a big task to extract
+all the translatable strings and make translations work consistently
+between the browser and installed tools like the bridge.</p>
+
+<p>We now start also run the login user session with a proper locale and
+<code class="language-plaintext highlighter-rouge">LANG</code> environment variables.</p>
+
+<p>You can help
+<a href="https://fedora.zanata.org/iteration/view/cockpit/master">translate cockpit in Zanata</a>
+or if you find text in the frontend that isn’t translatable, then
+please do report it.</p>
+
+<p><img loading="lazy" src="https://cockpit-project.org/images/translatable.png" alt="Display Language Dialog" /></p>
+
+<h3 id="display-ostree-signatures">Display OSTree signatures</h3>
+
+<p>Peter implement displaying
+<a href="http://www.projectatomic.io/docs/os-updates/">OSTree tree</a> signatures. You
+can tell where a certain update tree came from and who signed it.</p>
+
+<p><img loading="lazy" src="https://cockpit-project.org/images/ostree-signatures.png" alt="Display Language Dialog" /></p>
+
+<h3 id="new-expandable-views-for-storage-partitions">New expandable views for storage partitions</h3>
+
+<p>Marius implemented expandable views in the <em>Storage</em> pages. These let
+you dive into the details of a particular partition without having
+to navigate away from the page describing where it lives.</p>
+
+<p><img loading="lazy" src="https://cockpit-project.org/images/storage-listing.png" alt="Expandable Logical Volumes" /></p>
+
+<h3 id="other-storage-fixes">Other storage fixes</h3>
+
+<p>Marius did work to fix many other storage related bugs. In particular
+Cockpit now deals properly with passphrases stored for LUKS encrypted
+devices, and also no longer offers to format read-only block devices.</p>
+
+<h3 id="full-testing-on-rhel-73-ubuntu-1604-and-debian-8-jessie">Full testing on RHEL 7.3, Ubuntu 16.04 and Debian 8 Jessie</h3>
+
+<p>The Cockpit project started testing on Cockpit on RHEL 7.3, Ubuntu 16.04
+and Debian 8 Jessie along with the operating systems we tested with earlier.
+These will be part of our usual continuous integration, where we boot
+thousands or tens of thousands of instances per day to test code changes
+and contributions.</p>
+
+<p>Marius fixed many bugs we found, and filed operating system bugs in
+the issue trackers for those operating systems.</p>
+
+<p>You can see the <a href="https://cockpit-project.org/running.html">which operating systems</a>
+we test Cockpit on. There’s no Debian Jessie repository yet, but hopefully
+we can have that ready as time permits.</p>
+
+<h3 id="system-shutdown-can-be-scheduled-by-date">System shutdown can be scheduled by date</h3>
+
+<p>Fridolin did work a long time ago, so that users could select a specific
+date and time to schedule a shutdown or reboot of the system. Stef
+finished that work added tests and it’s now in Cockpit.</p>
+
+<p><img loading="lazy" src="https://cockpit-project.org/images/shutdown-date.png" alt="Expandable Logical Volumes" /></p>
+
+<h3 id="properly-terminate-user-sessions-on-the-accounts-page">Properly terminate user sessions on the Accounts page</h3>
+
+<p>The <em>Accounts</em> page now properly terminates user sessions when the
+<em>Terminate Session</em> button is clicked. We use the correct systemd
+<a href="https://www.freedesktop.org/software/systemd/man/loginctl.html">loginctl</a>
+commands.</p>
+
+<h3 id="try-it-out">Try it out</h3>
+
+<p>Cockpit 125 is available now:</p>
+
+<ul>
+  <li><a href="https://cockpit-project.org/running.html">For your Linux system</a></li>
+  <li><a href="https://github.com/cockpit-project/cockpit/releases/tag/125">Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/cockpit-125-1.fc25">Fedora 25</a></li>
+</ul>
+
+    
+  </section>
+
+  
+
+</article>
+
+
+  
+  <div class="author-info author-card" id="author-info">
+    <h2>About Stef Walter</h2>
+    <div class="author-blurb">
+      
+
+
+      <div class="more-link">
+        <a href="https://cockpit-project.org/blog/authors#stef">
+          View all posts by Stef Walter »
+        </a>
+      </div>
+
+      
+    </div>
+  </div>
+
+
+
+  </div>
+</div>
+
+<footer class="footer-cockpit" role="contentinfo">
+    <p class="copyright">
+        
+
+        © 2013 - 2026
+
+        &mdash;
+
+        Cockpit is a <a href="https://redhat.com/">Red Hat</a> sponsored
+        free software project released under the
+        <a href="https://opensource.org/licenses/lgpl-2.1.php">LGPL v2.1+</a>
+    </p>
+
+    <p class="policy">
+        <a href="https://cockpit-project.org/privacy.html">
+            Privacy Policy
+        </a>
+        &mdash;
+        <a href="https://cockpit-project.org/code-of-conduct.html">
+            Code of Conduct
+        </a>
+    </p>
+
+    <p class="edit-page"><a
+      href="https://github.com/Venefilyn/cockpit-project.github.io/edit/main/_posts/2016-11-25-cockpit-125.md">Edit page on GitHub</a>
+</p>
+</footer>
+
+
+      
+    
+  </body>
+
+</html>

@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html class=" -path-external-source-test-README" lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Integration Tests of Cockpit &mdash; Cockpit Project</title>
+
+    <link rel="canonical" href="https://github.comhttps://cockpit-project.org/external/source/test/README">
+
+    <link rel="manifest" href="https://cockpit-project.org/manifest.json">
+
+    <meta name="description" content="Cockpit makes it easy to administer your Linux servers via a web browser.
+">
+    <meta property="og:site_name" content="Cockpit Project">
+    <meta property="og:title" content="Integration Tests of Cockpit">
+    <meta property="og:description" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.comhttps://cockpit-project.org/external/source/test/README">
+    <meta name="author" content="">
+    <meta property="og:image" content="https://cockpit-project.org/images/site/opengraph.png">
+    <meta name="theme-color" content="#3e5375">
+
+    <!-- Favicon -->
+    
+    
+      <link rel="shortcut icon" href="https://cockpit-project.org/images/favicon.png" type="image/png">
+    
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://cockpit-project.org/assets/main.js"></script>
+    <link rel="stylesheet" href="https://cockpit-project.org/assets/main.css">
+  </head>
+
+
+  <body id="page-top">
+    
+    
+      
+      
+      
+      
+
+      
+        
+        <header class="masthead hidden-print" id="branding" role="banner">
+
+  <section class="hgroup">
+    
+    
+
+    
+      <h1><a href="https://cockpit-project.org/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://cockpit-project.org/images/site/cockpit-logo.svg"></a></h1>
+    
+
+    
+  </section>
+
+  
+
+    <div class="nav-wrap">
+      
+
+
+  <nav role="navigation" class="">
+
+
+  <ul class="nav-menu" role="menubar">
+    
+      
+
+      <li class="nav--home" role="menuitem">
+        
+          <a href="https://cockpit-project.org/"><span class="label">Home</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--install" role="menuitem">
+        
+          <a href="https://cockpit-project.org/running.html"><span class="label">Install</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--documentation" role="menuitem">
+        
+          <a href="https://cockpit-project.org/documentation.html"><span class="label">Documentation</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--contribute" role="menuitem">
+        
+          <a href="https://cockpit-project.org/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--blog" role="menuitem">
+        
+          <a href="https://cockpit-project.org/blog/"><span class="label">Blog</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--search" role="menuitem">
+        
+          <a href="https://cockpit-project.org/search.html"><span class="label">Search</span></a>
+        
+        
+      </li>
+    
+
+  </ul>
+
+
+  </nav>
+
+
+    </div>
+
+  
+
+</header>
+
+
+<div class="page-content" id="page-wrap" role="main">
+  <div class="wrapper">
+    <header class="post-header">
+  <h2 class="post-title">Integration Tests of Cockpit</h2>
+</header>
+
+<article class="post-content">
+  <p>This directory contains automated integration tests for Cockpit, and the
+support files for them. The architecture of the automated integration tests is
+described in <a href="./ARCHITECTURE.md">ARCHITECTURE</a></p>
+
+<p>To run the tests on Fedora, refer to the <a href="/https://cockpit-project.org/external/source/HACKING">HACKING</a> guide for
+installation of all of the necessary build and test dependencies. There’s
+no need to trigger a build manually - the test suite preparation step below
+will handle that.</p>
+
+<p>If test failures are encountered that look like they may be related to problems
+with nested virtualization, refer to
+<a href="https://docs.fedoraproject.org/en-US/quick-docs/using-nested-virtualization-in-kvm/index.html">this Fedora guide</a>
+for more details and recommendations on ensuring it is enabled correctly.</p>
+
+<h2 id="preparation-and-general-invocation">Preparation and general invocation</h2>
+
+<p><em>Warning</em>: Never run the build, test, or any other command here as root!</p>
+
+<p>You first need to build cockpit, and install it into a VM:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>test/image-prepare
+</code></pre></div></div>
+
+<p>This uses the default OS image. See <code class="language-plaintext highlighter-rouge">$TEST_OS</code> below how to select a different one.</p>
+
+<p>See <code class="language-plaintext highlighter-rouge">test/image-prepare --help</code> for some special modes, like skipping unit
+tests, building overlays, or preparing an image with the
+<a href="https://quay.io/repository/cockpit/ws">cockpit/ws container</a> instead of RPMs.
+See our scenarios in <a href="./run">test/run</a> for how they are being used.</p>
+
+<p>In most cases you want to run an individual test in a suite, for example:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>test/verify/check-metrics TestCurrentMetrics.testCPU
+</code></pre></div></div>
+
+<p>You can get a list of tests by inspecting the <code class="language-plaintext highlighter-rouge">def test*</code> in the source, or by
+running the suite with <code class="language-plaintext highlighter-rouge">-l</code>/<code class="language-plaintext highlighter-rouge">--list</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>test/verify/check-metrics -l
+</code></pre></div></div>
+
+<p>Sometimes you may also want to run all tests in a test file suite:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>test/verify/check-session
+</code></pre></div></div>
+
+<p>To see more verbose output from the test, use the <code class="language-plaintext highlighter-rouge">-v</code>/<code class="language-plaintext highlighter-rouge">--verbose</code> and/or <code class="language-plaintext highlighter-rouge">-t</code>/<code class="language-plaintext highlighter-rouge">--trace</code> flags:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>test/verify/check-session --verbose --trace
+</code></pre></div></div>
+
+<p>If you specify <code class="language-plaintext highlighter-rouge">-s</code>/<code class="language-plaintext highlighter-rouge">--sit</code> in addition, then the test will wait on failure and
+allow you to log into cockpit and/or the test instance and diagnose the issue.
+The cockpit and SSH addresses of the test instance will be printed:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>test/verify/check-session -st
+</code></pre></div></div>
+
+<p>You can also run <em>all</em> the tests, with automatic parallelism:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>test/common/run-tests --test-dir test/verify
+</code></pre></div></div>
+
+<p>However, this will take <em>really</em> long. You can specify a subset of tests (see
+<code class="language-plaintext highlighter-rouge">--help</code>); but usually it’s better to run individual tests locally, and let the
+CI machinery run all of them in a draft pull request.</p>
+
+<p>The tests will automatically download the VM images they need, so expect
+that the initial run may take a few minutes.</p>
+
+<h2 id="interactive-browser">Interactive browser</h2>
+
+<p>Normally each test starts its own chromium headless browser process on a
+separate random port. To interactively follow what a test is doing:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>TEST_SHOW_BROWSER=1 test/verify/check-session --trace
+</code></pre></div></div>
+
+<p>You can also run a test against Firefox instead of Chromium:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>TEST_BROWSER=firefox test/verify/check-session --trace
+</code></pre></div></div>
+
+<p>See below for details.</p>
+
+<h2 id="manual-testing">Manual testing</h2>
+
+<p>You can conduct manual interactive testing against a test image by starting the
+image like so:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> bots/vm-run -s cockpit.socket arch
+</code></pre></div></div>
+
+<p>Once the machine is booted and the cockpit socket has been activated, a
+message will be printed describing how to access the virtual machine, via
+ssh and web.  See the “Helpful tips” section below.</p>
+
+<p>To login using the web client you have to use the username and password listed below. If you wish to enable <code class="language-plaintext highlighter-rouge">root</code> login using the web you can remove <code class="language-plaintext highlighter-rouge">root</code> from <code class="language-plaintext highlighter-rouge">/etc/cockpit/disallowed-users</code>.</p>
+
+<ul>
+  <li>Username: <code class="language-plaintext highlighter-rouge">admin</code>
+</li>
+  <li>Password: <code class="language-plaintext highlighter-rouge">foobar</code>
+</li>
+</ul>
+
+<p>By default, it’s only possible to contact the virtual machine from the host
+machine on which it’s running.   If you want to conduct manual testing from
+other devices on your network, set <code class="language-plaintext highlighter-rouge">TEST_BIND_GLOBAL=1</code>, for example:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> TEST_BIND_GLOBAL=1 bots/vm-run -s cockpit.socket arch
+</code></pre></div></div>
+
+<p>This will bind the Cockpit and SSH ports to all interfaces, making it possible
+to access a URL like http://yourhost.local:9091/ to test Cockpit from another
+machine on your LAN.</p>
+
+<h2 id="pixel-tests">Pixel tests</h2>
+
+<p>Pixel tests in Cockpit ensure that updates of our dependencies or code changes
+don’t break the UI: for example slight changes of layout, padding, color and
+everything which isn’t easily spotted by a human. They also give us confidence
+that an update of our UI Framework doesn’t introduce changes in how Cockpit
+looks.</p>
+
+<p>Pixel tests make a screenshot of a selector and compare it to a known good
+reference image. if there is a difference, the test fails and a pixel
+difference is shown.</p>
+
+<p>This works as our tests run in the <a href="https://ghcr.io/cockpit-project/tasks">cockpit/tasks container</a>
+which pins the browser and font rendering so repeated runs provide the same
+pixels. To generate new pixels, this tasks container must be used; your own
+browser and font rendering software might generate different results. For more
+information read the <a href="https://cockpit-project.org/blog/pixel-testing.html">“introduction blog post”</a>.</p>
+
+<p>The test images are stored in a git submodule in the <code class="language-plaintext highlighter-rouge">test/reference</code> directory
+and be fetched with:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./test/common/pixel-tests update
+</code></pre></div></div>
+
+<p>As Cockpit tests under multiple distributions and it is not worth the effort to
+run pixel tests on every supported distribution we only run them for the
+image configured in <code class="language-plaintext highlighter-rouge">test/reference-image</code>.</p>
+
+<p>Our tests call <code class="language-plaintext highlighter-rouge">Browser.assert_pixels</code> at interesting and strategic places.
+This assertion method requires at least a CSS selector and an image title.
+Pixel tests are generated in five layouts by default: desktop, medium, mobile,
+dark and rtl.</p>
+
+<p>Take a screenshot of the content in <code class="language-plaintext highlighter-rouge">#detail-content</code>:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">browser</span><span class="p">.</span><span class="n">assert_pixels</span><span class="p">(</span><span class="s">"#detail-content"</span><span class="p">,</span> <span class="s">"filesystem"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Take a screenshot of the content in <code class="language-plaintext highlighter-rouge">#detail-content</code> and ignore all elements
+with a class <code class="language-plaintext highlighter-rouge">disk-stats</code> as they change per test run:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">browser</span><span class="p">.</span><span class="n">assert_pixels</span><span class="p">(</span><span class="s">"#detail-content"</span><span class="p">,</span> <span class="s">"filesystem"</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="p">[</span><span class="s">".disks-stats"</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p>Take a screenshot of the content in <code class="language-plaintext highlighter-rouge">#detail-content</code> and skip it for a
+specific layout as it generates unstable pixels:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">browser</span><span class="p">.</span><span class="n">assert_pixels</span><span class="p">(</span><span class="s">"#detail-content"</span><span class="p">,</span> <span class="s">"filesystem"</span><span class="p">,</span> <span class="n">skip_layouts</span><span class="o">=</span><span class="p">[</span><span class="s">"rtl"</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p>To update pixel tests, locally run the test in the current tasks container, or
+create a draft PR and let the tests run for <code class="language-plaintext highlighter-rouge">test/reference-image</code> and
+afterwards fetch the new pixels:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./test/common/pixel-tests fetch "https://cockpit-logs.us-east-1.linodeobjects.com/&lt;snip&gt;/log.html"
+</code></pre></div></div>
+
+<p>Finally, upload the new pixel tests and commit the newly generated submodule commit:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./test/common/pixel-tests push
+</code></pre></div></div>
+
+<p><strong>Note</strong> that you have to a part of the <a href="https://github.com/orgs/cockpit-project/teams/contributors">Contributors group</a>
+to push pixel tests.</p>
+
+<h2 id="test-configuration">Test Configuration</h2>
+
+<p>You can set these environment variables to configure the test suite:</p>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">TEST_OS</code>: The OS to run the tests in, like “fedora-coreos” or
+ “debian-testing”. See the “cockpit-project/cockpit” section in the
+ <a href="https://github.com/cockpit-project/bots/blob/main/lib/testmap.py">test map</a>
+ for all supported values. “fedora-44” is the default (<code class="language-plaintext highlighter-rouge">TEST_OS_DEFAULT</code> in
+ bots’ <a href="https://github.com/cockpit-project/bots/blob/main/lib/constants.py">constants.py</a>).</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">TEST_BROWSER</code>: What browser should be used for testing. Currently supported
+values are “chromium” and “firefox”. “chromium” is the default.</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">TEST_SHOW_BROWSER</code>: Set to run browser interactively. When not specified,
+browser is run in headless mode. When set to “pixels”, the browser will be
+resized to the exact dimensions that are used for pixel tests.</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">TEST_TIMEOUT_FACTOR</code>: Scale normal timeouts by given float value. Useful for
+slow/busy testbeds or architectures.</p>
+  </li>
+</ul>
+
+<p>See the <a href="https://cockpit-project.org/external/bots/README.html">bots documentation</a>
+for details about the tools and configuration for these.</p>
+
+<h2 id="convenient-test-vm-ssh-access">Convenient test VM SSH access</h2>
+
+<p>It is recommended to add a snippet like this to your <code class="language-plaintext highlighter-rouge">~/.ssh/config</code>. Then
+you can log in to test machines without authentication:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Match final host 127.0.0.2
+    User root
+    StrictHostKeyChecking no
+    UserKnownHostsFile /dev/null
+    CheckHostIp no
+    IdentityFile CHECKOUT_DIR/bots/machine/identity
+    IdentitiesOnly yes
+</code></pre></div></div>
+
+<p>You need to replace <code class="language-plaintext highlighter-rouge">CHECKOUT_DIR</code> with the actual directory where you cloned
+<code class="language-plaintext highlighter-rouge">cockpit.git</code>, or <code class="language-plaintext highlighter-rouge">bots.git</code> if you have a separate clone for that.</p>
+
+<p>Many cockpit developers take it a step further, and add an alias to
+allow typing <code class="language-plaintext highlighter-rouge">ssh c</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Host c
+    Hostname 127.0.0.2
+    Port 2201
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">final</code> keyword in the first rule will cause it to be checked (and matched)
+after the <code class="language-plaintext highlighter-rouge">Hostname</code> substitution in the <code class="language-plaintext highlighter-rouge">c</code> rule.</p>
+
+<h2 id="fast-developtest-iteration">Fast develop/test iteration</h2>
+
+<p>Each <code class="language-plaintext highlighter-rouge">image-prepare</code> invocation will always start from the pristine image and
+ignore the current overlay in <code class="language-plaintext highlighter-rouge">test/images</code>. It is thorough, but also rather
+slow. If you want to iterate on changing only JavaScript/HTML code, as opposed
+to the bridge or webserver, the whole build and test cycle can be done much
+faster.</p>
+
+<p>You always need to do at least one initial <code class="language-plaintext highlighter-rouge">test/image-prepare $TEST_OS</code> run.
+Afterwards it depends on the kind of test you want to run.</p>
+
+<h3 id="nondestructive-tests">Nondestructive tests</h3>
+
+<p>Many test methods or classes are marked as <code class="language-plaintext highlighter-rouge">@nondestructive</code>, meaning that
+they restore the state of the test VM enough that other tests can run
+afterwards. This is the fastest and most convenient situation for both
+iterating on the code and debugging failing tests.</p>
+
+<p>Start the prepared VM with <code class="language-plaintext highlighter-rouge">bots/vm-run $TEST_OS</code>. Note the SSH and cockpit
+ports. If this is the only running VM, it will have the ports in the
+examples below, otherwise the port will be different.</p>
+
+<p>Then start building the page you are working on
+<a href="/https://cockpit-project.org/external/source/HACKING#working-on-cockpits-session-pages">in watch and rsync mode</a>, e.g.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>RSYNC=c ./build.js -w users
+</code></pre></div></div>
+
+<p>(Assuming the <code class="language-plaintext highlighter-rouge">c</code> SSH alias from the previous section and first running VM).</p>
+
+<p>Then you can run a corresponding test against the running VM, with additional
+debug output:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>TEST_OS=... test/verify/check-users -t --machine 127.0.0.2:2201 --browser 127.0.0.2:9091 TestAccounts.testBasic
+</code></pre></div></div>
+
+<h3 id="destructive-tests">Destructive tests</h3>
+
+<p>Other tests need one or more fresh VMs. Instead of a full <code class="language-plaintext highlighter-rouge">test/image-prepare</code>
+run (which is slow), you can update the existing VM overlay with updated
+bundles. Start the build in watch mode, but without rsyncing, e.g.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./build.js -w storaged
+</code></pre></div></div>
+
+<p>and after each iteration, copy the new bundles into the VM overlay:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bots/image-customize -u dist:/usr/share/cockpit/ $TEST_OS
+</code></pre></div></div>
+
+<p>Then run the test as you would normally do, e.g.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>TEST_OS=... test/verify/check-storage-stratis -t TestStorageStratis.testBasic
+</code></pre></div></div>
+
+<p>Use <code class="language-plaintext highlighter-rouge">bots/vm-reset</code> to clean up all prepared overlays in <code class="language-plaintext highlighter-rouge">test/images</code>.</p>
+
+<h2 id="debugging-tests">Debugging tests</h2>
+
+<p>If you pass the <code class="language-plaintext highlighter-rouge">-s</code> (“sit on failure”) option to a test program, it
+will pause when a failure occurs so that you can log into the test
+machine and investigate the problem.</p>
+
+<p>A test will print out the commands to access it when it fails in this
+way. You can log into a running test-machine using ssh.  See the
+“Helpful tips” section below.</p>
+
+<p>You can also put calls to <code class="language-plaintext highlighter-rouge">sit()</code> into the tests themselves to stop them
+at strategic places.</p>
+
+<p>That way, you can run a test cleanly while still being able to make
+quick changes, such as adding debugging output to JavaScript.</p>
+
+<h2 id="guidelines-for-writing-tests">Guidelines for writing tests</h2>
+
+<p>If a test is not decorated with <code class="language-plaintext highlighter-rouge">@nondestructive</code>, it is OK for a test to
+destroy the test machine OS installation, or otherwise modify it without
+cleaning up.  For example, it is OK to remove all of <code class="language-plaintext highlighter-rouge">/etc</code> just to see what
+happens.  The next test will get a pristine test machine.</p>
+
+<p>Tests decorated with <code class="language-plaintext highlighter-rouge">@nondestructive</code> will all run against the same test
+machine. The nondestructive test should clean up after itself and restore the
+state of the machine, such that the next nondestructive test is not impacted.</p>
+
+<p>A fast running test suite is more important than independent,
+small test cases.</p>
+
+<p>Thus, it is OK for tests to be long.  Starting the test machine is so slow that
+we should run as many checks within a single session as make sense. Note that
+nondestructive tests do not suffer from this, and are much quicker.</p>
+
+<p>Still, within a long test, try to have independent sections, where
+each section returns the machine to more or less the state that it was
+in before the section.  This makes it easier to run these sections
+ad-hoc when doing incremental development.</p>
+
+<h2 id="coverage">Coverage</h2>
+
+<p>Every pull request will trigger a <code class="language-plaintext highlighter-rouge">$DEFAULT_OS/devel</code> scenario which creates a
+coverage report of the JavaScript code executed and writes comments about
+uncovered code in the pull request. The overall coverage percentage is recorded
+in prometheus for a subset of our projects and <a href="https://grafana-cockpit.apps.ocp.cloud.ci.centos.org/d/ci/cockpit-ci?orgId=1">visualized in Grafana</a>.</p>
+
+<p>To generate coverage locally for <code class="language-plaintext highlighter-rouge">TestApps</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export NODE_ENV=devel
+./build.js
+./test/image-prepare -q
+./test/common/run-tests --test-dir test/verify --coverage TestApps
+</code></pre></div></div>
+
+<p>Code which is impossible or very hard to test in our tests can be excluded from
+appearing in a pull request as comment by adding a <code class="language-plaintext highlighter-rouge">not-covered</code> comment with a
+short justification:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nx">cockpit</span><span class="p">.</span><span class="nx">script</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="p">{</span> <span class="na">superuser</span><span class="p">:</span> <span class="dl">"</span><span class="s2">try</span><span class="dl">"</span><span class="p">,</span> <span class="na">err</span><span class="p">:</span> <span class="dl">"</span><span class="s2">message</span><span class="dl">"</span> <span class="p">})</span>
+              <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">);</span> <span class="c1">// not-covered: OS error</span>
+</code></pre></div></div>
+
+<h2 id="helpful-tips">Helpful tips</h2>
+
+<p>For web access, if you’d like to avoid Chromium (or Chrome) prompting
+about certificate errors while connecting to localhost, you can change
+the following setting:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chrome://flags/#allow-insecure-localhost
+</code></pre></div></div>
+
+</article>
+  </div>
+</div>
+
+<footer class="footer-cockpit" role="contentinfo">
+    <p class="copyright">
+        
+
+        © 2013 - 2026
+
+        —
+
+        Cockpit is a <a href="https://redhat.com/">Red Hat</a> sponsored
+        free software project released under the
+        <a href="https://opensource.org/licenses/lgpl-2.1.php">LGPL v2.1+</a>
+    </p>
+
+    <p class="policy">
+        <a href="https://cockpit-project.org/privacy.html">
+            Privacy Policy
+        </a>
+        —
+        <a href="https://cockpit-project.org/code-of-conduct.html">
+            Code of Conduct
+        </a>
+    </p>
+
+    <p class="edit-page"><a href="https://github.com/cockpit-project/cockpit/edit/master/test/README.md">Edit page on GitHub</a>
+</p>
+</footer>
+
+
+      
+    
+  </body>
+
+</html>

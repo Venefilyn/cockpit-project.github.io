@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html class=" -path-external-wiki-Workflow" lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Workflow &mdash; Cockpit Project</title>
+
+    <link rel="canonical" href="https://github.comhttps://cockpit-project.org/external/wiki/Workflow">
+
+    <link rel="manifest" href="https://cockpit-project.org/manifest.json">
+
+    <meta name="description" content="Cockpit makes it easy to administer your Linux servers via a web browser.
+">
+    <meta property="og:site_name" content="Cockpit Project">
+    <meta property="og:title" content="Workflow">
+    <meta property="og:description" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.comhttps://cockpit-project.org/external/wiki/Workflow">
+    <meta name="author" content="">
+    <meta property="og:image" content="https://cockpit-project.org/images/site/opengraph.png">
+    <meta name="theme-color" content="#3e5375">
+
+    <!-- Favicon -->
+    
+    
+      <link rel="shortcut icon" href="https://cockpit-project.org/images/favicon.png" type="image/png">
+    
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://cockpit-project.org/assets/main.js"></script>
+    <link rel="stylesheet" href="https://cockpit-project.org/assets/main.css">
+  </head>
+
+
+  <body id="page-top">
+    
+    
+      
+      
+      
+      
+
+      
+        
+        <header class="masthead hidden-print" id="branding" role="banner">
+
+  <section class="hgroup">
+    
+    
+
+    
+      <h1><a href="https://cockpit-project.org/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://cockpit-project.org/images/site/cockpit-logo.svg"></a></h1>
+    
+
+    
+  </section>
+
+  
+
+    <div class="nav-wrap">
+      
+
+
+  <nav role="navigation" class="">
+
+
+  <ul class="nav-menu" role="menubar">
+    
+      
+
+      <li class="nav--home" role="menuitem">
+        
+          <a href="https://cockpit-project.org/"><span class="label">Home</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--install" role="menuitem">
+        
+          <a href="https://cockpit-project.org/running.html"><span class="label">Install</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--documentation" role="menuitem">
+        
+          <a href="https://cockpit-project.org/documentation.html"><span class="label">Documentation</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--contribute" role="menuitem">
+        
+          <a href="https://cockpit-project.org/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--blog" role="menuitem">
+        
+          <a href="https://cockpit-project.org/blog/"><span class="label">Blog</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--search" role="menuitem">
+        
+          <a href="https://cockpit-project.org/search.html"><span class="label">Search</span></a>
+        
+        
+      </li>
+    
+
+  </ul>
+
+
+  </nav>
+
+
+    </div>
+
+  
+
+</header>
+
+
+<div class="page-content" id="page-wrap" role="main">
+  <div class="wrapper">
+    <header class="post-header">
+  <h2 class="post-title">Workflow</h2>
+</header>
+
+<article class="post-content">
+  <p>These are the rules we try to follow when working on Cockpit.</p>
+
+<h2 id="review-criteria">Review Criteria</h2>
+<ul>
+  <li>
+    <p>Each commit should be easy to read.</p>
+
+    <p>Commits are for people to read, so try to tell the story of a new feature clearly.  For example, refactor the code in a preparatory commit to make the actual change in the next commit easier to understand.  Try to separate changes to separate pieces of the code base.</p>
+
+    <p>Historical accuracy of how you figured out the final form of a change is usually not very interesting, but it doesn’t need to be totally hidden of course.  If rewriting historical commits is tricky and has a high risk of introducing bugs, don’t do it.</p>
+  </li>
+  <li>
+    <p>Each commit should adhere to the <a href="https://github.com/cockpit-project/cockpit/wiki/Cockpit-Coding-Guidelines">Cockpit Coding Guidelines</a></p>
+  </li>
+  <li>
+    <p>The tip of main must always pass the test suites</p>
+
+    <p>A fleet of robots run the test suites for each pull request.  This includes unit tests, integration tests, and browser-compatibility tests.</p>
+
+    <p>The integration tests performed are slow and brittle, and not all failures are caused by bugs in the pull request, but don’t just blame every failure on the crappy tests.</p>
+  </li>
+  <li>Whenever a pull request changes the API or makes other significant changes, the documentation needs to be updated. Documentation locations that require manual updating include:
+    <ul>
+      <li><a href="https://github.com/cockpit-project/cockpit/blob/main/README.md">the top-level README.md</a> about the most important user-facing information about Cockpit</li>
+      <li><a href="https://cockpit-project.org/external/source/HACKING.html">HACKING.md</a> for development information</li>
+      <li><a href="https://github.com/cockpit-project/cockpit/blob/main/test/README.md">test/README.md</a> for how to set up and run the integration tests</li>
+      <li>the <a href="https://github.com/cockpit-project/cockpit/tree/main/doc">documentation tree</a>, used for <a href="https://cockpit-project.org/guide/latest/">the guide</a></li>
+    </ul>
+  </li>
+  <li>
+    <p><a href="#screenshot">Screenshots</a> and/or <a href="#video">videos</a> should be included in every pull request that causes visual changes.</p>
+
+    <p>Having visuals communicates changes, helps with design reviews, and provides a way to highlight features in the release notes on Cockpit-project.org.</p>
+
+    <p>When a pull request changes, it’s a good idea to include a new screenshot or video to reflect the current state.</p>
+  </li>
+</ul>
+
+<h2 id="git-related--merging-conventions">Git-related / Merging Conventions</h2>
+
+<ul>
+  <li>
+    <p>No merge commits on main.</p>
+
+    <p>See https://sandofsky.com/blog/git-workflow.html for the motivation.  In brief, merge commits are confusing when rolling back history to find the commit that introduced a particular bug/feature.</p>
+
+    <p>Thus, we normally use “Rebase and Merge” when merging pull requests.</p>
+  </li>
+  <li>
+    <p>Each commit on main must be reviewed.</p>
+
+    <p>We trust that all information about the review process will be available from GitHub, thus we don’t add Reviewed-By lines or similar markers to the commit messages. We also trust that GitHub can find the pull request for a given SHA1 by itself.</p>
+  </li>
+  <li>
+    <p>The subject of a commit should start with a short <code class="language-plaintext highlighter-rouge">&lt;topic&gt;: </code> prefix.</p>
+
+    <p>This is usually the package name for frontend code, such as <code class="language-plaintext highlighter-rouge">shell</code>, <code class="language-plaintext highlighter-rouge">base</code>, or <code class="language-plaintext highlighter-rouge">systemd</code>, or some other suitable directory name.  Check the existing commits for examples.</p>
+  </li>
+  <li>
+    <p>If a commit fixes an issue, it should have a <code class="language-plaintext highlighter-rouge">Fixes #NNN</code> line.</p>
+  </li>
+  <li>
+    <p>Force pushing to main or other release branches is not allowed.</p>
+
+    <p>The only way to get commits onto main is to rebase/merge a pull request onto it. If you regret merging a pull request, revert its changes with a new pull request.</p>
+  </li>
+  <li>
+    <p>The main cockpit-project/cockpit repository should not have any work-in-progress branches.</p>
+
+    <p>Otherwise, there will be a huge number of these branches over time.  We could delete them, but that throws away information, and people would still have them in their local clones.</p>
+
+    <p>Instead, each developer (including the core developers) should make his/her own clone and submit pull requests from there.  This makes it slightly harder to take over a pull request from another developer, but it can be done.</p>
+  </li>
+  <li>
+    <p>A pull request in “Draft” state is not yet ready for serious review.</p>
+
+    <p>You can make those pull requests to more visibly share some of your work with the rest of the team.</p>
+  </li>
+  <li>
+    <p>Github’s ‘Request changes’ feature will be used to mark pull requests that have been reviewed and need action from the submitter.</p>
+
+    <p>This includes changes to the code, or just replies to comments.  Once you have done all that work, you should dismiss the review and comment to indicate that it is ready for review again.</p>
+  </li>
+  <li>
+    <p>A pull request is updated with copious rewrites and rebases until it has a small number of ‘perfect’ commits.</p>
+
+    <p>These commits should be fit for main and the pull request is merged by rebasing these commits onto main.</p>
+  </li>
+  <li>
+    <p>A pull request that depends on other pull requests declares that in its description.</p>
+
+    <p>When the commits of a pull request sit on top of the commits of another pull request, it’s not easy to see from github where one pull request ends and the other begins.  Thus, it is import to note dependencies explicitly so that the reviewer is less likely to get confused.</p>
+  </li>
+</ul>
+
+<h2 id="merge-workflow">Merge Workflow</h2>
+
+<p>We merge requests from the GitHub Web UI with the “Rebase and Merge” button.</p>
+
+<h2 id="screenshot">Screenshot</h2>
+
+<p>Screenshots should be in a PNG format.</p>
+
+<p>In some cases, you’ll want a full Cockpit page. In others, you may want to crop to the specific section, dialog, or feature you’re working on. Some of the tools (like Firefox Screenshots) allow you to crop to the area before saving. Otherwise, you may consider using an additional tool like GIMP to crop the image afterward.</p>
+
+<h3 id="firefox">Firefox</h3>
+
+<p>Firefox has two built-in ways to take screenshots.</p>
+<ol>
+  <li><a href="https://screenshots.firefox.com/">Firefox Screenshots</a> is integrated in the URL bar, in the <code class="language-plaintext highlighter-rouge">…</code> dropdown by default. (You can right click on the option and add it to always be in the URL bar if you take a lot of screenshots.)
+    <ul>
+      <li>When running the screenshot tool, it lets you screenshot a portion of the page (with an interactive, resizable area that lets you focus on a specific element), the visible area of a page, or the full page (if the page scrolls off the area — which shouldn’t be an issue in Cockpit itself).</li>
+      <li>Once you’re happy with the screenshot, click the down arrow to save the screenshot to your computer (in the Downloads folder). It will be in a PNG format, perfect for uploading to GitHub in the comment form of an issue or pull request.</li>
+    </ul>
+  </li>
+  <li>Firefox Development Tools
+    <ul>
+      <li>If it’s not on already, you might need to visit the DevTools configuration area and toggle the screenshot tool on.</li>
+      <li>Clicking on the camera icon will screenshot the whole page and save it to ~/Downloads/ with no UI. If you’re already in development tools, it’s a quick way to take a screenshot for uploading later. Depending on the context, might need to be cropped, or it might already be perfect for posting.</li>
+      <li>Firefox’s responsive view includes this same screenshot tool in the mobile view switcher.</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="chrome">Chrome</h3>
+
+<p>Chrome does not have an easy-to-find screenshot tool built-in by default. It does, however, have hidden developer functionality to take a screenshot:</p>
+
+<ol>
+  <li>Press “F12” (or hit <code class="language-plaintext highlighter-rouge">Ctrl</code>+<code class="language-plaintext highlighter-rouge">Shift</code>+<code class="language-plaintext highlighter-rouge">I</code>) to activate developer tools, if not active already.</li>
+  <li>Hit <code class="language-plaintext highlighter-rouge">Ctrl</code>+<code class="language-plaintext highlighter-rouge">Alt</code>+<code class="language-plaintext highlighter-rouge">P</code> to bring up developer tool action palette.</li>
+  <li>Start to type “screenshot”</li>
+  <li>Select full size (full page), node (selected element), or screenshot (visible).</li>
+  <li>Chrome saves the screenshot in ~/Downloads/</li>
+</ol>
+
+<p>Also, Chrome has a tricky way to get a vector screenshot. This is super-useful for mockups and experimentation.</p>
+
+<ol>
+  <li>Open developer tools (F12, just like any other browser).</li>
+  <li>Click on the dev tools’ ⠇ menu next to the × button.</li>
+  <li>Choose “More tools”.</li>
+  <li>Select “Rendering”.</li>
+  <li>Scroll down to “Emulate CSS media”.</li>
+  <li>Choose “screen” in the dropdown.</li>
+  <li>Print the page. (<code class="language-plaintext highlighter-rouge">Ctrl</code>+<code class="language-plaintext highlighter-rouge">P</code> or select “Print…” from the browser’s ⠇ menu in the top-right.)</li>
+  <li>Make the “Destination” set to “Save as PDF”.</li>
+  <li>Ensure layout is “Landscape” (in most cases).</li>
+  <li>Click on “More settings”.</li>
+  <li>Experiment with paper size (usually A4 or A3).</li>
+  <li>Set “Margins” to “None”.</li>
+  <li>Be sure to have “Background graphics” checked.</li>
+  <li>Click the “Save” button.</li>
+  <li>Choose a name and place for your PDF. (The name should default to the title of the page. The location is probably “Downloads” by default.)</li>
+  <li>You can open the PDF in Inkscape to make an SVG, modify the graphics, export as a PNG, or anything else you’d like.</li>
+</ol>
+
+<h3 id="gnome-screenshot">GNOME Screenshot</h3>
+
+<p>GNOME itself has two screenshot tools.</p>
+
+<ol>
+  <li>Hit the <code class="language-plaintext highlighter-rouge">PrtScn</code> key (this is customizable, in case your keyboard doesn’t have the key by default). A full screenshot is saved in your ~/Pictures/ folder as a PNG. This screenshot will most likely need to be cropped in the GIMP or a similar tool.</li>
+  <li>Type “Screenshot” when in overview mode and the screenshot tool will show up. It lets you grab the whole screen, current window, or select an area to grab. You can add a delay, include the cursor, or apply an effect. When done, you can save the screenshot or copy it to the clipboard (to paste into a tool like GIMP or Inkscape).</li>
+</ol>
+
+<h3 id="gimp">GIMP</h3>
+
+<p>GIMP has the ability to take screenshots under the file menu. It has options similar to the GNOME Screenshot tool.</p>
+
+<h2 id="video">Video</h2>
+
+<p>Install video applications as Flatpaks from Flathub, to ensure the video output works on your system. (Distribution packages sometimes have issues with various codecs and other dependencies.)</p>
+
+<h3 id="recording">Recording</h3>
+
+<p>Be sure to check your desktop to make sure there is no personal information onscreen or odd background tabs in your browser.</p>
+
+<ul>
+  <li>GNOME has a built-in screen recorder: <code class="language-plaintext highlighter-rouge">Ctrl</code>+<code class="language-plaintext highlighter-rouge">Alt</code>+<code class="language-plaintext highlighter-rouge">Shift</code>+<code class="language-plaintext highlighter-rouge">R</code> toggles the recording state. Your full video output is captured, regardless of the resolution or number of external monitors. Videos are saved in WebM format in the Videos folder in your home directory. Resulting videos probably need to be cropped &amp; edited. This works on Wayland and X11.</li>
+  <li><a href="https://flathub.org/apps/details/com.uploadedlobster.peek">Peek</a> can record an arbitrary part of a screen, in both X11 and also on Wayland. Be sure to change the format from GIF to either MP4 or WebM (both can be edited in a video editor). In the preferences, change the framerate to 30.</li>
+  <li><a href="http://www.maartenbaert.be/simplescreenrecorder/">SimpleScreenRecorder</a> works great on X11, but does not work on Wayland.</li>
+</ul>
+
+<h3 id="editing">Editing</h3>
+
+<ul>
+  <li><a href="https://flathub.org/apps/details/org.kde.kdenlive">Kdenlive</a> is a full-featured editor.</li>
+  <li><a href="https://flathub.org/apps/search/video%20editor">Flathub also has several other video editors</a> available. Most are adequate for simple editing.</li>
+</ul>
+
+<h3 id="audio">Audio</h3>
+
+<p>In most cases, videos should have speech indicating what is happening. In everything but the quickest demos, you should have good quality audio.</p>
+
+<p>Audio quality is important.</p>
+<ul>
+  <li>Think about what you’re going to talk about in advance</li>
+  <li>Try to clearly enunciate words</li>
+  <li>Record in a quiet environment</li>
+  <li>Use a good microphone</li>
+  <li>Consider re-recording audio after the video, when you’re not trying to multitask by showing the feature and speaking — a good video editing tool lets you swap out the audio tracks</li>
+</ul>
+
+<p>If you do not have an external microphone that works with your laptop, you might want to rely on your phone’s built-in mic and swap out the audio track in the video editor.</p>
+
+<p>Audio quality can be ranked (in order of best to worst):</p>
+<ol>
+  <li>Dedicated studio condenser microphone. (<a href="https://smile.amazon.de/gp/product/B01MQYWKYY/">A not-so-bad one can be purchased for €35</a> — be sure to use the USB adapter if you get it.)</li>
+  <li>Phone’s built-in microphone (as it’s optimized for speech quality)</li>
+  <li>Webcam microphone</li>
+  <li>Headset/headphones/earbuds microphone (but the quality varies: sometimes it’s great, sometimes it’s awful)</li>
+  <li>Laptop’s built-in microphone</li>
+</ol>
+
+<p><em>All</em> of the above options will have a background hiss or background noise, unless you go with a higher-end dedicated microphone. Sometimes this comes from line noise; other times it may pick up noise from nearby electronics. Nearly every audio file benefits from processing in a tool like Audacity.</p>
+
+<p>Cleaning up the audio track is a good idea. <a href="https://flathub.org/apps/details/org.audacityteam.Audacity">Audacity</a> can process audio to <a href="https://fedoramagazine.org/audacity-quick-tip-quickly-remove-background-noise/">remove background noise</a> and normalize the levels. While this works with audio recorded on a laptop’s built-in microphone too, the principle of GIGO (garbage-in, garbage-out) still applies, so try to use a higher quality recording device.</p>
+
+</article>
+  </div>
+</div>
+
+<footer class="footer-cockpit" role="contentinfo">
+    <p class="copyright">
+        
+
+        © 2013 - 2026
+
+        &mdash;
+
+        Cockpit is a <a href="https://redhat.com/">Red Hat</a> sponsored
+        free software project released under the
+        <a href="https://opensource.org/licenses/lgpl-2.1.php">LGPL v2.1+</a>
+    </p>
+
+    <p class="policy">
+        <a href="https://cockpit-project.org/privacy.html">
+            Privacy Policy
+        </a>
+        &mdash;
+        <a href="https://cockpit-project.org/code-of-conduct.html">
+            Code of Conduct
+        </a>
+    </p>
+
+    <p class="edit-page"><a href="https://github.com/cockpit-project/cockpit/wiki/Workflow/_edit">Edit page on GitHub</a>
+</p>
+</footer>
+
+
+      
+    
+  </body>
+
+</html>

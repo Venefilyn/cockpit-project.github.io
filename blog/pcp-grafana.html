@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html class=" -path-blog-pcp-grafana.html" lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Setting up PCP and Grafana metrics with Cockpit &mdash; Cockpit Project</title>
+
+    <link rel="canonical" href="https://github.comhttps://cockpit-project.org/blog/pcp-grafana.html">
+
+    <link rel="manifest" href="https://cockpit-project.org/manifest.json">
+
+    <meta name="description" content="Cockpit makes it easy to administer your Linux servers via a web browser.
+">
+    <meta property="og:site_name" content="Cockpit Project">
+    <meta property="og:title" content="Setting up PCP and Grafana metrics with Cockpit">
+    <meta property="og:description" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.comhttps://cockpit-project.org/blog/pcp-grafana.html">
+    <meta name="author" content="Martin Pitt">
+    <meta property="og:image" content="https://cockpit-project.org/images/site/opengraph.png">
+    <meta name="theme-color" content="#3e5375">
+
+    <!-- Favicon -->
+    
+    
+      <link rel="shortcut icon" href="https://cockpit-project.org/images/favicon.png" type="image/png">
+    
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://cockpit-project.org/assets/main.js"></script>
+    <link rel="stylesheet" href="https://cockpit-project.org/assets/main.css">
+  </head>
+
+
+  <body id="page-top">
+    
+    
+      
+      
+      
+      
+
+      
+        
+        <header class="masthead hidden-print" id="branding" role="banner">
+
+  <section class="hgroup">
+    
+    
+
+    
+      <h1><a href="https://cockpit-project.org/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://cockpit-project.org/images/site/cockpit-logo.svg"></a></h1>
+    
+
+    
+  </section>
+
+  
+
+    <div class="nav-wrap">
+      
+
+
+  <nav role="navigation" class="">
+
+
+  <ul class="nav-menu" role="menubar">
+    
+      
+
+      <li class="nav--home" role="menuitem">
+        
+          <a href="https://cockpit-project.org/"><span class="label">Home</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--install" role="menuitem">
+        
+          <a href="https://cockpit-project.org/running.html"><span class="label">Install</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--documentation" role="menuitem">
+        
+          <a href="https://cockpit-project.org/documentation.html"><span class="label">Documentation</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--contribute" role="menuitem">
+        
+          <a href="https://cockpit-project.org/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--blog" role="menuitem">
+        
+          <a href="https://cockpit-project.org/blog/"><span class="label">Blog</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--search" role="menuitem">
+        
+          <a href="https://cockpit-project.org/search.html"><span class="label">Search</span></a>
+        
+        
+      </li>
+    
+
+  </ul>
+
+
+  </nav>
+
+
+    </div>
+
+  
+
+</header>
+
+
+<div class="page-content" id="page-wrap" role="main">
+  <div class="wrapper">
+    
+
+
+
+
+
+
+
+
+
+
+
+<article class="post hentry" id="-blog-pcp-grafana.html">
+  <header class="post-header">
+    <h2 class="post-title entry-title">
+      
+        Setting up PCP and Grafana metrics with Cockpit
+      
+    </h2>
+    <header class="post-meta">
+      
+        
+          <span class="byline">
+            by
+            <span class="author vcard">
+              <a href="https://cockpit-project.org/blog/authors#pitti">Martin Pitt</a>
+            </span>
+          </span>
+        
+        –
+      
+      <time class="published" datetime="1">
+        Jul 5, 2021
+      </time>
+
+      
+        
+        
+        
+
+        <div class="category">
+          
+            category: howto
+          
+        </div>
+      
+    </header>
+  </header>
+
+  
+  
+  
+  
+
+  <section class="post-content entry-content">
+    
+      <p>Finding performance problems is a common troubleshooting activity. Monitoring the usage of CPU, memory, network, and other resources helps administrators to spot patterns when unusual resource usage occurs.</p>
+
+<p>Cockpit can help. Let’s take a look!</p>
+
+<h2 id="starting-point">Starting point</h2>
+
+<p>Let’s start with a pristine Fedora 34 system which has at least <a href="https://cockpit-project.org/blog/cockpit-247.html">Cockpit 247</a>. Everything here works in principle on CentOS/RHEL 8, Debian, and Ubuntu as well, but at the time of writing these distributions still have an older Cockpit version. Let’s make sure that Cockpit is installed, enabled, and that the port is open in the firewall, as <a href="https://cockpit-project.org/running.html">documented on the Install page</a>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># rpm -q cockpit
+cockpit-247-1.fc34.x86_64
+# systemctl enable --now cockpit.socket
+# firewall-cmd --permanent --add-service cockpit
+# firewall-cmd --reload
+</code></pre></div></div>
+
+<h2 id="metrics-in-cockpit-for-the-local-machine">Metrics in Cockpit for the local machine</h2>
+
+<p>You can now log into Cockpit on <a href="https://localhost:9090">https://localhost:9090</a>, or the corresponding host name of the system which you want to troubleshoot. The Overview page shows a very brief CPU/memory usage with a “View Details and history” link:</p>
+
+<p><img loading="lazy" src="https://cockpit-project.org/images/overview-card-usage.png" alt="Overview usage card" /></p>
+
+<p>That link leads you to the Metrics page, which in a minimal installation only shows current metrics:</p>
+
+<p><img loading="lazy" src="https://cockpit-project.org/images/metrics-page-no-pcp.png" alt="Metrics page without PCP" /></p>
+
+<p>For spotting performance problems in the past, we need to enable historical metrics, which are provided by <a href="https://pcp.io/">Performance Co-Pilot</a>, aka. “<abbr title="Performance Co-Pilot">PCP</abbr>”.</p>
+
+<p>The “Install cockpit-pcp” button installs the necessary support for this, and asks you to log in again (the newly-installed cockpit-pcp support cannot be used in an existing session). After that, the Metrics page will start to show historical metrics. Combined with Cockpit’s other pages such as “Services”, “Logs”, or “Podman containers”, this is a very powerful tool to find performance related problems:</p>
+
+<iframe width="960" height="720" src="https://www.youtube-nocookie.com/embed/8_NLoJBjay4?rel=0" frameborder="0" allowfullscreen=""></iframe>
+
+<h2 id="metrics-of-multiple-machines">Metrics of multiple machines</h2>
+
+<p>But what if you want to monitor not just one machine, but your whole fleet?</p>
+
+<p>Cockpit used to have a “Dashboard” to see some basic resource usage of up to twenty machines, but this was very inflexible, inefficient, insecure, lacking important features such as alerting, and was bound to a running Cockpit session. For these reasons, the Dashboard was removed in <a href="https://cockpit-project.org/blog/cockpit-234.html">Cockpit 234</a>.</p>
+
+<p>One of today’s industry standard solutions for visualizing metrics is <a href="https://grafana.com/">Grafana</a>; it doesn’t have above limitations. <abbr title="Performance Co-Pilot">PCP</abbr> offers a <a href="https://grafana-pcp.readthedocs.io/en/latest/">Grafana plugin</a> to provide the machine’s metrics to a local or remote Grafana installation.</p>
+
+<h2 id="setup-of-monitored-machines">Setup of monitored machines</h2>
+
+<p>Setting up the machines for sending metrics to Grafana involves a couple of steps, which the most recent Cockpit version can do automatically for you:</p>
+
+<ul>
+  <li>Install <abbr title="Performance Co-Pilot">PCP</abbr> and enable <code class="language-plaintext highlighter-rouge">pmlogger.service</code> to start data collection. This already happened with the “Install cockpit-pcp” button above.</li>
+  <li>Enable <code class="language-plaintext highlighter-rouge">pmproxy.service</code>, the <abbr title="Performance Co-Pilot">PCP</abbr> component which exposes a read-only metrics query API to the network.</li>
+  <li>pmproxy needs the <a href="https://valkey.io/">Valkey</a> or <a href="https://redis.io/">Redis</a> database, so the <code class="language-plaintext highlighter-rouge">valkey</code> or <code class="language-plaintext highlighter-rouge">redis</code> package needs to be installed, and the service configured to start with <code class="language-plaintext highlighter-rouge">pmproxy.service</code>.</li>
+  <li>pmproxy opens a network port (44322 by default), which needs to be opened in the firewall for the zone that contains the Grafana machine.</li>
+</ul>
+
+<p>The “Metrics settings” button at the top of the page opens a dialog where you can enable “Export to network”:</p>
+
+<p><img loading="lazy" src="https://cockpit-project.org/images/metrics-settings-2.png" alt="Metrics settings with enabled pmproxy" /></p>
+
+<p>This will let you confirm any extra packages that need to be installed (such as valkey), and configure pmproxy. After that, you may get an alert for opening the corresponding firewall service (if it is not yet open in any zone):</p>
+
+<p><img loading="lazy" src="https://cockpit-project.org/images/metrics-fw-sel.png" alt="pmproxy firewall alert" /></p>
+
+<p>Repeat this on all the machines that you want to monitor, or use a configuration management tool like <a href="https://www.ansible.com/">Ansible</a> to <a href="https://cockpit-project.org/guide/latest/feature-pcp.html">automate these steps</a>.</p>
+
+<h2 id="grafana-setup">Grafana setup</h2>
+
+<p>Now that the monitored machines all export Grafana-compatible <abbr title="Performance Co-Pilot">PCP</abbr> performance metrics, you need to <a href="https://grafana.com/docs/grafana/latest/installation/">install Grafana itself</a>. This can happen on one of the existing servers, but it is recommend to install Grafana on a separate machine, or deploy it in <a href="https://grafana.com/docs/grafana/latest/installation/kubernetes/">Kubernetes</a>.</p>
+
+<p>On Fedora you can just run the distribution package:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dnf install grafana grafana-pcp
+systemctl enable --now grafana-server
+</code></pre></div></div>
+
+<p>After that you should see Grafana’s login page on <a href="http://localhost:3000">http://localhost:3000</a>, or again, the corresponding Grafana host name. Log in as admin/admin for the first time, provide a real password, and you should see the start page:</p>
+
+<p><img loading="lazy" src="https://cockpit-project.org/images/grafana-overview.png" alt="Grafana Overview" /></p>
+
+<p>In the left menu, select the Cog wheel (Configuration) → Plugins, and enable the <abbr title="Performance Co-Pilot">PCP</abbr> plugin:</p>
+
+<p><img loading="lazy" src="https://cockpit-project.org/images/grafana-enable-pcp-plugin.png" alt="Grafana enable PCP plugin" /></p>
+
+<p>Now select Configuration → Data sources, and add a “<abbr title="Performance Co-Pilot">PCP</abbr> Redis” data source:</p>
+
+<p><img loading="lazy" src="https://cockpit-project.org/images/grafana-add-data-source.png" alt="Grafana Add PCP Redis data source" /></p>
+
+<p>Normally you just need to enter the host name of the above machine which we configured for <abbr title="Performance Co-Pilot">PCP</abbr> data export:</p>
+
+<p><img loading="lazy" src="https://cockpit-project.org/images/grafana-add-data-source-details.png" alt="Grafana Add PCP data source details" /></p>
+
+<p>After clicking “Save &amp; Test” you should get a “Datasource is working” confirmation. Data sources usually come with some default dashboards for an easy start. Switch to the “Dashboards” tab of that same page and import the “Host Overview”:</p>
+
+<p><img loading="lazy" src="https://cockpit-project.org/images/grafana-pcp-dashboard-import.png" alt="Grafana PCP dashboard import" /></p>
+
+<p>That’s it! You now have a dashboard with a <em>lot</em> of panels for all sorts of interesting metrics. The screenshot just shows the top ones:</p>
+
+<p><img loading="lazy" src="https://cockpit-project.org/images/grafana-pcp-dashboard.png" alt="Grafana PCP dashboard" /></p>
+
+<p>You can switch between multiple hosts, set up alerting, or adjust the panels to your liking.</p>
+
+<p>Happy performance debugging!</p>
+
+
+    
+  </section>
+
+  
+
+</article>
+
+
+  
+  <div class="author-info author-card" id="author-info">
+    <h2>About Martin Pitt</h2>
+    <div class="author-blurb">
+      
+
+
+      <div class="more-link">
+        <a href="https://cockpit-project.org/blog/authors#pitti">
+          View all posts by Martin Pitt »
+        </a>
+      </div>
+
+      
+    </div>
+  </div>
+
+
+
+  </div>
+</div>
+
+<footer class="footer-cockpit" role="contentinfo">
+    <p class="copyright">
+        
+
+        © 2013 - 2026
+
+        &mdash;
+
+        Cockpit is a <a href="https://redhat.com/">Red Hat</a> sponsored
+        free software project released under the
+        <a href="https://opensource.org/licenses/lgpl-2.1.php">LGPL v2.1+</a>
+    </p>
+
+    <p class="policy">
+        <a href="https://cockpit-project.org/privacy.html">
+            Privacy Policy
+        </a>
+        &mdash;
+        <a href="https://cockpit-project.org/code-of-conduct.html">
+            Code of Conduct
+        </a>
+    </p>
+
+    <p class="edit-page"><a
+      href="https://github.com/Venefilyn/cockpit-project.github.io/edit/main/_posts/2021-07-05-pcp-grafana.md">Edit page on GitHub</a>
+</p>
+</footer>
+
+
+      
+    
+  </body>
+
+</html>

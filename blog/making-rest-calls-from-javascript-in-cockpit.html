@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html class=" -path-blog-making-rest-calls-from-javascript-in-cockpit.html" lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Making REST calls from Javascript in Cockpit &mdash; Cockpit Project</title>
+
+    <link rel="canonical" href="https://github.comhttps://cockpit-project.org/blog/making-rest-calls-from-javascript-in-cockpit.html">
+
+    <link rel="manifest" href="https://cockpit-project.org/manifest.json">
+
+    <meta name="description" content="Cockpit makes it easy to administer your Linux servers via a web browser.
+">
+    <meta property="og:site_name" content="Cockpit Project">
+    <meta property="og:title" content="Making REST calls from Javascript in Cockpit">
+    <meta property="og:description" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.comhttps://cockpit-project.org/blog/making-rest-calls-from-javascript-in-cockpit.html">
+    <meta name="author" content="">
+    <meta property="og:image" content="https://cockpit-project.org/images/site/opengraph.png">
+    <meta name="theme-color" content="#3e5375">
+
+    <!-- Favicon -->
+    
+    
+      <link rel="shortcut icon" href="https://cockpit-project.org/images/favicon.png" type="image/png">
+    
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://cockpit-project.org/assets/main.js"></script>
+    <link rel="stylesheet" href="https://cockpit-project.org/assets/main.css">
+  </head>
+
+
+  <body id="page-top">
+    
+    
+      
+      
+      
+      
+
+      
+        
+        <header class="masthead hidden-print" id="branding" role="banner">
+
+  <section class="hgroup">
+    
+    
+
+    
+      <h1><a href="https://cockpit-project.org/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://cockpit-project.org/images/site/cockpit-logo.svg"></a></h1>
+    
+
+    
+  </section>
+
+  
+
+    <div class="nav-wrap">
+      
+
+
+  <nav role="navigation" class="">
+
+
+  <ul class="nav-menu" role="menubar">
+    
+      
+
+      <li class="nav--home" role="menuitem">
+        
+          <a href="https://cockpit-project.org/"><span class="label">Home</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--install" role="menuitem">
+        
+          <a href="https://cockpit-project.org/running.html"><span class="label">Install</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--documentation" role="menuitem">
+        
+          <a href="https://cockpit-project.org/documentation.html"><span class="label">Documentation</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--contribute" role="menuitem">
+        
+          <a href="https://cockpit-project.org/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--blog" role="menuitem">
+        
+          <a href="https://cockpit-project.org/blog/"><span class="label">Blog</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--search" role="menuitem">
+        
+          <a href="https://cockpit-project.org/search.html"><span class="label">Search</span></a>
+        
+        
+      </li>
+    
+
+  </ul>
+
+
+  </nav>
+
+
+    </div>
+
+  
+
+</header>
+
+
+<div class="page-content" id="page-wrap" role="main">
+  <div class="wrapper">
+    
+
+
+
+
+
+
+
+
+
+
+
+<article class="post hentry" id="-blog-making-rest-calls-from-javascript-in-cockpit.html">
+  <header class="post-header">
+    <h2 class="post-title entry-title">
+      
+        Making REST calls from Javascript in Cockpit
+      
+    </h2>
+    <header class="post-meta">
+      
+      <time class="published" datetime="5">
+        Jul 10, 2015
+      </time>
+
+      
+        
+        
+        
+
+        <div class="category">
+          
+            category: <a href="https://cockpit-project.org/blog/category/tutorial.html">tutorial</a>
+          
+        </div>
+      
+    </header>
+  </header>
+
+  
+  
+  
+  
+
+  <section class="post-content entry-content">
+    
+      <p class="note"><em>Note: This post has been updated for changes in Cockpit 0.90 and later.</em></p>
+
+<p><a href="https://cockpit-project.org">Cockpit is a user interface for servers</a>. In <a href="https://cockpit-project.org/blog/creating-plugins-for-the-cockpit-user-interface.html">earlier</a> <a href="https://cockpit-project.org/blog/using-dbus-from-javascript-in-cockpit.html">tutorials</a> there’s a guide on how to add components to Cockpit.</p>
+
+<p>Not all of the <a href="https://cockpit-project.org/blog/d-bus-is-powerful-ipc.html">system APIs use DBus</a>. So sometimes we find ourselves in a situation where we have to use REST (which is often just treated as another word for HTTP) to talk to certain parts of the system. For example <a href="https://docs.docker.com/reference/api/docker_remote_api/">Docker has a REST API</a>.</p>
+
+<p>For this tutorial you’ll need at least Cockpit 0.58. There was one last tweak that helped with the <code class="language-plaintext highlighter-rouge">superuser</code> option you see below. You can install it in <a href="https://cockpit-project.org/running.html">Fedora 22</a> or <a href="https://github.com/cockpit-project/cockpit/blob/master/HACKING.md">build it from git</a>.</p>
+
+<p>Here we’ll make a package called <em>docker-info</em> which shows info about the docker daemon. We use the <code class="language-plaintext highlighter-rouge">/info</code> <a href="https://docs.docker.com/reference/api/docker_remote_api_v1.18/#display-system-wide-information">docker API</a> to retrieve that info.</p>
+
+<p>I’ve prepared the <a href="https://cockpit-project.org/files/docker-info.tgz">docker-info package here</a>. It’s just two files. To download them and extract to your current directory, and installs it as a Cockpit package:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ wget https://cockpit-project.org/files/docker-info.tgz -O - | tar -xzf -
+$ cd docker-info/
+$ mkdir -p ~/.local/share/cockpit
+$ ln -snf $PWD ~/.local/share/cockpit/
+</code></pre></div></div>
+
+<p>Previously we <a href="https://cockpit-project.org/blog/creating-plugins-for-the-cockpit-user-interface.html">talked about</a> how packages are installed, and what <code class="language-plaintext highlighter-rouge">manifest.json</code> does so I won’t repeat myself here. But to make sure the above worked correctly, you can run the following command. You should see <code class="language-plaintext highlighter-rouge">docker-info</code> listed in the output:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ cockpit-bridge --packages
+...
+docker-info: .../.local/share/cockpit/docker-info
+...
+</code></pre></div></div>
+
+<p>If you’re logged into Cockpit on this machine, first log out. And log in again. Make sure to log into Cockpit with your current user name, since you installed the package in your home directory. You should now see a new item in the <em>Tools</em> menu called <em>Docker Info</em>:</p>
+
+<p><img loading="lazy" src="https://cockpit-project.org/images/cockpit-docker-info.png" alt="Docker Info tool" /></p>
+
+<p>After a moment, you should see numbers pop up with some stats about the docker daemon. Now in a terminal try to run something like:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo docker run -ti fedora /bin/bash
+</code></pre></div></div>
+
+<p>You should see the numbers update as the container is pulled and started. When you type <code class="language-plaintext highlighter-rouge">exit</code> in the container, you should see the numbers update again. How is this happening? Lets take a look at the <code class="language-plaintext highlighter-rouge">docker-info</code> HTML:</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;title&gt;</span>Docker Info<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"utf-8"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">"../base1/cockpit.css"</span> <span class="na">type=</span><span class="s">"text/css"</span> <span class="na">rel=</span><span class="s">"stylesheet"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"../base1/jquery.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"../base1/cockpit.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"container-fluid"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;h2&gt;</span>Docker Daemon Info<span class="nt">&lt;/h2&gt;</span>
+        <span class="nt">&lt;ul&gt;</span>
+            <span class="nt">&lt;li&gt;</span>Total Memory: <span class="nt">&lt;span</span> <span class="na">id=</span><span class="s">"docker-memory"</span><span class="nt">&gt;</span>?<span class="nt">&lt;/span&gt;&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;</span>Go Routines: <span class="nt">&lt;span</span> <span class="na">id=</span><span class="s">"docker-routines"</span><span class="nt">&gt;</span>?<span class="nt">&lt;/span&gt;&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;</span>File Descriptors: <span class="nt">&lt;span</span> <span class="na">id=</span><span class="s">"docker-files"</span><span class="nt">&gt;</span>?<span class="nt">&lt;/span&gt;&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;</span>Containers: <span class="nt">&lt;span</span> <span class="na">id=</span><span class="s">"docker-containers"</span><span class="nt">&gt;</span>?<span class="nt">&lt;/span&gt;&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;</span>Images: <span class="nt">&lt;span</span> <span class="na">id=</span><span class="s">"docker-images"</span><span class="nt">&gt;</span>?<span class="nt">&lt;/span&gt;&lt;/li&gt;</span>
+        <span class="nt">&lt;/ul&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+
+    <span class="nt">&lt;script&gt;</span>
+        <span class="kd">var</span> <span class="nx">docker</span> <span class="o">=</span> <span class="nx">cockpit</span><span class="p">.</span><span class="nx">http</span><span class="p">(</span><span class="dl">"</span><span class="s2">/var/run/docker.sock</span><span class="dl">"</span><span class="p">,</span> <span class="p">{</span> <span class="na">superuser</span><span class="p">:</span> <span class="dl">"</span><span class="s2">try</span><span class="dl">"</span> <span class="p">});</span>
+
+        <span class="kd">function</span> <span class="nx">retrieve_info</span><span class="p">()</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">info</span> <span class="o">=</span> <span class="nx">docker</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">"</span><span class="s2">/info</span><span class="dl">"</span><span class="p">);</span>
+            <span class="nx">info</span><span class="p">.</span><span class="nx">done</span><span class="p">(</span><span class="nx">process_info</span><span class="p">);</span>
+            <span class="nx">info</span><span class="p">.</span><span class="nx">fail</span><span class="p">(</span><span class="nx">print_failure</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="kd">function</span> <span class="nx">process_info</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">resp</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+            <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#docker-memory</span><span class="dl">"</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">resp</span><span class="p">.</span><span class="nx">MemTotal</span><span class="p">);</span>
+            <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#docker-routines</span><span class="dl">"</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">resp</span><span class="p">.</span><span class="nx">NGoroutines</span><span class="p">);</span>
+            <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#docker-files</span><span class="dl">"</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">resp</span><span class="p">.</span><span class="nx">NFd</span><span class="p">);</span>
+            <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#docker-containers</span><span class="dl">"</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">resp</span><span class="p">.</span><span class="nx">Containers</span><span class="p">);</span>
+            <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#docker-images</span><span class="dl">"</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">resp</span><span class="p">.</span><span class="nx">Images</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="cm">/* First time */</span>
+        <span class="nx">retrieve_info</span><span class="p">();</span>
+
+        <span class="kd">var</span> <span class="nx">events</span> <span class="o">=</span> <span class="nx">docker</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">"</span><span class="s2">/events</span><span class="dl">"</span><span class="p">);</span>
+        <span class="nx">events</span><span class="p">.</span><span class="nx">stream</span><span class="p">(</span><span class="nx">got_event</span><span class="p">);</span>
+        <span class="nx">events</span><span class="p">.</span><span class="nx">always</span><span class="p">(</span><span class="nx">print_failure</span><span class="p">);</span>
+
+        <span class="kd">function</span> <span class="nx">got_event</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nx">retrieve_info</span><span class="p">();</span>
+        <span class="p">}</span>
+
+        <span class="kd">function</span> <span class="nx">print_failure</span><span class="p">(</span><span class="nx">ex</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">ex</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div></div>
+
+<p>First we include <code class="language-plaintext highlighter-rouge">jquery.js</code> and <code class="language-plaintext highlighter-rouge">cockpit.js</code>. <code class="language-plaintext highlighter-rouge">cockpit.js</code> defines the basic API for interacting with the system, as well as Cockpit itself. You can find <a href="https://cockpit-project.org/guide/latest/api-cockpit.html">detailed documentation here</a>.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"../base1/jquery.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"../base1/cockpit.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</code></pre></div></div>
+
+<p>We also include the cockpit.css file to make sure the look of our tool matches that of Cockpit. The HTML is pretty basic, defining a little list where the info shown.</p>
+
+<p>In the javascript code, first we setup an HTTP client to access docker. Docker listens for HTTP requests on a Unix socket called <code class="language-plaintext highlighter-rouge">/var/run/docker.sock</code>. In addition the permissions on that socket often require escalated privileges to access, so we tell Cockpit to try to gain <code class="language-plaintext highlighter-rouge">superuser</code> privileges for this task, but continue anyway if it cannot:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">docker</span> <span class="o">=</span> <span class="nx">cockpit</span><span class="p">.</span><span class="nx">http</span><span class="p">(</span><span class="dl">"</span><span class="s2">/var/run/docker.sock</span><span class="dl">"</span><span class="p">,</span> <span class="p">{</span> <span class="na">superuser</span><span class="p">:</span> <span class="dl">"</span><span class="s2">try</span><span class="dl">"</span> <span class="p">});</span>
+</code></pre></div></div>
+
+<p>First we define how to retrieve info from Docker. We use the REST <code class="language-plaintext highlighter-rouge">/info</code> API to do this.</p>
+
+<pre><code class="language-javascipt">function retrieve_info() {
+    var info = docker.get("/info");
+    info.done(process_info);
+    info.fail(print_failure);
+}
+</code></pre>
+
+<p>In a browser you cannot stop and wait until a REST call completes. Anything that doesn’t happen instantaneously gets its results reported back to you by <a href="https://cockpit-project.org/guide/latest/api-cockpit.html#cockpit-http-done">means of callback handlers</a>. jQuery has a standard interface <a href="http://api.jquery.com/deferred.promise/">called a promise</a>. You add handlers by calling the <code class="language-plaintext highlighter-rouge">.done()</code> or <code class="language-plaintext highlighter-rouge">.fail()</code> methods and registering callbacks.</p>
+
+<p>The result of the <code class="language-plaintext highlighter-rouge">/info</code> call is JSON, and we process it here. This is standard jQuery for filling in text data into the various elements:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">process_info</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">resp</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#docker-memory</span><span class="dl">"</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">resp</span><span class="p">.</span><span class="nx">MemTotal</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#docker-routines</span><span class="dl">"</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">resp</span><span class="p">.</span><span class="nx">NGoroutines</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#docker-files</span><span class="dl">"</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">resp</span><span class="p">.</span><span class="nx">NFd</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#docker-containers</span><span class="dl">"</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">resp</span><span class="p">.</span><span class="nx">Containers</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#docker-images</span><span class="dl">"</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">resp</span><span class="p">.</span><span class="nx">Images</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>And then we trigger the invocation of our <code class="language-plaintext highlighter-rouge">/info</code> REST API call.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/* First time */</span>
+<span class="nx">retrieve_info</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>Because we want to react to changes in Docker state, we also start a long request to its <code class="language-plaintext highlighter-rouge">/events</code> API.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">events</span> <span class="o">=</span> <span class="nx">docker</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">"</span><span class="s2">/events</span><span class="dl">"</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">.get("/events")</code> call returns a jQuery Promise. When a line of event data arrives, the <code class="language-plaintext highlighter-rouge">.stream()</code> callback in invoked, and we use it to trigger a reload of the Docker info.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">events</span><span class="p">.</span><span class="nx">stream</span><span class="p">(</span><span class="nx">got_event</span><span class="p">);</span>
+<span class="nx">events</span><span class="p">.</span><span class="nx">always</span><span class="p">(</span><span class="nx">print_failure</span><span class="p">);</span>
+
+<span class="kd">function</span> <span class="nx">got_event</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">retrieve_info</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This is a simple example, but I hope it helps you get started. There are further REST <a href="https://cockpit-project.org/guide/latest/api-cockpit.html#latest-http">javascript calls</a>. Obviously you can also do <code class="language-plaintext highlighter-rouge">POST</code> and so on.</p>
+
+    
+  </section>
+
+  
+
+</article>
+
+
+  
+  <div class="author-info author-card" id="author-info">
+    <h2>Other posts</h2>
+    <div class="author-blurb">
+      
+
+
+      <div class="more-link">
+        <a href="https://cockpit-project.org/blog/authors#">
+          View all posts »
+        </a>
+      </div>
+
+      
+    </div>
+  </div>
+
+
+
+  </div>
+</div>
+
+<footer class="footer-cockpit" role="contentinfo">
+    <p class="copyright">
+        
+
+        © 2013 - 2026
+
+        &mdash;
+
+        Cockpit is a <a href="https://redhat.com/">Red Hat</a> sponsored
+        free software project released under the
+        <a href="https://opensource.org/licenses/lgpl-2.1.php">LGPL v2.1+</a>
+    </p>
+
+    <p class="policy">
+        <a href="https://cockpit-project.org/privacy.html">
+            Privacy Policy
+        </a>
+        &mdash;
+        <a href="https://cockpit-project.org/code-of-conduct.html">
+            Code of Conduct
+        </a>
+    </p>
+
+    <p class="edit-page"><a
+      href="https://github.com/Venefilyn/cockpit-project.github.io/edit/main/_posts/2015-07-10-rest-api-plugin.md">Edit page on GitHub</a>
+</p>
+</footer>
+
+
+      
+    
+  </body>
+
+</html>

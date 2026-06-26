@@ -1,0 +1,75 @@
+.apps {
+  .app {
+    padding: 2rem 0.5rem;
+    display: grid;
+    grid-gap: 1rem;
+    align-items: baseline;
+
+    // Mobile first
+    grid-template: "title tag" "description description" "meta meta";
+    grid-template-columns: auto 1fr;
+
+    @media (min-width: $on-laptop) {
+      grid-template: "title description tag" "title meta .";
+      grid-template-columns: 25% 1fr auto;
+    }
+
+    &:not(:first-child) {
+      border-top: 1px dotted var(--color-grey-dark);
+    }
+
+    &-title {
+      grid-area: title;
+      font-size: 1.3rem;
+      margin: 0;
+      line-height: inherit;
+    }
+
+    &-description {
+      grid-area: description;
+
+      p:last-child {
+        margin-block-end: 0;
+      }
+    }
+
+    &-tag {
+      grid-area: tag;
+      --hue: 150;
+      --saturation: 0%;
+      --color: var(--hue), var(--saturation);
+      border: 1px solid color-mix(in srgb, hsl(var(--color), 40%) 80%, var(--color-background));
+      background: color-mix(in srgb, hsl(var(--color), 40%) 10%, var(--color-background));
+      color: color-mix(in srgb, hsl(var(--color), 30%) 40%, var(--color-text));
+      padding: 0.125em 0.5em;
+      border-radius: 3em;
+      font-size: 0.9rem;
+      white-space: nowrap;
+
+      &.app-official {
+        --hue: 150;
+        --saturation: 50%;
+      }
+
+      &.app-prerelease {
+        --hue: 40;
+        --saturation: 100%;
+      }
+    }
+
+    &-details {
+      grid-area: meta;
+      font-size: 0.9rem;
+      margin: 0;
+
+      dd, dt {
+        margin: 0;
+        padding: 0;
+      }
+
+      dt:not(:first-child) {
+        margin-block-start: 1em;
+      }
+    }
+  }
+}

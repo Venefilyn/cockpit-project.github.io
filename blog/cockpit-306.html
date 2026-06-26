@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html class=" -path-blog-cockpit-306.html" lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Cockpit 306 &mdash; Cockpit Project</title>
+
+    <link rel="canonical" href="https://github.comhttps://cockpit-project.org/blog/cockpit-306.html">
+
+    <link rel="manifest" href="https://cockpit-project.org/manifest.json">
+
+    <meta name="description" content="Cockpit makes it easy to administer your Linux servers via a web browser.
+">
+    <meta property="og:site_name" content="Cockpit Project">
+    <meta property="og:title" content="Cockpit 306">
+    <meta property="og:description" content="kdump automation, OSTree redesign, deleting intermediate podman images">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.comhttps://cockpit-project.org/blog/cockpit-306.html">
+    <meta name="author" content="Martin Pitt">
+    <meta property="og:image" content="https://cockpit-project.org/images/site/opengraph.png">
+    <meta name="theme-color" content="#3e5375">
+
+    <!-- Favicon -->
+    
+    
+      <link rel="shortcut icon" href="https://cockpit-project.org/images/favicon.png" type="image/png">
+    
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://cockpit-project.org/assets/main.js"></script>
+    <link rel="stylesheet" href="https://cockpit-project.org/assets/main.css">
+  </head>
+
+
+  <body id="page-top">
+    
+    
+      
+      
+      
+      
+
+      
+        
+        <header class="masthead hidden-print" id="branding" role="banner">
+
+  <section class="hgroup">
+    
+    
+
+    
+      <h1><a href="https://cockpit-project.org/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://cockpit-project.org/images/site/cockpit-logo.svg"></a></h1>
+    
+
+    
+  </section>
+
+  
+
+    <div class="nav-wrap">
+      
+
+
+  <nav role="navigation" class="">
+
+
+  <ul class="nav-menu" role="menubar">
+    
+      
+
+      <li class="nav--home" role="menuitem">
+        
+          <a href="https://cockpit-project.org/"><span class="label">Home</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--install" role="menuitem">
+        
+          <a href="https://cockpit-project.org/running.html"><span class="label">Install</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--documentation" role="menuitem">
+        
+          <a href="https://cockpit-project.org/documentation.html"><span class="label">Documentation</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--contribute" role="menuitem">
+        
+          <a href="https://cockpit-project.org/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--blog" role="menuitem">
+        
+          <a href="https://cockpit-project.org/blog/"><span class="label">Blog</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--search" role="menuitem">
+        
+          <a href="https://cockpit-project.org/search.html"><span class="label">Search</span></a>
+        
+        
+      </li>
+    
+
+  </ul>
+
+
+  </nav>
+
+
+    </div>
+
+  
+
+</header>
+
+
+<div class="page-content" id="page-wrap" role="main">
+  <div class="wrapper">
+    
+
+
+
+
+
+
+
+
+
+
+
+<article class="post hentry" id="-blog-cockpit-306.html">
+  <header class="post-header">
+    <h2 class="post-title entry-title">
+      
+        Cockpit 306
+      
+    </h2>
+    <header class="post-meta">
+      
+        
+          <span class="byline">
+            by
+            <span class="author vcard">
+              <a href="https://cockpit-project.org/blog/authors#pitti">Martin Pitt</a>
+            </span>
+          </span>
+        
+        –
+      
+      <time class="published" datetime="3">
+        Nov 29, 2023
+      </time>
+
+      
+        
+        
+        
+
+        <div class="category">
+          
+            category: <a href="https://cockpit-project.org/blog/category/release.html">release</a>
+          
+        </div>
+      
+    </header>
+  </header>
+
+  
+  
+  
+  
+
+  <section class="post-content entry-content">
+    
+      <p>Cockpit is the <a href="https://cockpit-project.org/">modern Linux admin interface</a>.
+We release regularly.</p>
+
+<p>Here are the release notes from Cockpit 306, cockpit-machines 303, cockpit-podman 82, and cockpit-ostree 198.1:</p>
+
+<h2 id="kdump-add-ansibleshell-automation">Kdump: Add Ansible/shell automation</h2>
+
+<p>The Kdump page can generate an <a href="https://www.ansible.com/automation">Ansible</a> role or a shell script for replicating the current kdump configuration on other machines.</p>
+
+<p><img src="https://cockpit-project.org/images/306-kdump-add-ansible-shell-automation.png" alt="screenshot of the kdump page with an Ansible button" /></p>
+
+<p><img src="https://cockpit-project.org/images/306-kdump-add-ansible-shell-automation-2.png" alt="screenshot of shell automation dialog with the &quot;Ansible&quot; tab selected and the &quot;shell script&quot; tab unselected" /></p>
+
+<h2 id="ostree-redesign-with-new-features">OSTree: Redesign, with new features</h2>
+
+<p>The OSTree page for software updates has been redesigned and includes several new features.</p>
+
+<p>Update status is now listed in the “Status” card, and details about the current OSTree repository and branch are visible in the “OSTree source” card.</p>
+
+<p><img src="https://cockpit-project.org/images/306-ostree-redesign-with-new-features-status-clean-up-reset-and-pin.png" alt="new design of the OSTree page, showing off the status card" /></p>
+
+<p>Unused deployments and package cache can be removed in using the “clean up” action.</p>
+
+<p><img src="https://cockpit-project.org/images/306-ostree-redesign-with-new-features-status-clean-up-reset-and-pin-2.png" alt="screenshot of the clean up modal dialog, with cache selected and deployments unselected by default" /></p>
+
+<p>A new “Reset” feature has been added, which can remove layered and overriden packages.</p>
+
+<p><img src="https://cockpit-project.org/images/306-ostree-redesign-with-new-features-status-clean-up-reset-and-pin-3.png" alt="reset modal dialog" /></p>
+
+<p>Deployments can be pinned to persist even when new deployments trigger an auto-cleanup and unpinned.</p>
+
+<p><img src="https://cockpit-project.org/images/306-ostree-redesign-with-new-features-status-clean-up-reset-and-pin-4.png" alt="screenshot showing a pinned deployment" /></p>
+<h2 id="machines-change-add-disk-default-behavior">Machines: Change “Add disk” default behavior</h2>
+
+<p>The “Always attach” Persistent option will now be set by default.</p>
+
+<h2 id="podman-delete-intermediate-images">Podman: Delete intermediate images</h2>
+
+<p>Intermediate images have no tags or other identifiers. They are usually intermediate layers from building container images or leftovers from moved tags. Intermediate images can now be deleted within Cockpit Podman.</p>
+
+<p><img src="https://cockpit-project.org/images/306-podman-delete-intermediate-images.png" alt="screenshot of the &quot;delete intermediate images&quot; modal dialog" /></p>
+
+<h2 id="try-it-out">Try it out</h2>
+
+<p>Cockpit 306, cockpit-machines 303, cockpit-podman 82, and cockpit-ostree 198.1 are available now:</p>
+
+<ul>
+  <li><a href="https://cockpit-project.org/running.html">For your Linux system</a></li>
+  <li>
+    <p><a href="https://flathub.org/apps/details/org.cockpit_project.CockpitClient">Cockpit Client</a></p>
+  </li>
+  <li><a href="https://github.com/cockpit-project/cockpit/releases/tag/306">Cockpit Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2023-4d96c042db">Cockpit Fedora 39</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2023-341915a0cc">Cockpit Fedora 38</a></li>
+  <li><a href="">cockpit-machines Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2023-3bf577c576">cockpit-machines Fedora 39</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2023-727c91dbd4">cockpit-machines Fedora 38</a></li>
+  <li><a href="https://github.com/cockpit-project/cockpit-ostree/releases/tag/198.1">cockpit-ostree Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2023-cf8edd8c6c">cockpit-ostree Fedora 39</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2023-e0d8c37bc8">cockpit-ostree Fedora 38</a></li>
+  <li><a href="https://github.com/cockpit-project/cockpit-podman/releases/tag/82">cockpit-podman Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2023-1d879a2b9c">cockpit-podman Fedora 39</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2023-ec90e7ae52">cockpit-podman Fedora 38</a></li>
+</ul>
+
+
+    
+  </section>
+
+  
+
+</article>
+
+
+  
+  <div class="author-info author-card" id="author-info">
+    <h2>About Martin Pitt</h2>
+    <div class="author-blurb">
+      
+
+
+      <div class="more-link">
+        <a href="https://cockpit-project.org/blog/authors#pitti">
+          View all posts by Martin Pitt »
+        </a>
+      </div>
+
+      
+    </div>
+  </div>
+
+
+
+  </div>
+</div>
+
+<footer class="footer-cockpit" role="contentinfo">
+    <p class="copyright">
+        
+
+        © 2013 - 2026
+
+        &mdash;
+
+        Cockpit is a <a href="https://redhat.com/">Red Hat</a> sponsored
+        free software project released under the
+        <a href="https://opensource.org/licenses/lgpl-2.1.php">LGPL v2.1+</a>
+    </p>
+
+    <p class="policy">
+        <a href="https://cockpit-project.org/privacy.html">
+            Privacy Policy
+        </a>
+        &mdash;
+        <a href="https://cockpit-project.org/code-of-conduct.html">
+            Code of Conduct
+        </a>
+    </p>
+
+    <p class="edit-page"><a
+      href="https://github.com/Venefilyn/cockpit-project.github.io/edit/main/_posts/2023-11-29-cockpit-306.md">Edit page on GitHub</a>
+</p>
+</footer>
+
+
+      
+    
+  </body>
+
+</html>

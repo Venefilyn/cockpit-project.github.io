@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html class=" -path-blog-cockpit-145.html" lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Cockpit 145 &mdash; Cockpit Project</title>
+
+    <link rel="canonical" href="https://github.comhttps://cockpit-project.org/blog/cockpit-145.html">
+
+    <link rel="manifest" href="https://cockpit-project.org/manifest.json">
+
+    <meta name="description" content="Cockpit makes it easy to administer your Linux servers via a web browser.
+">
+    <meta property="og:site_name" content="Cockpit Project">
+    <meta property="og:title" content="Cockpit 145">
+    <meta property="og:description" content="Cockpit with Machines, Terminal, and Software Updates improvements">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.comhttps://cockpit-project.org/blog/cockpit-145.html">
+    <meta name="author" content="Martin Pitt">
+    <meta property="og:image" content="https://cockpit-project.org/images/site/opengraph.png">
+    <meta name="theme-color" content="#3e5375">
+
+    <!-- Favicon -->
+    
+    
+      <link rel="shortcut icon" href="https://cockpit-project.org/images/favicon.png" type="image/png">
+    
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://cockpit-project.org/assets/main.js"></script>
+    <link rel="stylesheet" href="https://cockpit-project.org/assets/main.css">
+  </head>
+
+
+  <body id="page-top">
+    
+    
+      
+      
+      
+      
+
+      
+        
+        <header class="masthead hidden-print" id="branding" role="banner">
+
+  <section class="hgroup">
+    
+    
+
+    
+      <h1><a href="https://cockpit-project.org/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://cockpit-project.org/images/site/cockpit-logo.svg"></a></h1>
+    
+
+    
+  </section>
+
+  
+
+    <div class="nav-wrap">
+      
+
+
+  <nav role="navigation" class="">
+
+
+  <ul class="nav-menu" role="menubar">
+    
+      
+
+      <li class="nav--home" role="menuitem">
+        
+          <a href="https://cockpit-project.org/"><span class="label">Home</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--install" role="menuitem">
+        
+          <a href="https://cockpit-project.org/running.html"><span class="label">Install</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--documentation" role="menuitem">
+        
+          <a href="https://cockpit-project.org/documentation.html"><span class="label">Documentation</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--contribute" role="menuitem">
+        
+          <a href="https://cockpit-project.org/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--blog" role="menuitem">
+        
+          <a href="https://cockpit-project.org/blog/"><span class="label">Blog</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--search" role="menuitem">
+        
+          <a href="https://cockpit-project.org/search.html"><span class="label">Search</span></a>
+        
+        
+      </li>
+    
+
+  </ul>
+
+
+  </nav>
+
+
+    </div>
+
+  
+
+</header>
+
+
+<div class="page-content" id="page-wrap" role="main">
+  <div class="wrapper">
+    
+
+
+
+
+
+
+
+
+
+
+
+<article class="post hentry" id="-blog-cockpit-145.html">
+  <header class="post-header">
+    <h2 class="post-title entry-title">
+      
+        Cockpit 145
+      
+    </h2>
+    <header class="post-meta">
+      
+        
+          <span class="byline">
+            by
+            <span class="author vcard">
+              <a href="https://cockpit-project.org/blog/authors#pitti">Martin Pitt</a>
+            </span>
+          </span>
+        
+        –
+      
+      <time class="published" datetime="5">
+        Jul 7, 2017
+      </time>
+
+      
+        
+        
+        
+
+        <div class="category">
+          
+            category: <a href="https://cockpit-project.org/blog/category/release.html">release</a>
+          
+        </div>
+      
+    </header>
+  </header>
+
+  
+  
+  
+  
+
+  <section class="post-content entry-content">
+    
+      <p>Cockpit is the <a href="https://cockpit-project.org/">modern Linux admin interface</a>. We release regularly.
+Here are the release notes from version 144 and 145.</p>
+
+<h3 id="terminal-size">Terminal size</h3>
+
+<p>The Terminal now uses the full window size and dynamically resizes with it.
+Previously its size was fixed to 80x24 characters.</p>
+
+<p><img loading="lazy" src="https://cockpit-project.org/images/terminal-full-window.png" alt="Full-window terminal" /></p>
+
+<h3 id="machines-page-reactiveness">Machines page reactiveness</h3>
+
+<p>The Machines page now listens to libvirt events instead of reading the entire
+state of all virtual machines every ten seconds. This makes the page much more
+reactive to state changes and reduces the number of calls to <code class="language-plaintext highlighter-rouge">virsh</code>.</p>
+
+<h3 id="delete-vm-functionality">Delete VM functionality</h3>
+
+<p>A “Delete” button/dialog was added to the Machines page. If the VM is still
+running, it will be force-stopped first. The dialog also offers you the choice
+to remove the VM’s disk images as well.</p>
+
+<p><img loading="lazy" src="https://cockpit-project.org/images/machines-delete.png" alt="Delete VM" /></p>
+
+<h3 id="retire-external-machines-provider-api">Retire external Machines provider API</h3>
+
+<p>Cockpit 132 introduced an external API for the Machines page that allowed third
+party plugins to dynamically add/manage virtual machines from providers other
+than libvirt. This was found to be not supportable in the long run and thus was
+discontinued.</p>
+
+<h3 id="abrt-integration">ABRT integration</h3>
+
+<p>On Fedora 26 the Logs Page now shows Problem reports from the ABRT crash
+reporting tool. They appear as new message class “Problem” in the journal view,
+and their details can be visited when clicking on them:</p>
+
+<p><img loading="lazy" src="https://cockpit-project.org/images/logs-abrt-list.png" alt="ABRT list view" /></p>
+
+<p><img loading="lazy" src="https://cockpit-project.org/images/logs-abrt-details.png" alt="ABRT detail view" /></p>
+
+<p>Thanks to Matej Marusak for this feature!</p>
+
+<h3 id="always-recommend-restarting-after-applying-software-updates">Always recommend restarting after applying Software Updates</h3>
+
+<p>Most supported operating systems in Cockpit don’t provide a reliable
+detection of whether they require restarting the machine after applying updates
+for them to fully take effect. This particularly affects updates to the kernel,
+but also restarting services. For now, Cockpit will always recommend to
+restart the machine after applying updates:</p>
+
+<p><img loading="lazy" src="https://cockpit-project.org/images/updates-restart.png" alt="Restart after Updates" /></p>
+
+<h3 id="cancelling-software-updates">Cancelling Software Updates</h3>
+
+<p>The Software Updates page now has a Cancel button that is enabled while it is
+still safe to abort a running update, i.e. while the updates are still being
+downloaded.</p>
+
+<h3 id="try-it-out">Try it out</h3>
+
+<p>Cockpit 145 is available now:</p>
+
+<ul>
+  <li><a href="https://cockpit-project.org/running.html">For your Linux system</a></li>
+  <li><a href="https://github.com/cockpit-project/cockpit/releases/tag/145">Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/cockpit-145-1.fc26">Fedora 26</a></li>
+</ul>
+
+    
+  </section>
+
+  
+
+</article>
+
+
+  
+  <div class="author-info author-card" id="author-info">
+    <h2>About Martin Pitt</h2>
+    <div class="author-blurb">
+      
+
+
+      <div class="more-link">
+        <a href="https://cockpit-project.org/blog/authors#pitti">
+          View all posts by Martin Pitt »
+        </a>
+      </div>
+
+      
+    </div>
+  </div>
+
+
+
+  </div>
+</div>
+
+<footer class="footer-cockpit" role="contentinfo">
+    <p class="copyright">
+        
+
+        © 2013 - 2026
+
+        &mdash;
+
+        Cockpit is a <a href="https://redhat.com/">Red Hat</a> sponsored
+        free software project released under the
+        <a href="https://opensource.org/licenses/lgpl-2.1.php">LGPL v2.1+</a>
+    </p>
+
+    <p class="policy">
+        <a href="https://cockpit-project.org/privacy.html">
+            Privacy Policy
+        </a>
+        &mdash;
+        <a href="https://cockpit-project.org/code-of-conduct.html">
+            Code of Conduct
+        </a>
+    </p>
+
+    <p class="edit-page"><a
+      href="https://github.com/Venefilyn/cockpit-project.github.io/edit/main/_posts/2017-07-07-cockpit-145.md">Edit page on GitHub</a>
+</p>
+</footer>
+
+
+      
+    
+  </body>
+
+</html>
