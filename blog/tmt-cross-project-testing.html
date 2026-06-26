@@ -8,9 +8,9 @@
 
     <title>Cross-project testing with tmt and Packit &mdash; Cockpit Project</title>
 
-    <link rel="canonical" href="https://github.comhttps://cockpit-project.org/preview/2/blog/tmt-cross-project-testing.html">
+    <link rel="canonical" href="https://github.comhttps://cockpit-project.org/blog/tmt-cross-project-testing.html">
 
-    <link rel="manifest" href="https://cockpit-project.org/preview/2/manifest.json">
+    <link rel="manifest" href="https://cockpit-project.org/manifest.json">
 
     <meta name="description" content="Cockpit makes it easy to administer your Linux servers via a web browser.
 ">
@@ -18,15 +18,15 @@
     <meta property="og:title" content="Cross-project testing with tmt and Packit">
     <meta property="og:description" content="">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://github.comhttps://cockpit-project.org/preview/2/blog/tmt-cross-project-testing.html">
+    <meta property="og:url" content="https://github.comhttps://cockpit-project.org/blog/tmt-cross-project-testing.html">
     <meta name="author" content="Martin Pitt">
-    <meta property="og:image" content="https://cockpit-project.org/preview/2/images/site/opengraph.png">
+    <meta property="og:image" content="https://cockpit-project.org/images/site/opengraph.png">
     <meta name="theme-color" content="#3e5375">
 
     <!-- Favicon -->
     
     
-      <link rel="shortcut icon" href="https://cockpit-project.org/preview/2/images/favicon.png" type="image/png">
+      <link rel="shortcut icon" href="https://cockpit-project.org/images/favicon.png" type="image/png">
     
 
 
@@ -37,8 +37,8 @@
     <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <script src="https://cockpit-project.org/preview/2/assets/main.js"></script>
-    <link rel="stylesheet" href="https://cockpit-project.org/preview/2/assets/main.css">
+    <script src="https://cockpit-project.org/assets/main.js"></script>
+    <link rel="stylesheet" href="https://cockpit-project.org/assets/main.css">
   </head>
 
 
@@ -59,7 +59,7 @@
     
 
     
-      <h1><a href="https://cockpit-project.org/preview/2/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://cockpit-project.org/preview/2/images/site/cockpit-logo.svg"></a></h1>
+      <h1><a href="https://cockpit-project.org/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://cockpit-project.org/images/site/cockpit-logo.svg"></a></h1>
     
 
     
@@ -80,7 +80,7 @@
 
       <li class="nav--home" role="menuitem">
         
-          <a href="https://cockpit-project.org/preview/2/"><span class="label">Home</span></a>
+          <a href="https://cockpit-project.org/"><span class="label">Home</span></a>
         
         
       </li>
@@ -89,7 +89,7 @@
 
       <li class="nav--install" role="menuitem">
         
-          <a href="https://cockpit-project.org/preview/2/running.html"><span class="label">Install</span></a>
+          <a href="https://cockpit-project.org/running.html"><span class="label">Install</span></a>
         
         
       </li>
@@ -98,7 +98,7 @@
 
       <li class="nav--documentation" role="menuitem">
         
-          <a href="https://cockpit-project.org/preview/2/documentation.html"><span class="label">Documentation</span></a>
+          <a href="https://cockpit-project.org/documentation.html"><span class="label">Documentation</span></a>
         
         
       </li>
@@ -107,7 +107,7 @@
 
       <li class="nav--contribute" role="menuitem">
         
-          <a href="https://cockpit-project.org/preview/2/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
+          <a href="https://cockpit-project.org/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
         
         
       </li>
@@ -116,7 +116,7 @@
 
       <li class="nav--blog" role="menuitem">
         
-          <a href="https://cockpit-project.org/preview/2/blog/"><span class="label">Blog</span></a>
+          <a href="https://cockpit-project.org/blog/"><span class="label">Blog</span></a>
         
         
       </li>
@@ -125,7 +125,7 @@
 
       <li class="nav--search" role="menuitem">
         
-          <a href="https://cockpit-project.org/preview/2/search.html"><span class="label">Search</span></a>
+          <a href="https://cockpit-project.org/search.html"><span class="label">Search</span></a>
         
         
       </li>
@@ -171,7 +171,7 @@
           <span class="byline">
             by
             <span class="author vcard">
-              <a href="https://cockpit-project.org/preview/2/blog/authors#pitti">Martin Pitt</a>
+              <a href="https://cockpit-project.org/blog/authors#pitti">Martin Pitt</a>
             </span>
           </span>
         
@@ -236,7 +236,7 @@
 
 <p>The canonical way to set this up is with a COPR. Go to <a href="https://copr.fedorainfracloud.org">https://copr.fedorainfracloud.org</a> and create a “New Project” in your organization or user. Fill in the “1. Project information” section and mark your desired distro releases in “2. Build options”. At the bottom, also fill in the “Packit allowed forge projects”, i.e. allow the Packit service to interact with your project’s pull requests. Example:</p>
 
-<p><img loading="lazy" src="https://cockpit-project.org/preview/2/images/packit-allowed-forge-projects.png" alt="packit allowed forge projects"></p>
+<p><img loading="lazy" src="https://cockpit-project.org/images/packit-allowed-forge-projects.png" alt="packit allowed forge projects"></p>
 
 <p>Take a look at <a href="https://copr.fedorainfracloud.org/coprs/g/cockpit/main-builds/">Cockpit’s “main-builds” COPR</a> for an example.</p>
 
@@ -312,7 +312,7 @@ tests you want to run from your project. Unfortunately you cannot yet <a href="h
 
 <p>This will result in a new packit test status where you can see the result and logs:</p>
 
-<p><img loading="lazy" src="https://cockpit-project.org/preview/2/images/packit-revdeps-test-status.png" alt="packit revdeps test status"></p>
+<p><img loading="lazy" src="https://cockpit-project.org/images/packit-revdeps-test-status.png" alt="packit revdeps test status"></p>
 
 <p>For an example, see this <a href="https://github.com/cockpit-project/cockpit/pull/19155">cockpit <abbr title="Pull request">PR</abbr></a> which enables this. This approach was developed and tested extensively <a href="https://github.com/cockpit-project/cockpit/pull/19117">in an experimental <abbr title="Pull request">PR</abbr></a>.</p>
 
@@ -360,7 +360,7 @@ tests you want to run from your project. Unfortunately you cannot yet <a href="h
 
 
       <div class="more-link">
-        <a href="https://cockpit-project.org/preview/2/blog/authors#pitti">
+        <a href="https://cockpit-project.org/blog/authors#pitti">
           View all posts by Martin Pitt »
         </a>
       </div>
@@ -388,11 +388,11 @@ tests you want to run from your project. Unfortunately you cannot yet <a href="h
     </p>
 
     <p class="policy">
-        <a href="https://cockpit-project.org/preview/2/privacy.html">
+        <a href="https://cockpit-project.org/privacy.html">
             Privacy Policy
         </a>
         —
-        <a href="https://cockpit-project.org/preview/2/code-of-conduct.html">
+        <a href="https://cockpit-project.org/code-of-conduct.html">
             Code of Conduct
         </a>
     </p>
