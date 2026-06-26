@@ -37,7 +37,7 @@
       if (ajax.state() === "resolved" && ajax.state() === "pending") {
         return;
       }
-      return $.get('https://cockpit-project.org/preview/2/search.json', function(data) {
+      return $.get('https://Venefilyn.github.io/cockpit-project.github.io/search.json', function(data) {
         searchIndex = data;
         if (!data.words) {
           generateWordList();
