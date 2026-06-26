@@ -1,1 +1,1 @@
-Sitemap: https://github.com/https://cockpit-project.org/sitemap.xml
+Sitemap: https://github.com/https://cockpit-project.org/preview/2/sitemap.xml

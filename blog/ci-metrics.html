@@ -8,9 +8,9 @@
 
     <title>CI Metrics and Error Budgets &mdash; Cockpit Project</title>
 
-    <link rel="canonical" href="https://github.comhttps://cockpit-project.org/blog/ci-metrics.html">
+    <link rel="canonical" href="https://github.comhttps://cockpit-project.org/preview/2/blog/ci-metrics.html">
 
-    <link rel="manifest" href="https://cockpit-project.org/manifest.json">
+    <link rel="manifest" href="https://cockpit-project.org/preview/2/manifest.json">
 
     <meta name="description" content="Cockpit makes it easy to administer your Linux servers via a web browser.
 ">
@@ -18,15 +18,15 @@
     <meta property="og:title" content="CI Metrics and Error Budgets">
     <meta property="og:description" content="">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://github.comhttps://cockpit-project.org/blog/ci-metrics.html">
+    <meta property="og:url" content="https://github.comhttps://cockpit-project.org/preview/2/blog/ci-metrics.html">
     <meta name="author" content="Martin Pitt">
-    <meta property="og:image" content="https://cockpit-project.org/images/site/opengraph.png">
+    <meta property="og:image" content="https://cockpit-project.org/preview/2/images/site/opengraph.png">
     <meta name="theme-color" content="#3e5375">
 
     <!-- Favicon -->
     
     
-      <link rel="shortcut icon" href="https://cockpit-project.org/images/favicon.png" type="image/png">
+      <link rel="shortcut icon" href="https://cockpit-project.org/preview/2/images/favicon.png" type="image/png">
     
 
 
@@ -37,8 +37,8 @@
     <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <script src="https://cockpit-project.org/assets/main.js"></script>
-    <link rel="stylesheet" href="https://cockpit-project.org/assets/main.css">
+    <script src="https://cockpit-project.org/preview/2/assets/main.js"></script>
+    <link rel="stylesheet" href="https://cockpit-project.org/preview/2/assets/main.css">
   </head>
 
 
@@ -59,7 +59,7 @@
     
 
     
-      <h1><a href="https://cockpit-project.org/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://cockpit-project.org/images/site/cockpit-logo.svg"></a></h1>
+      <h1><a href="https://cockpit-project.org/preview/2/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://cockpit-project.org/preview/2/images/site/cockpit-logo.svg"></a></h1>
     
 
     
@@ -80,7 +80,7 @@
 
       <li class="nav--home" role="menuitem">
         
-          <a href="https://cockpit-project.org/"><span class="label">Home</span></a>
+          <a href="https://cockpit-project.org/preview/2/"><span class="label">Home</span></a>
         
         
       </li>
@@ -89,7 +89,7 @@
 
       <li class="nav--install" role="menuitem">
         
-          <a href="https://cockpit-project.org/running.html"><span class="label">Install</span></a>
+          <a href="https://cockpit-project.org/preview/2/running.html"><span class="label">Install</span></a>
         
         
       </li>
@@ -98,7 +98,7 @@
 
       <li class="nav--documentation" role="menuitem">
         
-          <a href="https://cockpit-project.org/documentation.html"><span class="label">Documentation</span></a>
+          <a href="https://cockpit-project.org/preview/2/documentation.html"><span class="label">Documentation</span></a>
         
         
       </li>
@@ -107,7 +107,7 @@
 
       <li class="nav--contribute" role="menuitem">
         
-          <a href="https://cockpit-project.org/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
+          <a href="https://cockpit-project.org/preview/2/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
         
         
       </li>
@@ -116,7 +116,7 @@
 
       <li class="nav--blog" role="menuitem">
         
-          <a href="https://cockpit-project.org/blog/"><span class="label">Blog</span></a>
+          <a href="https://cockpit-project.org/preview/2/blog/"><span class="label">Blog</span></a>
         
         
       </li>
@@ -125,7 +125,7 @@
 
       <li class="nav--search" role="menuitem">
         
-          <a href="https://cockpit-project.org/search.html"><span class="label">Search</span></a>
+          <a href="https://cockpit-project.org/preview/2/search.html"><span class="label">Search</span></a>
         
         
       </li>
@@ -171,7 +171,7 @@
           <span class="byline">
             by
             <span class="author vcard">
-              <a href="https://cockpit-project.org/blog/authors#pitti">Martin Pitt</a>
+              <a href="https://cockpit-project.org/preview/2/blog/authors#pitti">Martin Pitt</a>
             </span>
           </span>
         
@@ -254,7 +254,7 @@
 
 <p>To present the numbers in the database in a human friendly form, we started out with an “all-in-one” <a href="https://github.com/cockpit-project/bots/blob/main/tests.html">tests.html</a>. This uses <a href="https://github.com/ryan-codingintrigue/sql-wasm">sql-wasm</a> to directly read the above SQLite database URL and the <a href="https://github.com/rook2pawn/node-chart">chart</a> module to plot graphs. This got called the <a href="https://logs-https-frontdoor.apps.ocp.ci.centos.org/tests.html?repo=cockpit-project%2Fcockpit#">CI weather report</a>. The ingenious thing about it that it requires zero additional infrastructure and moving parts, and it has selectors and per-test subpages to drill down into any desirable detail. The major drawbacks are that it is <em>really</em> slow – each page update needs to fetch the database again, which by now has swollen into a ~ 40 MB blob; and making changes to it is rather hard, as it involves a lot of coding.</p>
 
-<p><img loading="lazy" src="https://cockpit-project.org/images/ci-weather-report.png" alt="CI weather report" /></p>
+<p><img loading="lazy" src="https://cockpit-project.org/preview/2/images/ci-weather-report.png" alt="CI weather report" /></p>
 
 <h2 id="moving-to-prometheusgrafana">Moving to Prometheus/Grafana</h2>
 
@@ -282,7 +282,7 @@ queue_time_wait_seconds_count 2646
 
 <p>Recently we also added a more abstract <a href="https://grafana-frontdoor.apps.ocp.ci.centos.org/d/budget/cockpit-ci-error-budget">Error Budget</a> dashboard, which shows the <abbr title="Service Level Indicators">SLIs</abbr> with a focus on and normalization to the defined <abbr title="Service Level Objective">SLO</abbr> error budgets:</p>
 
-<p><img loading="lazy" src="https://cockpit-project.org/images/grafana-error-budget.png" alt="Grafana error budget" /></p>
+<p><img loading="lazy" src="https://cockpit-project.org/preview/2/images/grafana-error-budget.png" alt="Grafana error budget" /></p>
 
 <h2 id="drawing-conclusions">Drawing conclusions</h2>
 
@@ -330,7 +330,7 @@ queue_time_wait_seconds_count 2646
 
 
       <div class="more-link">
-        <a href="https://cockpit-project.org/blog/authors#pitti">
+        <a href="https://cockpit-project.org/preview/2/blog/authors#pitti">
           View all posts by Martin Pitt »
         </a>
       </div>
@@ -358,11 +358,11 @@ queue_time_wait_seconds_count 2646
     </p>
 
     <p class="policy">
-        <a href="https://cockpit-project.org/privacy.html">
+        <a href="https://cockpit-project.org/preview/2/privacy.html">
             Privacy Policy
         </a>
         &mdash;
-        <a href="https://cockpit-project.org/code-of-conduct.html">
+        <a href="https://cockpit-project.org/preview/2/code-of-conduct.html">
             Code of Conduct
         </a>
     </p>

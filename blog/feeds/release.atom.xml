@@ -4,10 +4,10 @@
     <title>Cockpit Project - Release</title>
     <description>Cockpit makes it easy to administer your Linux servers via a web browser.
 </description>
-    <link>https://github.comhttps://cockpit-project.org/</link>
-    <atom:link href="https://github.comhttps://cockpit-project.org/blog/feeds/release.atom.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 26 Jun 2026 15:43:34 +0000</pubDate>
-    <lastBuildDate>Fri, 26 Jun 2026 15:43:34 +0000</lastBuildDate>
+    <link>https://github.comhttps://cockpit-project.org/preview/2/</link>
+    <atom:link href="https://github.comhttps://cockpit-project.org/preview/2/blog/feeds/release.atom.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Fri, 26 Jun 2026 15:45:50 +0000</pubDate>
+    <lastBuildDate>Fri, 26 Jun 2026 15:45:50 +0000</lastBuildDate>
     <generator>Jekyll v3.9.5</generator>
     
       <item>
@@ -40,8 +40,8 @@ We release regularly.&lt;/p&gt;
 
         </description>
         <pubDate>Thu, 04 Jun 2026 00:00:00 +0000</pubDate>
-        <link>https://github.comhttps://cockpit-project.org//blog/cockpit-363.html</link>
-        <guid isPermaLink="true">https://github.comhttps://cockpit-project.org//blog/cockpit-363.html</guid>
+        <link>https://github.comhttps://cockpit-project.org/preview/2//blog/cockpit-363.html</link>
+        <guid isPermaLink="true">https://github.comhttps://cockpit-project.org/preview/2//blog/cockpit-363.html</guid>
         
         <category>machines,</category>
         
@@ -117,8 +117,8 @@ this disables the direct login feature but it is still strongly recommended to u
 
         </description>
         <pubDate>Wed, 08 Apr 2026 00:00:00 +0000</pubDate>
-        <link>https://github.comhttps://cockpit-project.org//blog/cockpit-360.html</link>
-        <guid isPermaLink="true">https://github.comhttps://cockpit-project.org//blog/cockpit-360.html</guid>
+        <link>https://github.comhttps://cockpit-project.org/preview/2//blog/cockpit-360.html</link>
+        <guid isPermaLink="true">https://github.comhttps://cockpit-project.org/preview/2//blog/cockpit-360.html</guid>
         
         <category>cockpit</category>
         
@@ -139,23 +139,23 @@ We release regularly.&lt;/p&gt;
 
 &lt;p&gt;The Cockpit Client has been updated to GTK 4 and WebKit 6, making it easier to enable support for downloads from Cockpit Files.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://cockpit-project.org/images/358-cockpit-client-updated-to-gtk-4.png&quot; alt=&quot;screenshot of cockpit client updated to gtk 4&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://cockpit-project.org/preview/2/images/358-cockpit-client-updated-to-gtk-4.png&quot; alt=&quot;screenshot of cockpit client updated to gtk 4&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;networking-add-wi-fi-support&quot;&gt;Networking: Add Wi-Fi support&lt;/h2&gt;
 
 &lt;p&gt;If there are any Wi-Fi devices, the Networking page overview shows the number of available networks and the currently connected network.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://cockpit-project.org/images/358-networking-add-wi-fi-support.png&quot; alt=&quot;screenshot of add wi-fi support&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://cockpit-project.org/preview/2/images/358-networking-add-wi-fi-support.png&quot; alt=&quot;screenshot of add wi-fi support&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The details page shows a table of available networks with mode/security, signal strength, and rate. The currently active connection (if any) is always at the top. It is followed by known networks, and then unknown networks sorted by descending signal strength. You can connect, disconnect, and forget networks.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://cockpit-project.org/images/358-networking-add-wi-fi-support-2.png&quot; alt=&quot;screenshot of add wi-fi support&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://cockpit-project.org/preview/2/images/358-networking-add-wi-fi-support-2.png&quot; alt=&quot;screenshot of add wi-fi support&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;files-add-confirmation-prompt-for-discarding-changes&quot;&gt;Files: Add confirmation prompt for discarding changes&lt;/h2&gt;
 
 &lt;p&gt;When editing files, Cockpit will now show a confirmation dialog when clicking away, hitting cancel, or pressing escape. This prevents accidentally discarding changes and losing data.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://cockpit-project.org/images/358-files-add-confirmation-prompt-for-discarding-changes-.png&quot; alt=&quot;screenshot of add confirmation prompt for discarding changes&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://cockpit-project.org/preview/2/images/358-files-add-confirmation-prompt-for-discarding-changes-.png&quot; alt=&quot;screenshot of add confirmation prompt for discarding changes&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Thanks to &lt;a href=&quot;https://github.com/Leone25&quot;&gt;Leone25&lt;/a&gt; for this contribution!&lt;/p&gt;
 
@@ -185,8 +185,8 @@ We release regularly.&lt;/p&gt;
 
         </description>
         <pubDate>Wed, 18 Mar 2026 00:00:00 +0000</pubDate>
-        <link>https://github.comhttps://cockpit-project.org//blog/cockpit-358.html</link>
-        <guid isPermaLink="true">https://github.comhttps://cockpit-project.org//blog/cockpit-358.html</guid>
+        <link>https://github.comhttps://cockpit-project.org/preview/2//blog/cockpit-358.html</link>
+        <guid isPermaLink="true">https://github.comhttps://cockpit-project.org/preview/2//blog/cockpit-358.html</guid>
         
         <category>cockpit,</category>
         
@@ -225,7 +225,7 @@ Agama can be controlled in various ways via these arguments.&lt;/p&gt;
 &lt;p&gt;The image details tab now shows a select set of labels from the &lt;a href=&quot;https://specs.opencontainers.org/image-spec/annotations/&quot;&gt;OpenContainers Annotations
 specification&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://cockpit-project.org/images/357-podman-show-details.png&quot; alt=&quot;screenshot of show description, version, and documentation image labels&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://cockpit-project.org/preview/2/images/357-podman-show-details.png&quot; alt=&quot;screenshot of show description, version, and documentation image labels&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;try-it-out&quot;&gt;Try it out&lt;/h2&gt;
 
@@ -253,8 +253,8 @@ specification&lt;/a&gt;.&lt;/p&gt;
 
         </description>
         <pubDate>Wed, 25 Feb 2026 00:00:00 +0000</pubDate>
-        <link>https://github.comhttps://cockpit-project.org//blog/cockpit-357.html</link>
-        <guid isPermaLink="true">https://github.comhttps://cockpit-project.org//blog/cockpit-357.html</guid>
+        <link>https://github.comhttps://cockpit-project.org/preview/2//blog/cockpit-357.html</link>
+        <guid isPermaLink="true">https://github.comhttps://cockpit-project.org/preview/2//blog/cockpit-357.html</guid>
         
         <category>machines,</category>
         
@@ -302,8 +302,8 @@ other idiosyncrasies. Now the text you enter is executed directly by &lt;code cl
 
         </description>
         <pubDate>Wed, 11 Feb 2026 00:00:00 +0000</pubDate>
-        <link>https://github.comhttps://cockpit-project.org//blog/cockpit-356.html</link>
-        <guid isPermaLink="true">https://github.comhttps://cockpit-project.org//blog/cockpit-356.html</guid>
+        <link>https://github.comhttps://cockpit-project.org/preview/2//blog/cockpit-356.html</link>
+        <guid isPermaLink="true">https://github.comhttps://cockpit-project.org/preview/2//blog/cockpit-356.html</guid>
         
         <category>cockpit</category>
         
@@ -347,8 +347,8 @@ We release regularly.&lt;/p&gt;
 
         </description>
         <pubDate>Thu, 29 Jan 2026 00:00:00 +0000</pubDate>
-        <link>https://github.comhttps://cockpit-project.org//blog/cockpit-355.html</link>
-        <guid isPermaLink="true">https://github.comhttps://cockpit-project.org//blog/cockpit-355.html</guid>
+        <link>https://github.comhttps://cockpit-project.org/preview/2//blog/cockpit-355.html</link>
+        <guid isPermaLink="true">https://github.comhttps://cockpit-project.org/preview/2//blog/cockpit-355.html</guid>
         
         <category>cockpit</category>
         
@@ -387,8 +387,8 @@ Classless addressing is fully supported and manual overrides are available, the 
 
         </description>
         <pubDate>Wed, 10 Dec 2025 00:00:00 +0000</pubDate>
-        <link>https://github.comhttps://cockpit-project.org//blog/cockpit-353.html</link>
-        <guid isPermaLink="true">https://github.comhttps://cockpit-project.org//blog/cockpit-353.html</guid>
+        <link>https://github.comhttps://cockpit-project.org/preview/2//blog/cockpit-353.html</link>
+        <guid isPermaLink="true">https://github.comhttps://cockpit-project.org/preview/2//blog/cockpit-353.html</guid>
         
         <category>cockpit</category>
         
@@ -409,7 +409,7 @@ We release regularly.&lt;/p&gt;
 
 &lt;p&gt;Cockpit’s healtchard will now show warning when the system was shutdown uncleanly.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://cockpit-project.org/images/352-shown-a-warning-if-the-last-shutdown-reboot-was-unclean.png&quot; alt=&quot;screenshot of shown a warning if the last shutdown/reboot was unclean&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://cockpit-project.org/preview/2/images/352-shown-a-warning-if-the-last-shutdown-reboot-was-unclean.png&quot; alt=&quot;screenshot of shown a warning if the last shutdown/reboot was unclean&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;machines-new-virtual-machines-dont-get-spice-graphics-anymore&quot;&gt;Machines: New virtual machines don’t get SPICE graphics anymore&lt;/h2&gt;
 
@@ -432,8 +432,8 @@ We release regularly.&lt;/p&gt;
 
         </description>
         <pubDate>Wed, 26 Nov 2025 00:00:00 +0000</pubDate>
-        <link>https://github.comhttps://cockpit-project.org//blog/cockpit-352.html</link>
-        <guid isPermaLink="true">https://github.comhttps://cockpit-project.org//blog/cockpit-352.html</guid>
+        <link>https://github.comhttps://cockpit-project.org/preview/2//blog/cockpit-352.html</link>
+        <guid isPermaLink="true">https://github.comhttps://cockpit-project.org/preview/2//blog/cockpit-352.html</guid>
         
         <category>cockpit,</category>
         
@@ -459,19 +459,19 @@ individual row, and can be individually deleted.&lt;/p&gt;
 
 &lt;p&gt;Thanks a lot libkurisu for this contribution!&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://cockpit-project.org/images/351-firewall-ports.png&quot; alt=&quot;screenshot of additional firewall ports&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://cockpit-project.org/preview/2/images/351-firewall-ports.png&quot; alt=&quot;screenshot of additional firewall ports&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;machines-vms-can-be-shutdown-and-restarted-with-a-single-action&quot;&gt;Machines: VMs can be shutdown and restarted with a single action&lt;/h2&gt;
 
 &lt;p&gt;Some changes to a virtual machine, such as adding VNC graphics, require it to be completely shut down and restarted before these changes take effect. Cockpit can now do this with a single action.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://cockpit-project.org/images/351-shutdown-restart.png&quot; alt=&quot;screenshot of the &amp;quot;Shutdown and Restart&amp;quot; dialog&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://cockpit-project.org/preview/2/images/351-shutdown-restart.png&quot; alt=&quot;screenshot of the &amp;quot;Shutdown and Restart&amp;quot; dialog&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;machines-support-for-network-port-forwarding&quot;&gt;Machines: Support for network port forwarding&lt;/h2&gt;
 
 &lt;p&gt;Cockpit can now configure port forwarding for virtual machines on the user session.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://cockpit-project.org/images/351-passt.png&quot; alt=&quot;screenshot of the port forwarding dialog&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://cockpit-project.org/preview/2/images/351-passt.png&quot; alt=&quot;screenshot of the port forwarding dialog&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;try-it-out&quot;&gt;Try it out&lt;/h2&gt;
 
@@ -495,8 +495,8 @@ individual row, and can be individually deleted.&lt;/p&gt;
 
         </description>
         <pubDate>Tue, 11 Nov 2025 00:00:00 +0000</pubDate>
-        <link>https://github.comhttps://cockpit-project.org//blog/cockpit-351.html</link>
-        <guid isPermaLink="true">https://github.comhttps://cockpit-project.org//blog/cockpit-351.html</guid>
+        <link>https://github.comhttps://cockpit-project.org/preview/2//blog/cockpit-351.html</link>
+        <guid isPermaLink="true">https://github.comhttps://cockpit-project.org/preview/2//blog/cockpit-351.html</guid>
         
         <category>cockpit,</category>
         
@@ -525,7 +525,7 @@ We release regularly.&lt;/p&gt;
 
 &lt;p&gt;Quadlets now have lifecycle operations such as “Start”. These use systemd operations instead of podman’s &lt;abbr title=&quot;Application Programming Interface&quot;&gt;API&lt;/abbr&gt;.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://cockpit-project.org/images/350-support-stopping-starting-restart-quadlets.png&quot; alt=&quot;screenshot of an inactive podman quadlet with stop/restart actions&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://cockpit-project.org/preview/2/images/350-support-stopping-starting-restart-quadlets.png&quot; alt=&quot;screenshot of an inactive podman quadlet with stop/restart actions&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;try-it-out&quot;&gt;Try it out&lt;/h2&gt;
 
@@ -547,8 +547,8 @@ We release regularly.&lt;/p&gt;
 
         </description>
         <pubDate>Wed, 29 Oct 2025 00:00:00 +0000</pubDate>
-        <link>https://github.comhttps://cockpit-project.org//blog/cockpit-350.html</link>
-        <guid isPermaLink="true">https://github.comhttps://cockpit-project.org//blog/cockpit-350.html</guid>
+        <link>https://github.comhttps://cockpit-project.org/preview/2//blog/cockpit-350.html</link>
+        <guid isPermaLink="true">https://github.comhttps://cockpit-project.org/preview/2//blog/cockpit-350.html</guid>
         
         <category>machines,</category>
         
@@ -587,7 +587,7 @@ These podman containers/pods are ephemeral and previously disappeared from cockp
 &lt;p&gt;With this release, cockpit-podman can now detect stopped quadlets on the system for the logged in user and superuser.
 The quadlets are shown as normal “inactive” pods/containers. In the future, lifecycle actions such as start/stop/restart will be added.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://cockpit-project.org/images/349-inactive-podman-quadlet.png&quot; alt=&quot;screenshot of inactive podman quadlet&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://cockpit-project.org/preview/2/images/349-inactive-podman-quadlet.png&quot; alt=&quot;screenshot of inactive podman quadlet&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;try-it-out&quot;&gt;Try it out&lt;/h2&gt;
 
@@ -618,8 +618,8 @@ and cockpit-ostree 216 are available now:&lt;/p&gt;
 
         </description>
         <pubDate>Wed, 15 Oct 2025 00:00:00 +0000</pubDate>
-        <link>https://github.comhttps://cockpit-project.org//blog/cockpit-349.html</link>
-        <guid isPermaLink="true">https://github.comhttps://cockpit-project.org//blog/cockpit-349.html</guid>
+        <link>https://github.comhttps://cockpit-project.org/preview/2//blog/cockpit-349.html</link>
+        <guid isPermaLink="true">https://github.comhttps://cockpit-project.org/preview/2//blog/cockpit-349.html</guid>
         
         <category>cockpit,</category>
         
@@ -650,13 +650,13 @@ We release regularly.&lt;/p&gt;
 
 &lt;p&gt;To alleviate this we have changed the UI around to showcase only the most important information a user would want and hid the rest within an expandable section.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://cockpit-project.org/images/348-machines-nics-disks-ux.png&quot; alt=&quot;screenshot of disks table expanded&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://cockpit-project.org/preview/2/images/348-machines-nics-disks-ux.png&quot; alt=&quot;screenshot of disks table expanded&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;All the information we had prior to this change is still here, but in a much easier to read design.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://cockpit-project.org/images/348-machines-disks-ux-expand.png&quot; alt=&quot;screenshot of disks table expanded&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://cockpit-project.org/preview/2/images/348-machines-disks-ux-expand.png&quot; alt=&quot;screenshot of disks table expanded&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://cockpit-project.org/images/348-machines-nics-ux-expand.png&quot; alt=&quot;screenshot of network interfaces table expanded&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://cockpit-project.org/preview/2/images/348-machines-nics-ux-expand.png&quot; alt=&quot;screenshot of network interfaces table expanded&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;try-it-out&quot;&gt;Try it out&lt;/h2&gt;
 
@@ -687,8 +687,8 @@ We release regularly.&lt;/p&gt;
 
         </description>
         <pubDate>Thu, 02 Oct 2025 00:00:00 +0000</pubDate>
-        <link>https://github.comhttps://cockpit-project.org//blog/cockpit-348.html</link>
-        <guid isPermaLink="true">https://github.comhttps://cockpit-project.org//blog/cockpit-348.html</guid>
+        <link>https://github.comhttps://cockpit-project.org/preview/2//blog/cockpit-348.html</link>
+        <guid isPermaLink="true">https://github.comhttps://cockpit-project.org/preview/2//blog/cockpit-348.html</guid>
         
         <category>cockpit,</category>
         
