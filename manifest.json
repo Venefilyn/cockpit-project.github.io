@@ -3,7 +3,7 @@
   "short_name": "Cockpit Project",
   "lang": "en",
   "start_url": ".",
-  "scope": "https://cockpit-project.org/preview/2",
+  "scope": "https://cockpit-project.org",
   "background_color": "#fff",
   "theme_color": "#3e5375",
   "description": "Cockpit makes it easy to administer your Linux servers via a web browser.",
@@ -16,7 +16,7 @@
 
   
   {
-    "src": "https://cockpit-project.org/preview/2/images/favicon-small.png",
+    "src": "https://cockpit-project.org/images/favicon-small.png",
     "sizes": "16x16",
     "type": "image/png"
   },
@@ -24,7 +24,7 @@
 
   
   {
-    "src": "https://cockpit-project.org/preview/2/images/favicon.png",
+    "src": "https://cockpit-project.org/images/favicon.png",
     "sizes": "512x512",
     "type": "image/png"
   }

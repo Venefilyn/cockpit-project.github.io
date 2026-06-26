@@ -8,9 +8,9 @@
 
     <title>Cockpit 257 &mdash; Cockpit Project</title>
 
-    <link rel="canonical" href="https://github.comhttps://cockpit-project.org/preview/2/blog/cockpit-257.html">
+    <link rel="canonical" href="https://github.comhttps://cockpit-project.org/blog/cockpit-257.html">
 
-    <link rel="manifest" href="https://cockpit-project.org/preview/2/manifest.json">
+    <link rel="manifest" href="https://cockpit-project.org/manifest.json">
 
     <meta name="description" content="Cockpit makes it easy to administer your Linux servers via a web browser.
 ">
@@ -18,15 +18,15 @@
     <meta property="og:title" content="Cockpit 257">
     <meta property="og:description" content="Certificate changes, systemd for users, virtual console selecting in Machines, a new container workflow for Podman">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://github.comhttps://cockpit-project.org/preview/2/blog/cockpit-257.html">
+    <meta property="og:url" content="https://github.comhttps://cockpit-project.org/blog/cockpit-257.html">
     <meta name="author" content="Garrett LeSage">
-    <meta property="og:image" content="https://cockpit-project.org/preview/2/images/site/opengraph.png">
+    <meta property="og:image" content="https://cockpit-project.org/images/site/opengraph.png">
     <meta name="theme-color" content="#3e5375">
 
     <!-- Favicon -->
     
     
-      <link rel="shortcut icon" href="https://cockpit-project.org/preview/2/images/favicon.png" type="image/png">
+      <link rel="shortcut icon" href="https://cockpit-project.org/images/favicon.png" type="image/png">
     
 
 
@@ -37,8 +37,8 @@
     <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <script src="https://cockpit-project.org/preview/2/assets/main.js"></script>
-    <link rel="stylesheet" href="https://cockpit-project.org/preview/2/assets/main.css">
+    <script src="https://cockpit-project.org/assets/main.js"></script>
+    <link rel="stylesheet" href="https://cockpit-project.org/assets/main.css">
   </head>
 
 
@@ -59,7 +59,7 @@
     
 
     
-      <h1><a href="https://cockpit-project.org/preview/2/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://cockpit-project.org/preview/2/images/site/cockpit-logo.svg"></a></h1>
+      <h1><a href="https://cockpit-project.org/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://cockpit-project.org/images/site/cockpit-logo.svg"></a></h1>
     
 
     
@@ -80,7 +80,7 @@
 
       <li class="nav--home" role="menuitem">
         
-          <a href="https://cockpit-project.org/preview/2/"><span class="label">Home</span></a>
+          <a href="https://cockpit-project.org/"><span class="label">Home</span></a>
         
         
       </li>
@@ -89,7 +89,7 @@
 
       <li class="nav--install" role="menuitem">
         
-          <a href="https://cockpit-project.org/preview/2/running.html"><span class="label">Install</span></a>
+          <a href="https://cockpit-project.org/running.html"><span class="label">Install</span></a>
         
         
       </li>
@@ -98,7 +98,7 @@
 
       <li class="nav--documentation" role="menuitem">
         
-          <a href="https://cockpit-project.org/preview/2/documentation.html"><span class="label">Documentation</span></a>
+          <a href="https://cockpit-project.org/documentation.html"><span class="label">Documentation</span></a>
         
         
       </li>
@@ -107,7 +107,7 @@
 
       <li class="nav--contribute" role="menuitem">
         
-          <a href="https://cockpit-project.org/preview/2/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
+          <a href="https://cockpit-project.org/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
         
         
       </li>
@@ -116,7 +116,7 @@
 
       <li class="nav--blog" role="menuitem">
         
-          <a href="https://cockpit-project.org/preview/2/blog/"><span class="label">Blog</span></a>
+          <a href="https://cockpit-project.org/blog/"><span class="label">Blog</span></a>
         
         
       </li>
@@ -125,7 +125,7 @@
 
       <li class="nav--search" role="menuitem">
         
-          <a href="https://cockpit-project.org/preview/2/search.html"><span class="label">Search</span></a>
+          <a href="https://cockpit-project.org/search.html"><span class="label">Search</span></a>
         
         
       </li>
@@ -171,7 +171,7 @@
           <span class="byline">
             by
             <span class="author vcard">
-              <a href="https://cockpit-project.org/preview/2/blog/authors#garrett">Garrett LeSage</a>
+              <a href="https://cockpit-project.org/blog/authors#garrett">Garrett LeSage</a>
             </span>
           </span>
         
@@ -188,7 +188,7 @@
 
         <div class="category">
           
-            category: <a href="https://cockpit-project.org/preview/2/blog/category/release.html">release</a>
+            category: <a href="https://cockpit-project.org/blog/category/release.html">release</a>
           
         </div>
       
@@ -223,35 +223,35 @@ We release regularly.</p>
 
 <p>In addition to system system-wide units, systemd manages user-specific units as well. The Services page can now show and control these user instance units with the new “System”/”User” toggle. Changing user units does not require Administrator privileges.</p>
 
-<p><img src="https://cockpit-project.org/preview/2/images/257-services-show-user-owned-systemd-units.png" alt="140483853-7c31cd69-4d5d-4b37-8cdc-4498e1daf813" /></p>
+<p><img src="https://cockpit-project.org/images/257-services-show-user-owned-systemd-units.png" alt="140483853-7c31cd69-4d5d-4b37-8cdc-4498e1daf813" /></p>
 
 <h2 id="machines-support-selecting-between-consoles-of-the-same-type">Machines: Support selecting between consoles of the same type</h2>
 
 <p><abbr title="Virtual Machine">VM</abbr> configurations can specify multiple PTY consoles. A <abbr title="Virtual Machine">VM</abbr> can have an emulated serial console and a virtio serial console. The console menu now shows alias identifiers, making it possible to choose between consoles of the same type.</p>
 
-<p><img src="https://cockpit-project.org/preview/2/images/257-machines-support-selecting-between-consoles-of-the-same-type.png" alt="140937551-4e7bb79d-54da-4bf7-9c67-b1ac85f1f074" /></p>
+<p><img src="https://cockpit-project.org/images/257-machines-support-selecting-between-consoles-of-the-same-type.png" alt="140937551-4e7bb79d-54da-4bf7-9c67-b1ac85f1f074" /></p>
 
 <h2 id="podman-new-create-container-workflow">Podman: New “Create container” workflow</h2>
 
 <p>Creating a container is easier and more featureful. The new container creation workflow starts by clicking the “Create container” button, which shows a new dialog.</p>
 
-<p><img src="https://cockpit-project.org/preview/2/images/257-podman-new-create-container-workflow.png" alt="141087576-66ad8aaa-937f-44ae-99f9-738fd75ed146" /></p>
+<p><img src="https://cockpit-project.org/images/257-podman-new-create-container-workflow.png" alt="141087576-66ad8aaa-937f-44ae-99f9-738fd75ed146" /></p>
 
 <p>The dialog itself shows local images, including manually created images and previously created images, and can download an image directly from a registry.</p>
 
-<p><img src="https://cockpit-project.org/preview/2/images/257-podman-new-create-container-workflow-2.png" alt="141087882-48f73144-549b-44d2-b3ad-bd007e2e3422" /></p>
+<p><img src="https://cockpit-project.org/images/257-podman-new-create-container-workflow-2.png" alt="141087882-48f73144-549b-44d2-b3ad-bd007e2e3422" /></p>
 
 <p>A second tab contains optional system integration with port mapping, volume mapping, and environment variables.</p>
 
-<p><img src="https://cockpit-project.org/preview/2/images/257-podman-new-create-container-workflow-3.png" alt="141087968-5d7ee210-92cc-4efd-87f5-43569b9be60c" /></p>
+<p><img src="https://cockpit-project.org/images/257-podman-new-create-container-workflow-3.png" alt="141087968-5d7ee210-92cc-4efd-87f5-43569b9be60c" /></p>
 
 <h2 id="podman-prune-unused-images">Podman: Prune unused images</h2>
 
 <p>Unused images can now be cleaned up in cockpit-podman. This behaves similar to <code class="language-plaintext highlighter-rouge">podman image prune -a</code> and can delete unused system <em>and</em> user container images at the same time.</p>
 
-<p><img src="https://cockpit-project.org/preview/2/images/257-podman-prune-unused-images.png" alt="139233630-1ca43c26-a276-4f9a-9ac5-5caf0d56b277" /></p>
+<p><img src="https://cockpit-project.org/images/257-podman-prune-unused-images.png" alt="139233630-1ca43c26-a276-4f9a-9ac5-5caf0d56b277" /></p>
 
-<p><img src="https://cockpit-project.org/preview/2/images/257-podman-prune-unused-images-2.png" alt="140961475-7dbd2501-5a3b-49e0-8edc-f5d5f1f7df53" /></p>
+<p><img src="https://cockpit-project.org/images/257-podman-prune-unused-images-2.png" alt="140961475-7dbd2501-5a3b-49e0-8edc-f5d5f1f7df53" /></p>
 
 <h2 id="try-it-out">Try it out</h2>
 
@@ -290,7 +290,7 @@ world since the late 90s and works at Red Hat in the Cockpit team.</p>
 
 
       <div class="more-link">
-        <a href="https://cockpit-project.org/preview/2/blog/authors#garrett">
+        <a href="https://cockpit-project.org/blog/authors#garrett">
           View all posts by Garrett LeSage »
         </a>
       </div>
@@ -318,11 +318,11 @@ world since the late 90s and works at Red Hat in the Cockpit team.</p>
     </p>
 
     <p class="policy">
-        <a href="https://cockpit-project.org/preview/2/privacy.html">
+        <a href="https://cockpit-project.org/privacy.html">
             Privacy Policy
         </a>
         &mdash;
-        <a href="https://cockpit-project.org/preview/2/code-of-conduct.html">
+        <a href="https://cockpit-project.org/code-of-conduct.html">
             Code of Conduct
         </a>
     </p>
