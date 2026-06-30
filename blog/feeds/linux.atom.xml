@@ -4,10 +4,10 @@
     <title>Cockpit Project - Linux</title>
     <description>Cockpit makes it easy to administer your Linux servers via a web browser.
 </description>
-    <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2/</link>
-    <atom:link href="https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/feeds/linux.atom.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 26 Jun 2026 16:01:00 +0000</pubDate>
-    <lastBuildDate>Fri, 26 Jun 2026 16:01:00 +0000</lastBuildDate>
+    <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/</link>
+    <atom:link href="https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/blog/feeds/linux.atom.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Tue, 30 Jun 2026 12:28:13 +0000</pubDate>
+    <lastBuildDate>Tue, 30 Jun 2026 12:28:13 +0000</lastBuildDate>
     <generator>Jekyll v3.9.5</generator>
     
       <item>
@@ -48,8 +48,8 @@ these capabilities are what allow Cockpit to implement its UI.&lt;/p&gt;
 
         </description>
         <pubDate>Tue, 04 Nov 2014 00:00:00 +0000</pubDate>
-        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2//blog/d-bus-is-powerful-ipc.html</link>
-        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2//blog/d-bus-is-powerful-ipc.html</guid>
+        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io//blog/d-bus-is-powerful-ipc.html</link>
+        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io//blog/d-bus-is-powerful-ipc.html</guid>
         
         <category>dbus</category>
         
