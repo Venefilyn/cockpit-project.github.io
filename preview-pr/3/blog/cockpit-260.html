@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html class=" -path-blog-cockpit-260.html" lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Cockpit 260 &mdash; Cockpit Project</title>
+
+    <link rel="canonical" href="https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/blog/cockpit-260.html">
+
+    <link rel="manifest" href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/manifest.json">
+
+    <meta name="description" content="Cockpit makes it easy to administer your Linux servers via a web browser.
+">
+    <meta property="og:site_name" content="Cockpit Project">
+    <meta property="og:title" content="Cockpit 260">
+    <meta property="og:description" content="Client improvements, podman restart policy and pod container creation">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/blog/cockpit-260.html">
+    <meta name="author" content="Garrett LeSage">
+    <meta property="og:image" content="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/site/opengraph.png">
+    <meta name="theme-color" content="#3e5375">
+
+    <!-- Favicon -->
+    
+    
+      <link rel="shortcut icon" href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/favicon.png" type="image/png">
+    
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/assets/main.js"></script>
+    <link rel="stylesheet" href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/assets/main.css">
+  </head>
+
+
+  <body id="page-top">
+    
+    
+      
+      
+      
+      
+
+      
+        
+        <header class="masthead hidden-print" id="branding" role="banner">
+
+  <section class="hgroup">
+    
+    
+
+    
+      <h1><a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/site/cockpit-logo.svg"></a></h1>
+    
+
+    
+  </section>
+
+  
+
+    <div class="nav-wrap">
+      
+
+
+  <nav role="navigation" class="">
+
+
+  <ul class="nav-menu" role="menubar">
+    
+      
+
+      <li class="nav--home" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/"><span class="label">Home</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--install" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/running.html"><span class="label">Install</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--documentation" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/documentation.html"><span class="label">Documentation</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--contribute" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--blog" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/blog/"><span class="label">Blog</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--search" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/search.html"><span class="label">Search</span></a>
+        
+        
+      </li>
+    
+
+  </ul>
+
+
+  </nav>
+
+
+    </div>
+
+  
+
+</header>
+
+
+<div class="page-content" id="page-wrap" role="main">
+  <div class="wrapper">
+    
+
+
+
+
+
+
+
+
+
+
+
+<article class="post hentry" id="-blog-cockpit-260.html">
+  <header class="post-header">
+    <h2 class="post-title entry-title">
+      
+        Cockpit 260
+      
+    </h2>
+    <header class="post-meta">
+      
+        
+          <span class="byline">
+            by
+            <span class="author vcard">
+              <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/blog/authors#garrett">Garrett LeSage</a>
+            </span>
+          </span>
+        
+        –
+      
+      <time class="published" datetime="3">
+        Jan 5, 2022
+      </time>
+
+      
+        
+        
+        
+
+        <div class="category">
+          
+            category: <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/blog/category/release.html">release</a>
+          
+        </div>
+      
+    </header>
+  </header>
+
+  
+  
+  
+  
+
+  <section class="post-content entry-content">
+    
+      <p>Cockpit is the <a href="https://cockpit-project.org/">modern Linux admin interface</a>.
+We release regularly.</p>
+
+<p>Here are the release notes from Cockpit 260 and cockpit-podman 39:</p>
+
+<h2 id="certificate-login-validation-action-required-on-updates">Certificate login validation: Action required on updates</h2>
+
+<p>Earlier Cockpit/sssd versions did not check trust or revocation status of a presented client certificate, and thus certificate/smart card login was secure and supported only when matching the entire binary certificate against the Identity Management’s database. With sssd 2.6.1 and Cockpit 260, the certificate signature and revocation status is now validated against the CA <a href="https://www.mankier.com/5/sssd.conf#Services_Sections-PAM_configuration_options">configured in sssd</a>, and any non-trusted certificate is rejected. This includes the case when the local sssd has <em>no</em> configured CA, which may break certificate logins after updating cockpit and sssd.</p>
+
+<p>Thus if you use certificate login, you need to set up the trusted CA in sssd. Please see the <a href="https://cockpit-project.org/guide/latest/cert-authentication.html#certauth-server-cockpitconf">certificate authentication documentation</a> for details.</p>
+
+<p>This issue was assigned <a href="https://access.redhat.com/security/cve/CVE-2021-3698">CVE-2021-3698</a>.</p>
+
+<h2 id="client-show-previously-used-hosts">Client: Show previously used hosts</h2>
+
+<p>Cockpit client now shows list of hosts that were used before so you can log in with one click. It is also possible to remove unwanted hosts from this list.</p>
+
+<p><img src="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/260-client-show-previously-used-hosts.png" alt="Screenshot from 2021-12-10 08-09-06" /></p>
+
+<h2 id="client-support-port-specification">Client: Support port specification</h2>
+
+<p>Cockpit Client now supports specifying the port number when connecting, with the usual syntax like <code class="language-plaintext highlighter-rouge">user@host.example.net:22222</code>.  This is the same form used in Cockpit bastion host configurations.</p>
+
+<h2 id="podman-create-container-in-pod">Podman: Create container in pod</h2>
+
+<p>It is now possible to create a container in an existing pod using the <code class="language-plaintext highlighter-rouge">Create container in pod</code> button.</p>
+
+<p><img src="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/260-create-container-in-pod.png" alt="screenshot of ## create container in pod" /></p>
+
+<p>Create container dialog now shows in which pod the container is created</p>
+
+<p><img src="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/260-create-container-in-pod-2.png" alt="screenshot of ## create container in pod" /></p>
+
+<h2 id="podman-set-restart-policy">Podman: Set restart policy</h2>
+
+<p>For system containers it is now possible to set a restart policy for new containers.</p>
+
+<p><img src="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/260-podman-restart-policy.png" alt="screenshot of ## podman restart policy" /></p>
+
+<h2 id="podman-allow-inserting-multiple-environment-variables">Podman: Allow inserting multiple environment variables</h2>
+
+<p>Podman users can now insert multiple environment variables in bulk by copy pasting an list of environment files the variables have to be formatted as FOO=bar separated by newlines.</p>
+
+<h2 id="bridge-warning-on-missing-cockpit-system-package">bridge: Warning on missing cockpit-system package</h2>
+
+<p>Previously, when attempting to connect to a system which had <code class="language-plaintext highlighter-rouge">cockpit-bridge</code> installed, but not <code class="language-plaintext highlighter-rouge">cockpit-system</code>, you’d get a generic “Not found” error, with no hints about how to fix that.</p>
+
+<p>cockpit-bridge now detects this problem and issues a more helpful message.</p>
+
+<p><img src="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/260-bridge-warning-on-missing-cockpit-system-package.png" alt="screenshot of warning on missing cockpit-system package" /></p>
+
+<h2 id="try-it-out">Try it out</h2>
+
+<p>Cockpit 260 and cockpit-podman 39 are available now:</p>
+
+<ul>
+  <li>
+    <p><a href="https://cockpit-project.org/running.html">For your Linux system</a></p>
+  </li>
+  <li><a href="https://github.com/cockpit-project/cockpit/releases/tag/260">Cockpit Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2022-de63f0423c">Cockpit Fedora 35</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2022-675c38e70e">Cockpit Fedora 34</a></li>
+  <li><a href="https://github.com/cockpit-project/cockpit-podman/releases/tag/39">cockpit-podman Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2022-bda238b5d3">cockpit-podman Fedora 35</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2022-43a48969ca">cockpit-podman Fedora 34</a></li>
+</ul>
+
+    
+  </section>
+
+  
+
+</article>
+
+
+  
+  <div class="author-info author-card" id="author-info">
+    <h2>About Garrett LeSage</h2>
+    <div class="author-blurb">
+      <p>Garrett has been a designer in the FOSS (free and open source software)
+world since the late 90s and works at Red Hat in the Cockpit team.</p>
+
+
+      <div class="more-link">
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/blog/authors#garrett">
+          View all posts by Garrett LeSage »
+        </a>
+      </div>
+
+      
+    </div>
+  </div>
+
+
+
+  </div>
+</div>
+
+<footer class="footer-cockpit" role="contentinfo">
+    <p class="copyright">
+        
+
+        © 2013 - 2026
+
+        &mdash;
+
+        Cockpit is a <a href="https://redhat.com/">Red Hat</a> sponsored
+        free software project released under the
+        <a href="https://opensource.org/licenses/lgpl-2.1.php">LGPL v2.1+</a>
+    </p>
+
+    <p class="policy">
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/privacy.html">
+            Privacy Policy
+        </a>
+        &mdash;
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/code-of-conduct.html">
+            Code of Conduct
+        </a>
+    </p>
+
+    <p class="edit-page"><a
+      href="https://github.com/Venefilyn/cockpit-project.github.io/edit/main/_posts/2022-01-05-cockpit-260.md">Edit page on GitHub</a>
+</p>
+</footer>
+
+
+      
+    
+  </body>
+
+</html>

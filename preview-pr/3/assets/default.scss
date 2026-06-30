@@ -1,0 +1,55 @@
+// Please copy default.scss to site.scss to customize your site.
+//
+// If site.scss (or site) exists, then default.scss will not
+// be used. (You can then use it for reference later.)
+//
+// Be sure to `@import "minima"` after the variables needed for it
+// and before your own custom CSS, so you can easily override
+// (if you really need to).
+
+// Variables for SASS
+$spacing-unit:     1rem;
+
+:root {
+    // CSS variables
+    --font-base-family: Helvetica Neue, Helvetica, Arial, Liberation Sans, sans-serif;
+    --font-base-size:   16px;
+    --font-base-weight: 400;
+    --font-small-size:  var(--font-base-size) * 0.875;
+    --base-line-height: 1.5;
+
+    --color-text:       #333;
+    --color-background: #fdfdfd;
+    --color-brand:      #2a7ae2;
+
+    --color-grey:       #828282;
+    --color-grey-light: color-mix(in lch, var(--color-grey), var(--color-background), 40%);
+    --color-grey-dark: color-mix(in lch, var(--color-grey), var(--color-text), 25%);
+
+    // Width of the content area
+    --content-width:    60em;
+}
+
+// Import partials from the `minima` theme.
+@import "minima";
+
+// Import grid (see http://gridlex.devlint.fr/ for docs)
+@import "vendor/gridlex";
+
+// Comment out or remove the follow if you don't use the feature
+////////////////////////////////////////////////////////////////////////
+@import "lib/nav";          // Navbar (see opts in lib/navbar.scss)
+@import "lib/search";       // Styles for the search page
+@import "lib/blog";         // Default blog style
+@import "lib/pagination";   // Blog pagination
+@import "lib/stickyfooter"; // Stretch page with footer on bottom
+@import "lib/scrollbar-on"; // Stop page shift by keeping scrollbar on
+//@import "lib/stickyheader"; // Keep header at the top
+
+// Minima also includes a mixin for defining media queries.
+// Use media queries like this:
+// @include media-query($on-palm) {
+//     .wrapper {
+//         padding-inline: calc(var(--spacing-unit) / 2);
+//     }
+// }

@@ -1,0 +1,302 @@
+// Hide guide version notice
+.cockpit-guide .book > .titlepage:first-child {
+  display: none;
+}
+
+html.cockpit-guide {
+  body {
+    /* Guide CSS has padding-block-start set as important; let's override to fix Chrome */
+    padding-block-start: 0 !important;
+    position: relative;
+
+    // Override the font for guides
+    div.book,
+    div.refentry,
+    div.chapter,
+    div.article,
+    div.reference,
+    div.index,
+    div.footer,
+    div.section,
+    div.part,
+    div.variablelist table {
+      font-family: inherit;
+    }
+
+    // Same list as above, but also a <pre>
+    div.book,
+    div.refentry,
+    div.chapter,
+    div.article,
+    div.reference,
+    div.index,
+    div.footer,
+    div.section,
+    div.part,
+    div.variablelist table,
+    pre.programlisting {
+      color: inherit;
+      font-size: inherit;
+      line-height: inherit;
+    }
+
+    .programlisting {
+      @extend .highlighter-rouge;
+      @extend pre;
+    }
+  }
+
+  /* Evil hack to deconstruct tables
+   * as we don't have any way to rewrite the HTML here, it's pretty bad
+   * but the variable list doesn't use semantic tables anyway
+   * so a11y is questionable at best
+   * it really should be a dl (with dt, dd) */
+
+  div.variablelist {
+    th, td {
+      padding: 0;
+    }
+
+    @media screen and (max-width: $on-laptop) {
+      table tr {
+        display: flex;
+        flex-direction: column;
+
+        .term {
+          display: block;
+          margin-block-end: 0.5rem;
+        }
+
+        &:not(:last-child) {
+          margin-block-end: 3rem;
+        }
+
+        p:last-child {
+          margin-block-end: 0 !important;
+        }
+      }
+    }
+  }
+
+  header.masthead {
+    margin-block-end: 0;
+  }
+
+  table.navigation {
+    background: transparent !important;
+    height: auto;
+    margin: auto;
+    max-width: 64rem;
+    order: 1;
+    position: static !important;
+
+    th, td {
+      height: 3rem;
+      line-height: 3rem;
+    }
+
+    td:last-child {
+      width: 100%;
+      text-align: right;
+    }
+
+    th {
+      text-align: center !important;
+      font-family: var(--font-headline);
+      font-size: 1.75rem !important;
+
+      display: none;
+
+      > p {
+        font: inherit !important;
+        margin: 0;
+      }
+    }
+
+    @extend %link;
+
+    a {
+      align-items: center;
+      height: 100%;
+      padding: 0 0.5rem;
+      text-decoration: none;
+      display: inline-flex;
+
+      &:before,
+      &:after {
+        font-family: var(--font-base-family);
+        font-size: var(--font-base-size);
+        line-height: var(--base-line-height);
+        vertical-align: middle;
+        margin: 0.5em;
+      }
+
+      img {
+        opacity: 0.6;
+        min-width: 24px;
+
+        @media (prefers-color-scheme: dark) {
+          filter: invert(1);
+        }
+      }
+
+      &:hover img {
+        opacity: 1;
+      }
+    }
+
+    @media screen and (min-width: $on-laptop) {
+      a[accesskey=p]:after {
+        content: "Previous";
+      }
+
+      a[accesskey=u]:after {
+        content: "Up";
+      }
+
+      a[accesskey=h]:after {
+        content: "Contents";
+      }
+
+      a[accesskey=n]:before {
+        content: "Next";
+      }
+    }
+  }
+
+  .releaseinfo {
+    text-align: center;
+  }
+
+  div.toc {
+    margin: 0 0 3rem;
+
+    p:first-child > b {
+      display: block;
+      font-family: var(--font-headline);
+      font-size: 1.72rem;
+      font-weight: normal;
+      padding: 1rem 0;
+    }
+  }
+
+  dl.toc {
+    dd, dt {
+      padding-inline-start: 3ex;
+    }
+
+    > dd > dl {
+      margin-block-end: 3ex;
+
+      dl {
+        margin: 1ex 0 2ex;
+      }
+    }
+
+    a {
+      text-decoration: underline;
+    }
+  }
+
+  h2, h3, h4, h5, h6,
+  dl.toc .part {
+    position: static;
+    padding: 1rem 0 0.5rem;
+  }
+
+  h2,
+  dl.toc .part {
+    font-size: 1.72rem;
+  }
+
+  h3 {
+    font-size: 1.4rem;
+  }
+
+  .refnamediv h2,
+  [role=main] > .titlepage:first-child .title {
+    font-size: 2.75rem;
+    margin-block-end: 2rem;
+    line-height: 1.2;
+    padding-block-start: 0;
+  }
+
+  [role=main],
+  div.chapter,
+  div.reference,
+  div.refentry {
+    padding: 4rem 2rem 0;
+    max-width: calc(65rem - 4rem);
+    margin-inline: auto;
+    flex: auto;
+
+    @media screen and (max-width: $on-laptop) {
+      max-width: calc(100vw - 4rem);
+    }
+  }
+
+  .refentry {
+    table {
+      color: var(--color-text);
+    }
+  }
+
+  .refnamediv > table td {
+    padding: 0 !important;
+    color: var(--color-text);
+  }
+
+  hr {
+    max-width: calc(65rem - (1rem * 2));
+    margin: auto;
+  }
+
+  .book {
+    dl.toc > dt {
+      margin: 6ex 0 3ex;
+      font-size: 120%;
+      font-weight: bold;
+    }
+  }
+
+  a[name] {
+    position: relative;
+    inset-block-start: -3rem;
+  }
+
+  [role=main] {
+    @extend %link;
+  }
+
+  @media screen and (max-width: $on-laptop) {
+    table.navigation {
+      th {
+        font-size: 1.2rem !important;
+      }
+    }
+
+    pre {
+      max-width: calc(100vw - 6rem);
+      overflow: auto;
+    }
+  }
+}
+
+/* Adapt warnings to Cockpit's PF4 inspired style */
+div.warning {
+  margin-inline: 0 !important;
+  @extend %alert;
+  @extend .warning;
+
+  > .title,
+  > h3,
+  > p {
+    padding: 0;
+    margin: 0;
+    font-size: inherit;
+
+    + p:not(:first-of-type) {
+      margin-block-start: 1rem;
+    }
+  }
+}

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html class=" -path-external-wiki-Proxying-Cockpit-over-Apache-with-LetsEncrypt" lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Proxying Cockpit over Apache with LetsEncrypt &mdash; Cockpit Project</title>
+
+    <link rel="canonical" href="https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/external/wiki/Proxying-Cockpit-over-Apache-with-LetsEncrypt">
+
+    <link rel="manifest" href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/manifest.json">
+
+    <meta name="description" content="Cockpit makes it easy to administer your Linux servers via a web browser.
+">
+    <meta property="og:site_name" content="Cockpit Project">
+    <meta property="og:title" content="Proxying Cockpit over Apache with LetsEncrypt">
+    <meta property="og:description" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/external/wiki/Proxying-Cockpit-over-Apache-with-LetsEncrypt">
+    <meta name="author" content="">
+    <meta property="og:image" content="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/site/opengraph.png">
+    <meta name="theme-color" content="#3e5375">
+
+    <!-- Favicon -->
+    
+    
+      <link rel="shortcut icon" href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/favicon.png" type="image/png">
+    
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/assets/main.js"></script>
+    <link rel="stylesheet" href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/assets/main.css">
+  </head>
+
+
+  <body id="page-top">
+    
+    
+      
+      
+      
+      
+
+      
+        
+        <header class="masthead hidden-print" id="branding" role="banner">
+
+  <section class="hgroup">
+    
+    
+
+    
+      <h1><a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/site/cockpit-logo.svg"></a></h1>
+    
+
+    
+  </section>
+
+  
+
+    <div class="nav-wrap">
+      
+
+
+  <nav role="navigation" class="">
+
+
+  <ul class="nav-menu" role="menubar">
+    
+      
+
+      <li class="nav--home" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/"><span class="label">Home</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--install" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/running.html"><span class="label">Install</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--documentation" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/documentation.html"><span class="label">Documentation</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--contribute" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--blog" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/blog/"><span class="label">Blog</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--search" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/search.html"><span class="label">Search</span></a>
+        
+        
+      </li>
+    
+
+  </ul>
+
+
+  </nav>
+
+
+    </div>
+
+  
+
+</header>
+
+
+<div class="page-content" id="page-wrap" role="main">
+  <div class="wrapper">
+    <header class="post-header">
+  <h2 class="post-title">Proxying Cockpit over Apache with LetsEncrypt</h2>
+</header>
+
+<article class="post-content">
+  <p>Cockpit works on a <strong>web socket combined with http/https</strong> interface, Web Socket is used to deliver active content back and forth between client and server. But when a proxy sits in between, it needs to be configured likely.</p>
+
+<p>We will need to create a virtual host, give the virtual host a domain name, install TLS/SSL certificate and set up a reverse proxy. (instructions adapted from <a href="https://www.linuxbabe.com/cloud-storage/integrate-collabora-online-server-nextcloud-ubuntu-16-04">here</a> and <a href="https://stackoverflow.com/questions/27526281/websockets-and-apache-proxy-how-to-configure-mod-proxy-wstunnel">here</a>)</p>
+
+<h2 id="set-up-apache-x-frame-options">Set up Apache X-Frame-Options</h2>
+
+<p>Edit Apache X-Frame-Options policy by running:</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo nano /etc/apache2/conf-available/ssl-params.conf</code></p>
+
+<p>Find a line that says <code class="language-plaintext highlighter-rouge">Header always set X-Frame-Options DENY</code>
+and change it to <code class="language-plaintext highlighter-rouge">Header always set X-Frame-Options SAMEORIGIN</code></p>
+
+<h2 id="set-up-apache-virtual-host">Set up Apache Virtual Host</h2>
+
+<p>Install Apache web server with the following command:</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo apt install apache2</code></p>
+
+<p>Run the following command to create an Apache virtual host file. Replace the domain name with your actual domain name for Cockpit. Don’t forget to create an A record for this domain name.</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo nano /etc/apache2/sites-available/cockpit.your-domain.com.conf</code></p>
+
+<p>Put the following text into the file.</p>
+
+<pre><code class="language-apacheconf">&lt;VirtualHost *:80&gt;
+ ServerName cockpit.your-domain.com
+&lt;/VirtualHost&gt;
+</code></pre>
+
+<p>Save and close the file. Enable this virtual host with the following command:</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo a2ensite cockpit.your-domain.com.conf</code></p>
+
+<p>Then restart Apache.</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo systemctl restart apache2</code></p>
+
+<h2 id="tlsssl-certificate-with-lets-encrypt">TLS/SSL certificate with Let’s Encrypt</h2>
+
+<p>HTTPS helps us prevent man-in-the-middle attack and password sniffing. We can obtain a free TLS/SSL certificate from Let’s Encrypt CA. First Let’s install the certbot client. The client is still named letsnecrypt in Ubuntu repository. The following command will install the client and apache plugin.</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo apt install letsencrypt python-letsencrypt-apache</code></p>
+
+<p>Now issue the following command to obtain a free TLS/SSL certificate. Replace the text with your actual data.</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo letsencrypt --apache --agree-tos --email YOUR-EMAIL-ADDRESS -d COCKPIT.YOUR-DOMAIN.COM</code></p>
+
+<p>You will be asked to choose easy or secure. It’s recommended to choose secure so that all http requests will be redirected to https.</p>
+
+<p>Once you hit the OK button, a free TLS/SSL certificate is obtained and installed on the Apache virtual host.</p>
+
+<p>Now copy the certificates information into the cockpit certificate folder using the following commands</p>
+
+<p><code class="language-plaintext highlighter-rouge">cat /etc/letsencrypt/live/cockpit.your-domain.com/fullchain.pem &gt;&gt; /etc/cockpit/ws-certs.d/1-my-cert.cert</code></p>
+
+<p><code class="language-plaintext highlighter-rouge">cat /etc/letsencrypt/live/cockpit.your-domain.com/privkey.pem &gt;&gt; /etc/cockpit/ws-certs.d/1-my-cert.cert</code></p>
+
+<p>You will need to do this every time the certificate gets renewed (every 3 months).</p>
+
+<h2 id="set-up-apache-reverse-proxy-in-a-subdomain">Set up Apache Reverse Proxy in a Subdomain</h2>
+
+<p>To be able to proxy traffic using Apache, run the following commands to enable each of these Apache modules.</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo a2enmod proxy proxy_wstunnel proxy_http ssl rewrite</code></p>
+
+<p>Then run the following command to edit the new virtual host file created by Let’s Encrypt (certbot) client.</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo nano /etc/apache2/sites-enabled/cockpit.your-domain.com-le-ssl.conf</code></p>
+
+<p>Change this file so it looks like the following.</p>
+
+<pre><code class="language-apacheconf">&lt;IfModule mod_ssl.c&gt;
+&lt;VirtualHost *:443&gt;
+  ServerName cockpit.your-domain.com
+  SSLCertificateFile /etc/letsencrypt/live/cockpit.your-domain.com/fullchain.pem
+  SSLCertificateKeyFile /etc/letsencrypt/live/cockpit.your-domain.com/privkey.pem
+  Include /etc/letsencrypt/options-ssl-apache.conf
+
+  ProxyPreserveHost On
+  ProxyRequests Off
+
+  # allow for upgrading to websockets
+  RewriteEngine On
+  RewriteCond %{HTTP:Upgrade} =websocket [NC]
+  RewriteRule /(.*)           ws://127.0.0.1:9090/$1 [P,L]
+  RewriteCond %{HTTP:Upgrade} !=websocket [NC]
+  RewriteRule /(.*)           http://127.0.0.1:9090/$1 [P,L]
+
+  # Proxy to your local cockpit instance
+  ProxyPass / http://127.0.0.1:9090/
+  ProxyPassReverse / http://127.0.0.1:9090/
+&lt;/VirtualHost&gt;
+&lt;/IfModule&gt;
+</code></pre>
+
+<p>With Apache 2.4.47 or later, this could also be written as:</p>
+
+<pre><code class="language-apacheconf">&lt;IfModule mod_ssl.c&gt;
+&lt;VirtualHost *:443&gt;
+  ServerName cockpit.your-domain.com
+  SSLCertificateFile /etc/letsencrypt/live/cockpit.your-domain.com/fullchain.pem
+  SSLCertificateKeyFile /etc/letsencrypt/live/cockpit.your-domain.com/privkey.pem
+  Include /etc/letsencrypt/options-ssl-apache.conf
+
+  ProxyPreserveHost On
+  ProxyRequests Off
+
+  # Proxy to your local cockpit instance
+  ProxyPass / http://127.0.0.1:9090/ upgrade=websocket
+  ProxyPassReverse / http://127.0.0.1:9090/
+&lt;/VirtualHost&gt;
+&lt;/IfModule&gt;
+</code></pre>
+
+<p>Save and close the file. Then restart Apache web server.</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo systemctl restart apache2</code></p>
+
+<p>Make sure you changed <code class="language-plaintext highlighter-rouge">/etc/cockpit/cockpit.conf</code> to include the following:</p>
+
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">[WebService]</span>
+<span class="py">Origins</span> <span class="p">=</span> <span class="s">https://cockpit.your-domain.com http://127.0.0.1:9090</span>
+<span class="py">ProtocolHeader</span> <span class="p">=</span> <span class="s">X-Forwarded-Proto</span>
+<span class="py">AllowUnencrypted</span> <span class="p">=</span> <span class="s">true</span>
+</code></pre></div></div>
+
+<p>Restart cockpit</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo systemctl restart cockpit.service</code></p>
+
+<p>You can now login to cockpit at the specified subdomain.</p>
+
+<h2 id="set-up-apache-reverse-proxy-in-a-subdirectory">Set up Apache Reverse Proxy in a Subdirectory</h2>
+
+<p>The following steps allow proxying traffic from a subdirectory of an existing Apache virtual host.<br />
+Important: <code class="language-plaintext highlighter-rouge">/cockpit/</code> and <code class="language-plaintext highlighter-rouge">/cockpit+/</code> are reserved. Do not use any reserved names <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/guide/latest/cockpit.conf.5">listed here</a>. This example will use /UrlRoot/.</p>
+
+<p>Run the following command to enable all the required Apache modules.</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo a2enmod proxy proxy_wstunnel proxy_http ssl rewrite</code></p>
+
+<p>Then run the following command to edit the new virtual host file created by Let’s Encrypt (certbot) client.</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo nano /etc/apache2/sites-enabled/cockpit.your-domain.com-le-ssl.conf</code></p>
+
+<p>If you are not using certbot, an example file normally exists at the following:</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo nano /etc/apache2/sites-available/default-ssl.conf</code></p>
+
+<p>Otherwise, consult your man pages/packager for the correct filepath, or follow the prior certbot tutorial, or create a site manually.</p>
+
+<p>Assuming you followed the prior LetsEncrypt strategy, are using the common default file, or have an existing virtual host such that the file starts with <code class="language-plaintext highlighter-rouge">&lt;IfModule mod_ssl.c&gt; &lt;VirtualHost *:443&gt;</code> and has the appropriate directives for TLS/SSL, append the following to your virtual host, replacing <code class="language-plaintext highlighter-rouge">UrlRoot</code> with your desired subdirectory name.</p>
+
+<pre><code class="language-apacheconf">                SSLProxyEngine          On
+                # required module
+                RewriteEngine           On
+                # required module
+                ProxyPreserveHost       On
+                # required
+                ProxyRequests           Off
+                # RECOMMENDED, disables forwarding, see https://httpd.apache.org/docs/2.4/mod/mod_proxy.html#proxyrequests
+                ProxyErrorOverride      Off
+                # if possible, present cockpit's error pages instead of apache's
+                SSLProxyVerify optional_no_ca
+                # cockpit has a self-signed cert by default, therefore no CA
+                SSLProxyCheckPeerCN Off
+                # SSL error without this
+                SSLProxyCheckPeerName Off
+                # SSL error without this
+                SSLProxyCheckPeerExpire Off
+                # recommended since potential SSL error without this
+                RequestHeader set "X-Forwarded-Proto" "https"
+                # required by cockpit.conf
+                # following is adapted from https://httpd.apache.org/docs/2.4/mod/mod_proxy_wstunnel.html
+                RewriteCond %{HTTP:Upgrade} websocket [NC]
+                RewriteCond %{HTTP:Connection} upgrade [NC]
+                RewriteRule "^/UrlRoot/(.*)" "wss://127.0.0.1:9090/UrlRoot/$1" [P,L]
+                # when websocket in upgrade AND
+                # within UrlRoot, rewrite proxy with wss://
+                RewriteCond ${HTTP:Upgrade} !=websocket [NC]
+                RewriteRule "^/UrlRoot/(.*)" "https://127.0.0.1:9090/UrlRoot/$1" [P,L]
+                # when no websocket upgrade AND
+                # within UrlRoot, rewrite proxy with https://
+        &lt;/VirtualHost&gt;
+&lt;/IfModule&gt;
+</code></pre>
+
+<p>Save and close the file. Then restart Apache web server.</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo systemctl restart apache2</code></p>
+
+<p>Lastly, change the <code class="language-plaintext highlighter-rouge">/etc/cockpit/cockpit.conf</code> to include the following:</p>
+
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">[WebService]</span>
+<span class="py">Origins</span> <span class="p">=</span> <span class="s">https://your-domain.com http://127.0.0.1:9090</span>
+<span class="py">ProtocolHeader</span> <span class="p">=</span> <span class="s">X-Forwarded-Proto</span>
+<span class="py">UrlRoot</span> <span class="p">=</span> <span class="s">/UrlRoot/</span>
+</code></pre></div></div>
+<p>Replace <code class="language-plaintext highlighter-rouge">/UrlRoot/</code> with your choice of subdirectory, though keep the enclosing <code class="language-plaintext highlighter-rouge">/</code>.<br />
+This method does not require you to disable encryption (<code class="language-plaintext highlighter-rouge">AllowUnencrypted = true</code>) since the self-signed certificate is allowed.</p>
+
+<p>Restart cockpit</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo systemctl restart cockpit.service</code></p>
+
+<p>You can now login to cockpit at <code class="language-plaintext highlighter-rouge">https://your-domain.com/UrlRoot/</code>.</p>
+
+</article>
+  </div>
+</div>
+
+<footer class="footer-cockpit" role="contentinfo">
+    <p class="copyright">
+        
+
+        © 2013 - 2026
+
+        &mdash;
+
+        Cockpit is a <a href="https://redhat.com/">Red Hat</a> sponsored
+        free software project released under the
+        <a href="https://opensource.org/licenses/lgpl-2.1.php">LGPL v2.1+</a>
+    </p>
+
+    <p class="policy">
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/privacy.html">
+            Privacy Policy
+        </a>
+        &mdash;
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/code-of-conduct.html">
+            Code of Conduct
+        </a>
+    </p>
+
+    <p class="edit-page"><a href="https://github.com/cockpit-project/cockpit/wiki/Proxying-Cockpit-over-Apache-with-LetsEncrypt/_edit">Edit page on GitHub</a>
+</p>
+</footer>
+
+
+      
+    
+  </body>
+
+</html>

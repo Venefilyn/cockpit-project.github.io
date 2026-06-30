@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html class=" -path-blog-fmf-unified-testing.html" lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Unified upstream and downstream testing with tmt and Packit &mdash; Cockpit Project</title>
+
+    <link rel="canonical" href="https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/blog/fmf-unified-testing.html">
+
+    <link rel="manifest" href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/manifest.json">
+
+    <meta name="description" content="Cockpit makes it easy to administer your Linux servers via a web browser.
+">
+    <meta property="og:site_name" content="Cockpit Project">
+    <meta property="og:title" content="Unified upstream and downstream testing with tmt and Packit">
+    <meta property="og:description" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/blog/fmf-unified-testing.html">
+    <meta name="author" content="Martin Pitt">
+    <meta property="og:image" content="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/site/opengraph.png">
+    <meta name="theme-color" content="#3e5375">
+
+    <!-- Favicon -->
+    
+    
+      <link rel="shortcut icon" href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/favicon.png" type="image/png">
+    
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/assets/main.js"></script>
+    <link rel="stylesheet" href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/assets/main.css">
+  </head>
+
+
+  <body id="page-top">
+    
+    
+      
+      
+      
+      
+
+      
+        
+        <header class="masthead hidden-print" id="branding" role="banner">
+
+  <section class="hgroup">
+    
+    
+
+    
+      <h1><a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/site/cockpit-logo.svg"></a></h1>
+    
+
+    
+  </section>
+
+  
+
+    <div class="nav-wrap">
+      
+
+
+  <nav role="navigation" class="">
+
+
+  <ul class="nav-menu" role="menubar">
+    
+      
+
+      <li class="nav--home" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/"><span class="label">Home</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--install" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/running.html"><span class="label">Install</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--documentation" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/documentation.html"><span class="label">Documentation</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--contribute" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--blog" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/blog/"><span class="label">Blog</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--search" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/search.html"><span class="label">Search</span></a>
+        
+        
+      </li>
+    
+
+  </ul>
+
+
+  </nav>
+
+
+    </div>
+
+  
+
+</header>
+
+
+<div class="page-content" id="page-wrap" role="main">
+  <div class="wrapper">
+    
+
+
+
+
+
+
+
+
+
+
+
+<article class="post hentry" id="-blog-fmf-unified-testing.html">
+  <header class="post-header">
+    <h2 class="post-title entry-title">
+      
+        Unified upstream and downstream testing with tmt and Packit
+      
+    </h2>
+    <header class="post-meta">
+      
+        
+          <span class="byline">
+            by
+            <span class="author vcard">
+              <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/blog/authors#pitti">Martin Pitt</a>
+            </span>
+          </span>
+        
+        –
+      
+      <time class="published" datetime="1">
+        Apr 5, 2021
+      </time>
+
+      
+        
+        
+        
+
+        <div class="category">
+          
+            category: howto
+          
+        </div>
+      
+    </header>
+  </header>
+
+  
+  
+  
+  
+
+  <section class="post-content entry-content">
+    
+      <p>Automated package update gating can tremendously increase the quality of a Linux distribution. (Gated packages are only accepted into a distribution when tests pass.)</p>
+
+<p>Two and a half years ago, we started to <a href="https://src.fedoraproject.org/rpms/cockpit/c/f639e531f9357e1a42ce7a050726d520c1586535">gate the Fedora cockpit package on our browser integration tests</a>. We have continued to increase the number of tests ever since.</p>
+
+<p>I’m especially happy gating is now in Fedora, as I had worked on <a href="https://wiki.ubuntu.com/ProposedMigration">testing in Ubuntu</a> and <a href="https://ci.debian.net/status/">Debian</a> <a href="https://piware.de/2011/11/12-04-testing-ftw/">many years ago</a>. (Adoption is a bit slower in Fedora, as it does not do reverse dependency gating <em>yet</em>.)</p>
+
+<h2 id="fedora-gating-woes">Fedora gating woes</h2>
+
+<p>But there’s a problem of scale: The more tests we added to gating, the more likely it became that any one of them would fail. Fedora’s distribution gating tests also failed at the worst possible time: After an upstream release. It felt like every single Bodhi update in the last year had failing tests. I couldn’t remember a single time when tests were green.</p>
+
+<p>Fedora’s test <abbr title="virtual machines">VMs</abbr> use different settings from Cockpit’s, such as the number of CPUs and amount of RAM, or the list of preinstalled packages. The time it takes to perform each test varies as well. For example: Fedora’s testing <abbr title="virtual machines">VMs</abbr> (running on <abbr title="Amazon Elastic Compute Cloud">EC2</abbr>) are notably slow during evenings in Europe.</p>
+
+<p>Running Fedora’s tests locally requires know-how and tricks:</p>
+
+<ul>
+  <li>How is the test environment defined and configured?</li>
+  <li>Where can someone download the gating <abbr title="virtual machine">VM</abbr> images?</li>
+  <li>How do I start them to get a similar environment as the <abbr title="continuous integration (testing)">CI</abbr> system?</li>
+</ul>
+
+<p>Fedora’s <a href="https://docs.fedoraproject.org/en-US/ci/standard-test-interface/">Standard Test Interface</a> was flexible and precise when covering the API, but lacked pinning down the test environment. The documentation more or less says “just run <code class="language-plaintext highlighter-rouge">ansible-playbook</code> in a <abbr title="virtual machine">VM</abbr>”, but there is no tool to provide such a <abbr title="virtual machine">VM</abbr>.</p>
+
+<p>It was time to fix this once and for all.</p>
+
+<h2 id="fix-run-distribution-tests-upstream">Fix: Run distribution tests upstream</h2>
+
+<p>The concept to fix the tests is simple:</p>
+<ol>
+  <li>Pin down the environment where these tests run, and provide a tool to create and use them.</li>
+  <li>Make it trivial to locally run and debug a package’s gating tests.</li>
+  <li>Run gating tests for <em>every</em> upstream change (i.e. pull request), using <em>the exact same</em> environment, test metadata, and configuration.</li>
+</ol>
+
+<p>I’m happy to say that, after a lot of work from several different teams, all these now exist!</p>
+
+<h2 id="flexible-metadata-format">Flexible Metadata Format</h2>
+
+<p><a href="https://tmt.readthedocs.io/en/latest/spec.html"><abbr title="Flexible Metadata Format">FMF</abbr></a> (Flexible Metadata Format) is the successor of the Ansible-based Standard Test Interface. <abbr title="Flexible Metadata Format">FMF</abbr> is declarative YAML and distribution/project agnostic. The “flexible” in <abbr title="Flexible Metadata Format">FMF</abbr> is rich, so that (by design) it does not limit what tests can do or where to they run. Despite its complexity, most settings have good defaults, so you don’t need to know about every detail.</p>
+
+<p>We first added <abbr title="Flexible Metadata Format">FMF</abbr> to Cockpit’s <a href="https://github.com/cockpit-project/starter-kit/commit/09823650e222da0">starter kit</a>. As a reference, the central file is <a href="https://github.com/cockpit-project/starter-kit/blob/master/test/browser/main.fmf"><code class="language-plaintext highlighter-rouge">test/browser/main.fmf</code></a>. This lists the test dependencies, the entry script, and a timeout:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">summary</span><span class="pi">:</span>
+    <span class="s">Run browser integration tests on the host</span>
+<span class="na">require</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">cockpit-starter-kit</span>
+  <span class="pi">[</span><span class="nv">...</span><span class="pi">]</span>
+  <span class="pi">-</span> <span class="s">npm</span>
+  <span class="pi">-</span> <span class="s">python3</span>
+<span class="na">test</span><span class="pi">:</span> <span class="s">./browser.sh</span>
+<span class="na">duration</span><span class="pi">:</span> <span class="s">60m</span>
+</code></pre></div></div>
+
+<p>Translating from <a href="https://src.fedoraproject.org/rpms/cockpit/blob/d6853f04e1184f562f872c5c765f40644ef5edc8/f/tests/tests.yml">the <abbr title="Fedora's Standard Test Interface">STI</abbr> Ansible tests.yml</a> is straightforward. The <abbr title="Fedora's Standard Test Interface">STI</abbr> configuration looked like this:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="pi">-</span> <span class="na">hosts</span><span class="pi">:</span> <span class="s">localhost</span>
+  <span class="na">roles</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">role</span><span class="pi">:</span> <span class="s">standard-test-source</span>
+    <span class="na">tags</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">always</span>
+
+  <span class="pi">-</span> <span class="na">role</span><span class="pi">:</span> <span class="s">standard-test-basic</span>
+    <span class="na">tags</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">classic</span>
+    <span class="na">required_packages</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">cockpit</span>
+    <span class="pi">[</span><span class="nv">...</span><span class="pi">]</span>
+    <span class="pi">-</span> <span class="s">npm</span>
+    <span class="pi">-</span> <span class="s">python3</span>
+    <span class="na">tests</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">verify</span><span class="pi">:</span>
+        <span class="na">dir</span><span class="pi">:</span> <span class="s">.</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="s">./verify.sh</span>
+        <span class="na">save-files</span><span class="pi">:</span> <span class="pi">[</span><span class="s2">"</span><span class="s">logs/*"</span><span class="pi">]</span>
+</code></pre></div></div>
+
+<p>Aside from the above, there’s a little bit of boilerplate needed:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">.fmf/version</code> (just “1”)</li>
+  <li>At least one top-level <a href="https://github.com/cockpit-project/starter-kit/blob/master/plans/all.fmf"><code class="language-plaintext highlighter-rouge">plans/*.fmf</code></a>. This can be the same for every project. Hopefully, it may be the implied default some day.</li>
+</ul>
+
+<p>This test metadata format provides underpinnings for the following new tools.</p>
+
+<h2 id="test-management-tool">Test Management Tool</h2>
+
+<p><a href="https://docs.fedoraproject.org/en-US/ci/tmt/">Test Management Tool</a> (<abbr title="test management tool">tmt</abbr>) addresses the first two points (pinning the environment and running locally). If a project has <abbr title="Flexible Metadata Format">FMF</abbr> metadata for its tests, running <abbr title="test management tool">tmt</abbr> as simple as:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tmt run
+</code></pre></div></div>
+
+<p>The tool then:</p>
+
+<ol>
+  <li>downloads a standard Fedora development series <abbr title="virtual machine">VM</abbr> (34 at the moment)</li>
+  <li>starts it in libvirt/QEMU</li>
+  <li>runs your tests inside the <abbr title="virtual machine">VM</abbr></li>
+  <li>produces a live log while the test is running</li>
+  <li>copies out all the test logs and artifacts</li>
+  <li>cleans up everything in the previous steps</li>
+</ol>
+
+<h3 id="tmt-customization"><abbr title="test management tool">tmt</abbr> customization</h3>
+
+<p>The run command uses a lot of defaults, but supports customization.</p>
+
+<p><strong>Example 1</strong>: Run on a different Fedora release:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tmt run <span class="nt">--all</span> provision <span class="nt">--how</span> virtual <span class="nt">--image</span> fedora-33
+</code></pre></div></div>
+
+<p><strong>Example 2</strong>: Run the steps until the report stage (thus skipping finish). This allows you to ssh into the test <abbr title="virtual machine">VM</abbr> and investigate failures.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tmt run <span class="nt">--until</span> report
+tmt run <span class="nt">-l</span> login
+</code></pre></div></div>
+
+<p>See <code class="language-plaintext highlighter-rouge">--help</code> and the documentation for details.</p>
+
+<p>Until recently, this only worked with <code class="language-plaintext highlighter-rouge">qemu:///system</code> libvirt. (That is: not in containers or <a href="https://docs.fedoraproject.org/en-US/fedora-silverblue/toolbox/"><code class="language-plaintext highlighter-rouge">toolbox</code></a>.)</p>
+
+<p>The latest testcloud and <abbr title="test management tool">tmt</abbr> versions have switched to <code class="language-plaintext highlighter-rouge">qemu:///session</code> by default. (Thanks to Petr Šplíchal for responding to my nagging so quickly!) Using session enables <abbr title="test management tool">tmt</abbr> to run without root privileges, bridges, or services.</p>
+
+<h2 id="packit">Packit</h2>
+
+<p><a href="https://packit.dev/">Packit</a> is a tool and a service to automatically package upstream releases into Fedora or <abbr title="A build service for unofficial / semi-official Fedora community projects. It's a portmanteau, short for &quot;Community Projects&quot;. Pronounced like the metal &quot;copper&quot;.">Copr</abbr>.</p>
+
+<p>It recently learned a cool new trick: The <a href="https://github.com/marketplace/packit-as-a-service">Packit-as-a-Service GitHub app</a> runs a project’s <abbr title="Flexible Metadata Format">FMF</abbr> test plans in pull requests. Packit-as-a-Service is open source, <a href="https://packit.dev/docs/packit-as-a-service/">simple to set up</a>, and free to use. For projects that use it, this addresses point 3 above (running gating tests for every upstream change).</p>
+
+<p>Tests run on the <a href="https://testing-farm.gitlab.io/api/">testing-farm</a>, which provides reasonable (1 CPU, 2 GiB RAM) <abbr title="Amazon Web Services">AWS</abbr> <abbr title="Amazon Elastic Compute Cloud">EC2</abbr> instances. Critically, this is the exact same  infrastructure that the Fedora gating tests use.  This is by design. It’s easier to maintain one testing farm than two sets of infrastructure. Using the same infrastructure provides the necessary reproducibility for project maintainers.</p>
+
+<p>Like Travis or GitHub workflows, your project only needs to add a packit.yaml file. For example, here’s Cockpit starter-kit’s:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">specfile_path</span><span class="pi">:</span> <span class="s">cockpit-starter-kit.spec</span>
+<span class="na">actions</span><span class="pi">:</span>
+  <span class="na">post-upstream-clone</span><span class="pi">:</span> <span class="s">make cockpit-starter-kit.spec</span>
+  <span class="c1"># reduce memory consumption of webpack in sandcastle container</span>
+  <span class="c1"># https://github.com/packit/sandcastle/pull/92</span>
+  <span class="c1"># https://medium.com/the-node-js-collection/node-js-memory-management-in-container-environments-7eb8409a74e8</span>
+  <span class="na">create-archive</span><span class="pi">:</span> <span class="s">make NODE_OPTIONS=--max-old-space-size=500 dist-gzip</span>
+  <span class="c1"># starter-kit.git has no release tags; your project can drop this once you have a release</span>
+  <span class="na">get-current-version</span><span class="pi">:</span> <span class="s">make print-version</span>
+<span class="na">jobs</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">job</span><span class="pi">:</span> <span class="s">tests</span>
+    <span class="na">trigger</span><span class="pi">:</span> <span class="s">pull_request</span>
+    <span class="na">metadata</span><span class="pi">:</span>
+      <span class="na">targets</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">fedora-all</span>
+</code></pre></div></div>
+
+<p>The YAML above binds together:</p>
+
+<ul>
+  <li>the knowledge how to produce an upstream release tarball from your branch</li>
+  <li>where the spec file is</li>
+  <li>which Fedora releases to run tests in a PR</li>
+</ul>
+
+<p>Packit will then use this information to:</p>
+
+<ol>
+  <li>build the tarball (<code class="language-plaintext highlighter-rouge">create-archive</code>)</li>
+  <li>build an <abbr title="source RPM">SRPM</abbr> with the spec file</li>
+  <li>build the <abbr title="source RPM">SRPM</abbr> in a temporary <abbr title="A build service for unofficial / semi-official Fedora community projects. It's a portmanteau, short for &quot;Community Projects&quot;. Pronounced like the metal &quot;copper&quot;.">Copr</abbr></li>
+  <li>use <abbr title="test management tool">tmt</abbr> to run your tests against these built RPMs</li>
+</ol>
+
+<p>For an upstream project relying on tests, it can’t get much simpler!</p>
+
+<h3 id="an-in-practice-example-with-starter-kit">An in-practice example with starter-kit</h3>
+
+<p>As an example: Look at a <a href="https://github.com/cockpit-project/starter-kit/pull/442">recent starter-kit PR</a>. Click on “View Details” to expand the tests. It shows four Packit runs.</p>
+
+<p>It’s great, but not yet perfect. It is still not obvious how to get from such a <a href="http://artifacts.dev.testing-farm.io/f24bede3-995e-4f10-970f-dc849e950e3a/">result link</a> to all artifacts.</p>
+
+<p>Minor quality-of-life improvements that are likely forthcoming:</p>
+
+<ul>
+  <li>Finding test artifacts (for now, look at the log to find out the path to the <code class="language-plaintext highlighter-rouge">/work-allXXXXXX</code> directory and append that to the URL)</li>
+  <li>Seeing <a href="https://gitlab.com/testing-farm/general/-/issues/13">live logs while a test is running</a></li>
+</ul>
+
+<h2 id="recent-fedora-ci-changes">Recent Fedora <abbr title="continuous integration (testing)">CI</abbr> changes</h2>
+
+<p>As mentioned above, Fedora’s gating tests are now using the exact same testing farm as Packit. This recent switch allows the test to run in the same environment. It also supports the new <abbr title="Flexible Metadata Format">FMF</abbr>+<abbr title="test management tool">tmt</abbr> test metadata and the legacy <abbr title="Fedora's Standard Test Interface">STI</abbr> format.</p>
+
+<p>These changes get us close to the goal of sharing tests upstream and downstream.</p>
+
+<h3 id="missing-embedded-test-support">Missing: embedded test support</h3>
+
+<p>While it’s almost complete, there is a missing part. There is no current clean way to run tests contained in the upstream tarball.
+Right now, the packaging dist-git must have a <a href="https://src.fedoraproject.org/rpms/cockpit/blob/rawhide/f/plans/upstream.fmf">top-level <abbr title="Flexible Metadata Format">FMF</abbr> test plan</a> like this:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">discover</span><span class="pi">:</span>
+  <span class="na">how</span><span class="pi">:</span> <span class="s">fmf</span>
+  <span class="na">repository</span><span class="pi">:</span> <span class="s">https://github.com/cockpit-project/cockpit</span>
+  <span class="c1"># FIXME: get rid of the hardcoding: https://github.com/psss/tmt/issues/585</span>
+  <span class="na">ref</span><span class="pi">:</span> <span class="s2">"</span><span class="s">241"</span>
+<span class="na">execute</span><span class="pi">:</span>
+  <span class="na">how</span><span class="pi">:</span> <span class="s">tmt</span>
+</code></pre></div></div>
+
+<p>The workaround, seen in the above snippet, uses tests from a specific tag in the upstream project git. The git tag must match the release in the spec file, to keep tests in-sync with the tested packages. This is awkward, as it requires accessing a remote git (at a specific tag), even though tests exist in the source tarball.</p>
+
+<p>Changing this requires some <a href="https://github.com/psss/tmt/issues/585"><abbr title="test management tool">tmt</abbr> design discussion</a>. For now, we <a href="https://github.com/cockpit-project/cockpituous/commit/2ef3f6c99912">hacked our release scripts</a> to bump up the test plan’s <code class="language-plaintext highlighter-rouge">ref:</code>  when committing a new release to dist-git. If you use this in your project, you need similar “magic” or always update the test plan’s <code class="language-plaintext highlighter-rouge">ref:</code> along with your spec file.</p>
+
+<p>Even with this hack, Cockpit’s <a href="https://src.fedoraproject.org/rpms/cockpit/c/0fee2830080033ea2be13be30d156b51dcf75b7d">commit to move from <abbr title="Fedora's Standard Test Interface">STI</abbr> to upstream <abbr title="Flexible Metadata Format">FMF</abbr></a> was still a major net gain. Cockpit’s tests run straight from upstream now.</p>
+
+<h2 id="putting-it-all-together">Putting it all together</h2>
+
+<p>Cockpit’s <a href="https://github.com/cockpit-project/starter-kit/#running-tests-in-ci">starter-kit</a>, the basis for creating your own Cockpit UIs, implements this all now: <abbr title="Flexible Metadata Format">FMF</abbr> metadata, <a href="https://github.com/cockpit-project/starter-kit/tree/master/test/browser">setup scripts</a>, <a href="https://github.com/cockpit-project/starter-kit/blob/master/packit.yaml">packit.yaml</a>, and <a href="https://github.com/cockpit-project/starter-kit#running-tests-in-ci">documentation</a>.</p>
+
+<p><a href="https://github.com/cockpit-project/cockpit/pull/15504">Doing the same for Cockpit itself</a> was more involved, because packit’s <code class="language-plaintext highlighter-rouge">create-archive</code> step has limits: it needs to work in a 768 MiB <abbr title="virtual machine">VM</abbr> and finish within 30 minutes, but for larger projects this is not enough for webpack. Instead, <a href="https://github.com/cockpit-project/cockpit/blob/master/.github/workflows/build-dist.yml">a GitHub workflow builds the tarballs</a> and Packit downloads the pre-built artifacts. (We want to do that anyway, as pre-building is useful for speeding up reviews and local development as well.)</p>
+
+<p>The <abbr title="virtual machine">VM</abbr> constraints are not an issue for smaller projects like <a href="https://github.com/cockpit-project/cockpit-podman">cockpit-podman</a>. The entire webpack build does fit within packit’s limits.</p>
+
+<p>It should also not be an issue for most C/Python/etc. projects where <code class="language-plaintext highlighter-rouge">make dist</code> (or <code class="language-plaintext highlighter-rouge">meson dist</code>, <code class="language-plaintext highlighter-rouge">./setup.py sdist</code>, etc.) will usually be quick and lean.</p>
+
+<p>Finally, we were able to collect the prize… Thanks to the new testing frameworks, Cockpit release 241 <a href="https://bodhi.fedoraproject.org/updates/FEDORA-2021-abd3934d7b">passed Fedora gating tests</a> for the first time in roughly a year! 🎉</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>There are finally tools to for cloud-first, proper, consistent, and free upstream/downstream <abbr title="continuous integration (testing)">CI</abbr>… and all without having to maintain your own infrastructure! This is a major milestone and motivator. There’s now no excuse to ship any more broken stuff! 😀</p>
+
+<p>Many thanks in particular to <a href="https://github.com/psss">Petr Šplíchal</a> (testcloud/<abbr title="test management tool">tmt</abbr>), <a href="https://github.com/TomasTomecek/">Tomas Tomecek</a> (packit), and <a href="https://github.com/thrix">Miroslav Vadkerti</a> (Testing Farm) for tirelessly fixing stuff, responding to my nagging, and helping me with figuring out how it all hangs together!</p>
+
+
+    
+  </section>
+
+  
+
+</article>
+
+
+  
+  <div class="author-info author-card" id="author-info">
+    <h2>About Martin Pitt</h2>
+    <div class="author-blurb">
+      
+
+
+      <div class="more-link">
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/blog/authors#pitti">
+          View all posts by Martin Pitt »
+        </a>
+      </div>
+
+      
+    </div>
+  </div>
+
+
+
+  </div>
+</div>
+
+<footer class="footer-cockpit" role="contentinfo">
+    <p class="copyright">
+        
+
+        © 2013 - 2026
+
+        &mdash;
+
+        Cockpit is a <a href="https://redhat.com/">Red Hat</a> sponsored
+        free software project released under the
+        <a href="https://opensource.org/licenses/lgpl-2.1.php">LGPL v2.1+</a>
+    </p>
+
+    <p class="policy">
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/privacy.html">
+            Privacy Policy
+        </a>
+        &mdash;
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/code-of-conduct.html">
+            Code of Conduct
+        </a>
+    </p>
+
+    <p class="edit-page"><a
+      href="https://github.com/Venefilyn/cockpit-project.github.io/edit/main/_posts/2021-04-05-fmf-unified-testing.md">Edit page on GitHub</a>
+</p>
+</footer>
+
+
+      
+    
+  </body>
+
+</html>

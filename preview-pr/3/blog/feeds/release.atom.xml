@@ -1,0 +1,711 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cockpit Project - Release</title>
+    <description>Cockpit makes it easy to administer your Linux servers via a web browser.
+</description>
+    <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/</link>
+    <atom:link href="https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/blog/feeds/release.atom.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Tue, 30 Jun 2026 15:09:34 +0000</pubDate>
+    <lastBuildDate>Tue, 30 Jun 2026 15:09:34 +0000</lastBuildDate>
+    <generator>Jekyll v3.9.5</generator>
+    
+      <item>
+        <title>Cockpit 363</title>
+        <description>
+          &lt;p&gt;Cockpit is the &lt;a href=&quot;https://cockpit-project.org/&quot;&gt;modern Linux admin interface&lt;/a&gt;.
+We release regularly.&lt;/p&gt;
+
+&lt;p&gt;Here are the release notes from cockpit-files 41:&lt;/p&gt;
+
+&lt;h2 id=&quot;files-add-editor-shortcut-for-save&quot;&gt;Files: Add editor shortcut for “Save”&lt;/h2&gt;
+
+&lt;p&gt;You can now type “Ctrl-S” to save a file in the editor.&lt;/p&gt;
+
+&lt;p&gt;Thanks a lot @Leone25 for this contribution!&lt;/p&gt;
+
+&lt;h2 id=&quot;try-it-out&quot;&gt;Try it out&lt;/h2&gt;
+
+&lt;p&gt;cockpit-files 41 are available now:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://cockpit-project.org/running.html&quot;&gt;For your Linux system&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://flathub.org/apps/details/org.cockpit_project.CockpitClient&quot;&gt;Cockpit Client&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/cockpit-project/cockpit-files/releases/tag/41&quot;&gt;cockpit-files Source Tarball&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/?releases=F44&amp;amp;packages=cockpit-files&quot;&gt;cockpit-files Fedora 44&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/?releases=F43&amp;amp;packages=cockpit-files&quot;&gt;cockpit-files Fedora 43&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+        </description>
+        <pubDate>Thu, 04 Jun 2026 00:00:00 +0000</pubDate>
+        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/cockpit-363.html</link>
+        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/cockpit-363.html</guid>
+        
+        <category>machines,</category>
+        
+        <category>files</category>
+        
+        
+        <category>release</category>
+        
+      </item>
+    
+      <item>
+        <title>Cockpit 360</title>
+        <description>
+          &lt;p&gt;Cockpit is the &lt;a href=&quot;https://cockpit-project.org/&quot;&gt;modern Linux admin interface&lt;/a&gt;.
+We release regularly.&lt;/p&gt;
+
+&lt;p&gt;Here are the release notes from Cockpit 360:&lt;/p&gt;
+
+&lt;h2 id=&quot;ws-prevent-remote-code-execution-with-ssh-argument-injection-cve-2026-4631&quot;&gt;ws: Prevent remote code execution with SSH argument injection [CVE-2026-4631]&lt;/h2&gt;
+
+&lt;h3 id=&quot;impact&quot;&gt;Impact&lt;/h3&gt;
+
+&lt;p&gt;Cockpit’s remote login feature passes user-supplied hostnames and usernames from
+the web interface to the SSH client without validation or sanitization.
+An attacker with network access to the Cockpit web service can craft a single
+HTTP request to the login endpoint that injects malicious SSH options or shell
+commands, achieving code execution on the Cockpit host without valid credentials.
+The injection occurs during the authentication flow before any credential
+verification takes place, meaning no login is required to exploit the vulnerability.&lt;/p&gt;
+
+&lt;h3 id=&quot;affected-systems&quot;&gt;Affected systems&lt;/h3&gt;
+
+&lt;p&gt;The affected Cockpit versions are Cockpit 326 up to and including Cockpit 359. (cockpit &amp;gt;= 326, cockpit &amp;lt;= 359)&lt;/p&gt;
+
+&lt;p&gt;This is tracked as &lt;a href=&quot;https://www.cve.org/CVERecord?id=CVE-2026-4631&quot;&gt;CVE-2026-4631&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;fix&quot;&gt;Fix&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Upgrade to &lt;strong&gt;Cockpit version 360&lt;/strong&gt; to fix this issue.&lt;/li&gt;
+  &lt;li&gt;The &lt;a href=&quot;https://salsa.debian.org/utopia-team/cockpit/-/blob/trixie/debian/patches/ws-be-more-explicit-when-handling-hostnames-on-cli.patch&quot;&gt;official Debian patch&lt;/a&gt;
+includes all required changes and is applicable to recent Cockpit versions.&lt;/li&gt;
+  &lt;li&gt;You can alternatively backport the following patches:
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;https://github.com/cockpit-project/cockpit/commit/9d0695647cb6f6209e68231fd165917123aa502d&quot;&gt;https://github.com/cockpit-project/cockpit/commit/9d0695647cb6f6209e68231fd165917123aa502d&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://github.com/allisonkarlitskaya/ferny/commit/44ec511c99&quot;&gt;https://github.com/allisonkarlitskaya/ferny/commit/44ec511c99&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;workarounds&quot;&gt;Workarounds&lt;/h3&gt;
+
+&lt;p&gt;A workaround is disabling &lt;a href=&quot;https://cockpit-project.org/guide/latest/cockpit.conf.5&quot;&gt;LoginTo&lt;/a&gt; option in cockpit.conf,
+this disables the direct login feature but it is still strongly recommended to upgrade to Cockpit 360.&lt;/p&gt;
+
+&lt;h3 id=&quot;acknowledgments&quot;&gt;Acknowledgments&lt;/h3&gt;
+
+&lt;p&gt;Many thanks to Florian Kohnhäuser for reporting this issue!&lt;/p&gt;
+
+&lt;h2 id=&quot;try-it-out&quot;&gt;Try it out&lt;/h2&gt;
+
+&lt;p&gt;Cockpit 360 is available now:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://cockpit-project.org/running.html&quot;&gt;For your Linux system&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://flathub.org/apps/details/org.cockpit_project.CockpitClient&quot;&gt;Cockpit Client&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/cockpit-project/cockpit/releases/tag/360&quot;&gt;Cockpit Source Tarball&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2026-bbc8f7695a&quot;&gt;Cockpit Fedora 44&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2026-42f1aaa820&quot;&gt;Cockpit Fedora 43&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+        </description>
+        <pubDate>Wed, 08 Apr 2026 00:00:00 +0000</pubDate>
+        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/cockpit-360.html</link>
+        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/cockpit-360.html</guid>
+        
+        <category>cockpit</category>
+        
+        
+        <category>release</category>
+        
+      </item>
+    
+      <item>
+        <title>Cockpit 358</title>
+        <description>
+          &lt;p&gt;Cockpit is the &lt;a href=&quot;https://cockpit-project.org/&quot;&gt;modern Linux admin interface&lt;/a&gt;.
+We release regularly.&lt;/p&gt;
+
+&lt;p&gt;Here are the release notes from Cockpit 358 and cockpit-files 38:&lt;/p&gt;
+
+&lt;h2 id=&quot;cockpit-client-updated-to-gtk-4&quot;&gt;Cockpit Client updated to GTK 4&lt;/h2&gt;
+
+&lt;p&gt;The Cockpit Client has been updated to GTK 4 and WebKit 6, making it easier to enable support for downloads from Cockpit Files.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/358-cockpit-client-updated-to-gtk-4.png&quot; alt=&quot;screenshot of cockpit client updated to gtk 4&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;networking-add-wi-fi-support&quot;&gt;Networking: Add Wi-Fi support&lt;/h2&gt;
+
+&lt;p&gt;If there are any Wi-Fi devices, the Networking page overview shows the number of available networks and the currently connected network.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/358-networking-add-wi-fi-support.png&quot; alt=&quot;screenshot of add wi-fi support&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The details page shows a table of available networks with mode/security, signal strength, and rate. The currently active connection (if any) is always at the top. It is followed by known networks, and then unknown networks sorted by descending signal strength. You can connect, disconnect, and forget networks.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/358-networking-add-wi-fi-support-2.png&quot; alt=&quot;screenshot of add wi-fi support&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;files-add-confirmation-prompt-for-discarding-changes&quot;&gt;Files: Add confirmation prompt for discarding changes&lt;/h2&gt;
+
+&lt;p&gt;When editing files, Cockpit will now show a confirmation dialog when clicking away, hitting cancel, or pressing escape. This prevents accidentally discarding changes and losing data.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/358-files-add-confirmation-prompt-for-discarding-changes-.png&quot; alt=&quot;screenshot of add confirmation prompt for discarding changes&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Thanks to &lt;a href=&quot;https://github.com/Leone25&quot;&gt;Leone25&lt;/a&gt; for this contribution!&lt;/p&gt;
+
+&lt;h2 id=&quot;try-it-out&quot;&gt;Try it out&lt;/h2&gt;
+
+&lt;p&gt;Cockpit 358, cockpit-files 38, cockpit-machines 350 and cockpit-podman 123 are available now:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://cockpit-project.org/running.html&quot;&gt;For your Linux system&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://flathub.org/apps/details/org.cockpit_project.CockpitClient&quot;&gt;Cockpit Client&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/cockpit-project/cockpit/releases/tag/358&quot;&gt;Cockpit Source Tarball&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2026-7c755914c5&quot;&gt;Cockpit Fedora 44&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2026-14b2e886fa&quot;&gt;Cockpit Fedora 43&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/cockpit-project/cockpit-files/releases/tag/38&quot;&gt;cockpit-files Source Tarball&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2026-a45efa88da&quot;&gt;cockpit-files Fedora 44&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2026-04a26eaf54&quot;&gt;cockpit-files Fedora 43&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/cockpit-project/cockpit-machines/releases/tag/350&quot;&gt;cockpit-machines Source Tarball&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2026-9bb66b2a31&quot;&gt;cockpit-machines Fedora 44&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2026-55cfacb748&quot;&gt;cockpit-machines Fedora 43&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/cockpit-project/cockpit-podman/releases/tag/123&quot;&gt;cockpit-podman Source Tarball&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2026-d4f1131072&quot;&gt;cockpit-podman Fedora 44&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2026-fb1e8eb986&quot;&gt;cockpit-podman Fedora 43&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+        </description>
+        <pubDate>Wed, 18 Mar 2026 00:00:00 +0000</pubDate>
+        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/cockpit-358.html</link>
+        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/cockpit-358.html</guid>
+        
+        <category>cockpit,</category>
+        
+        <category>files</category>
+        
+        
+        <category>release</category>
+        
+      </item>
+    
+      <item>
+        <title>Cockpit 357</title>
+        <description>
+          &lt;p&gt;Cockpit is the &lt;a href=&quot;https://cockpit-project.org/&quot;&gt;modern Linux admin interface&lt;/a&gt;.
+We release regularly.&lt;/p&gt;
+
+&lt;p&gt;Here are the release notes from Cockpit 357, cockpit-files 37, cockpit-machines 350 and cockpit-podman 123:&lt;/p&gt;
+
+&lt;h2 id=&quot;show-browser-context-menu-when-holding-shift&quot;&gt;Show browser context menu when holding &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Shift&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;To help with accessibility and user-specific items in your browser context menu we now follow the behavior seen
+in Firefox: holding the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Shift&lt;/code&gt; key while right-clicking will skip our own context menu and instead follow the
+default behavior of your browser. Note that while Cockpit Files uses the Cockpit context menu it did not
+receive this update before the release, but will get it for the for next one.&lt;/p&gt;
+
+&lt;h2 id=&quot;machines-support-for-kernel-boot-arguments-when-creating-vms&quot;&gt;Machines: Support for kernel boot arguments when creating &lt;abbr title=&quot;Virtual Machines&quot;&gt;VMs&lt;/abbr&gt;&lt;/h2&gt;
+
+&lt;p&gt;Cockpit now supports the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--extra-args&lt;/code&gt; option of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;virt-install&lt;/code&gt;. This allows you to pass arguments to the
+kernel when the installer is booted during the creation of a new virtual machine. Installers like Anaconda and
+Agama can be controlled in various ways via these arguments.&lt;/p&gt;
+
+&lt;p&gt;Thanks to &lt;a href=&quot;https://github.com/Nykseli&quot;&gt;Nykseli&lt;/a&gt; for this contribution!&lt;/p&gt;
+
+&lt;h2 id=&quot;podman-show-description-version-and-documentation-image-labels&quot;&gt;Podman: Show description, version and documentation image labels&lt;/h2&gt;
+
+&lt;p&gt;The image details tab now shows a select set of labels from the &lt;a href=&quot;https://specs.opencontainers.org/image-spec/annotations/&quot;&gt;OpenContainers Annotations
+specification&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/357-podman-show-details.png&quot; alt=&quot;screenshot of show description, version, and documentation image labels&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;try-it-out&quot;&gt;Try it out&lt;/h2&gt;
+
+&lt;p&gt;Cockpit 357, cockpit-files 37, cockpit-machines 350 and cockpit-podman 123 are available now:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://cockpit-project.org/running.html&quot;&gt;For your Linux system&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://flathub.org/apps/details/org.cockpit_project.CockpitClient&quot;&gt;Cockpit Client&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/cockpit-project/cockpit-machines/releases/tag/357&quot;&gt;Cockpit Source Tarball&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/?releases=F43&amp;amp;packages=cockpit&quot;&gt;Cockpit Fedora 43&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/?releases=F42&amp;amp;packages=cockpit&quot;&gt;Cockpit Fedora 42&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/cockpit-project/cockpit-files/releases/tag/37&quot;&gt;cockpit-files Source Tarball&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/?releases=F43&amp;amp;packages=cockpit-files&quot;&gt;cockpit-files Fedora 43&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/?releases=F42&amp;amp;packages=cockpit-files&quot;&gt;cockpit-files Fedora 42&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/cockpit-project/cockpit-machines/releases/tag/350&quot;&gt;cockpit-machines Source Tarball&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/?releases=F43&amp;amp;packages=cockpit-machines&quot;&gt;cockpit-machines Fedora 43&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/?releases=F42&amp;amp;packages=cockpit-machines&quot;&gt;cockpit-machines Fedora 42&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/cockpit-project/cockpit-podman/releases/tag/123&quot;&gt;cockpit-podman Source Tarball&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/?releases=F43&amp;amp;packages=cockpit-podman&quot;&gt;cockpit-podman Fedora 43&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/?releases=F42&amp;amp;packages=cockpit-podman&quot;&gt;cockpit-podman Fedora 42&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+        </description>
+        <pubDate>Wed, 25 Feb 2026 00:00:00 +0000</pubDate>
+        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/cockpit-357.html</link>
+        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/cockpit-357.html</guid>
+        
+        <category>machines,</category>
+        
+        <category>podman</category>
+        
+        
+        <category>release</category>
+        
+      </item>
+    
+      <item>
+        <title>Cockpit 356</title>
+        <description>
+          &lt;p&gt;Cockpit is the &lt;a href=&quot;https://cockpit-project.org/&quot;&gt;modern Linux admin interface&lt;/a&gt;.
+We release regularly.&lt;/p&gt;
+
+&lt;p&gt;Here are the release notes from Cockpit 356:&lt;/p&gt;
+
+&lt;h2 id=&quot;services-timers-created-by-cockpit-run-shell-commands-and-can-be-edited&quot;&gt;Services: Timers created by Cockpit run shell commands and can be edited&lt;/h2&gt;
+
+&lt;p&gt;The systemd timer units created by Cockpit now run their command via
+the shell. Previously, the text you entered into the “Command” field
+was used directly for the ExecStart value in the systemd service unit
+for the timer, and was thus subject to systemd specifier expansion and
+other idiosyncrasies. Now the text you enter is executed directly by &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/bin/sh&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Systemd timer units that have been created by this version of Cockpit
+(or later) can now also be edited in Cockpit.&lt;/p&gt;
+
+&lt;p&gt;Thanks to &lt;a href=&quot;https://github.com/miguelbribeiro&quot;&gt;Miguel Ribeiro&lt;/a&gt; for contributing this feature!&lt;/p&gt;
+
+&lt;h2 id=&quot;try-it-out&quot;&gt;Try it out&lt;/h2&gt;
+
+&lt;p&gt;Cockpit 356 is available now:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://cockpit-project.org/running.html&quot;&gt;For your Linux system&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://flathub.org/apps/details/org.cockpit_project.CockpitClient&quot;&gt;Cockpit Client&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/cockpit-project/cockpit/releases/tag/356&quot;&gt;Cockpit Source Tarball&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2026-e56f80347a&quot;&gt;Cockpit Fedora 43&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2026-fc46ffaa92&quot;&gt;Cockpit Fedora 42&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+        </description>
+        <pubDate>Wed, 11 Feb 2026 00:00:00 +0000</pubDate>
+        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/cockpit-356.html</link>
+        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/cockpit-356.html</guid>
+        
+        <category>cockpit</category>
+        
+        
+        <category>release</category>
+        
+      </item>
+    
+      <item>
+        <title>Cockpit 355</title>
+        <description>
+          &lt;p&gt;Cockpit is the &lt;a href=&quot;https://cockpit-project.org/&quot;&gt;modern Linux admin interface&lt;/a&gt;.
+We release regularly.&lt;/p&gt;
+
+&lt;p&gt;Here are the release notes from Cockpit 355:&lt;/p&gt;
+
+&lt;h2 id=&quot;add-systemdpolkit-based-fallback-for-administrative-privileges-if-sudo-is-not-available&quot;&gt;Add systemd/polkit-based fallback for administrative privileges if sudo is not available&lt;/h2&gt;
+
+&lt;p&gt;There are systems like &lt;a href=&quot;https://github.com/cockpit-project/cockpit/issues/22811&quot;&gt;Ubuntu 25.10&lt;/a&gt; which don’t have &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo&lt;/code&gt;, or only the &lt;a href=&quot;https://github.com/trifectatechfoundation/sudo-rs/issues/1249&quot;&gt;incompatible &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo-rs&lt;/code&gt;&lt;/a&gt;. Cockpit previously failed to gain administrator rights then. Cockpit 355 now both detects and ignores an incompatible &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo&lt;/code&gt;, as well as introduces a fallback authentication method: It starts the root bridge through systemd’s &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;StartTransientUnit()&lt;/code&gt; &lt;abbr title=&quot;Application Programming Interface&quot;&gt;API&lt;/abbr&gt;. This is inspired by systemd’s &lt;a href=&quot;https://man7.org/linux/man-pages/man1/run0.1.html&quot;&gt;run0&lt;/a&gt;, and uses the exact same underlying mechanism. This is guarded by &lt;a href=&quot;https://polkit.pages.freedesktop.org/polkit/polkit.8.html&quot;&gt;polkit&lt;/a&gt;, so you need to authorize with your user password similar to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;ws-remove-obsolete-pam_cockpit_cert-module&quot;&gt;ws: Remove obsolete pam_cockpit_cert module&lt;/h2&gt;
+
+&lt;p&gt;Cockpit version 209 (Dec 2019) introduced a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pam_cockpit_cert&lt;/code&gt; PAM module in /etc/pam.d/cockpit. Cockpit 248 (Jul 2021) made this module unnecessary, and replaced the module with a stub that did not do anything, plus a warning during package upgrade.&lt;/p&gt;
+
+&lt;p&gt;This version finally removes it. So if you have locally modified &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/etc/pam.d/cockpit&lt;/code&gt; and still have that module in your configuration, you need to manually remove it.&lt;/p&gt;
+
+&lt;h2 id=&quot;try-it-out&quot;&gt;Try it out&lt;/h2&gt;
+
+&lt;p&gt;Cockpit 355 is available now:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://cockpit-project.org/running.html&quot;&gt;For your Linux system&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://flathub.org/apps/details/org.cockpit_project.CockpitClient&quot;&gt;Cockpit Client&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/cockpit-project/cockpit/releases/tag/355&quot;&gt;Cockpit Source Tarball&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2026-f6bf111f25&quot;&gt;Cockpit Fedora 43&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2026-a003231b69&quot;&gt;Cockpit Fedora 42&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+        </description>
+        <pubDate>Thu, 29 Jan 2026 00:00:00 +0000</pubDate>
+        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/cockpit-355.html</link>
+        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/cockpit-355.html</guid>
+        
+        <category>cockpit</category>
+        
+        
+        <category>release</category>
+        
+      </item>
+    
+      <item>
+        <title>Cockpit 353</title>
+        <description>
+          &lt;p&gt;Cockpit is the &lt;a href=&quot;https://cockpit-project.org/&quot;&gt;modern Linux admin interface&lt;/a&gt;.
+We release regularly.&lt;/p&gt;
+
+&lt;p&gt;Here are the release notes from Cockpit 353:&lt;/p&gt;
+
+&lt;h2 id=&quot;networking-suggest-prefix-length-and-gateway-address&quot;&gt;Networking: Suggest prefix length and gateway address&lt;/h2&gt;
+
+&lt;p&gt;IPv4 and IPv6 configuration dialogs now automatically pre-fill network prefix length and default gateway.
+Prefix length defaults to classful addressing in IPv4 and /64 prefix is suggested for IPv6.
+Classless addressing is fully supported and manual overrides are available, the default gateway is calculated as the first usable address of the subnet.&lt;/p&gt;
+
+&lt;h2 id=&quot;try-it-out&quot;&gt;Try it out&lt;/h2&gt;
+
+&lt;p&gt;Cockpit 353 is available now:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://cockpit-project.org/running.html&quot;&gt;For your Linux system&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://flathub.org/apps/details/org.cockpit_project.CockpitClient&quot;&gt;Cockpit Client&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/cockpit-project/cockpit/releases/tag/353&quot;&gt;Cockpit Source Tarball&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2025-b1f425c47c&quot;&gt;Cockpit Fedora 43&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2025-9139c48acb&quot;&gt;Cockpit Fedora 42&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+        </description>
+        <pubDate>Wed, 10 Dec 2025 00:00:00 +0000</pubDate>
+        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/cockpit-353.html</link>
+        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/cockpit-353.html</guid>
+        
+        <category>cockpit</category>
+        
+        
+        <category>release</category>
+        
+      </item>
+    
+      <item>
+        <title>Cockpit 352</title>
+        <description>
+          &lt;p&gt;Cockpit is the &lt;a href=&quot;https://cockpit-project.org/&quot;&gt;modern Linux admin interface&lt;/a&gt;.
+We release regularly.&lt;/p&gt;
+
+&lt;p&gt;Here are the release notes from Cockpit 352 and cockpit-machines 345:&lt;/p&gt;
+
+&lt;h2 id=&quot;show-a-warning-if-the-last-shutdownreboot-was-unclean&quot;&gt;Show a warning if the last shutdown/reboot was unclean&lt;/h2&gt;
+
+&lt;p&gt;Cockpit’s healtchard will now show warning when the system was shutdown uncleanly.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/352-shown-a-warning-if-the-last-shutdown-reboot-was-unclean.png&quot; alt=&quot;screenshot of shown a warning if the last shutdown/reboot was unclean&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;machines-new-virtual-machines-dont-get-spice-graphics-anymore&quot;&gt;Machines: New virtual machines don’t get SPICE graphics anymore&lt;/h2&gt;
+
+&lt;p&gt;Cockpit used to add both VNC and SPICE graphics when creating new virtual machines. Now only VNC graphics are added. We have made this change since Cockpit itself does not benefit from SPICE graphics, and we think that opening the SPICE port for a running machine should be intentional on part of the user and not happen silently and surprisingly.&lt;/p&gt;
+
+&lt;h2 id=&quot;try-it-out&quot;&gt;Try it out&lt;/h2&gt;
+
+&lt;p&gt;Cockpit 352 and cockpit-machines 345 are available now:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://cockpit-project.org/running.html&quot;&gt;For your Linux system&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://flathub.org/apps/details/org.cockpit_project.CockpitClient&quot;&gt;Cockpit Client&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/cockpit-project/cockpit/releases/tag/352&quot;&gt;Cockpit Source Tarball&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/cockpit-project/cockpit-machines/releases/tag/345&quot;&gt;cockpit-machines Source Tarball&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2025-df0de54f21&quot;&gt;cockpit-machines Fedora 43&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2025-07ca1e97a5&quot;&gt;cockpit-machines Fedora 42&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+        </description>
+        <pubDate>Wed, 26 Nov 2025 00:00:00 +0000</pubDate>
+        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/cockpit-352.html</link>
+        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/cockpit-352.html</guid>
+        
+        <category>cockpit,</category>
+        
+        <category>machines</category>
+        
+        
+        <category>release</category>
+        
+      </item>
+    
+      <item>
+        <title>Cockpit 351</title>
+        <description>
+          &lt;p&gt;Cockpit is the &lt;a href=&quot;https://cockpit-project.org/&quot;&gt;modern Linux admin interface&lt;/a&gt;.
+We release regularly.&lt;/p&gt;
+
+&lt;p&gt;Here are the release notes from Cockpit 351, and cockpit-machines 344:&lt;/p&gt;
+
+&lt;h2 id=&quot;firewall-additional-ports-can-now-be-deleted&quot;&gt;Firewall: Additional ports can now be deleted&lt;/h2&gt;
+
+&lt;p&gt;“Additional ports” in a firewall zone are now listed each in their
+individual row, and can be individually deleted.&lt;/p&gt;
+
+&lt;p&gt;Thanks a lot libkurisu for this contribution!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/351-firewall-ports.png&quot; alt=&quot;screenshot of additional firewall ports&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;machines-vms-can-be-shutdown-and-restarted-with-a-single-action&quot;&gt;Machines: VMs can be shutdown and restarted with a single action&lt;/h2&gt;
+
+&lt;p&gt;Some changes to a virtual machine, such as adding VNC graphics, require it to be completely shut down and restarted before these changes take effect. Cockpit can now do this with a single action.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/351-shutdown-restart.png&quot; alt=&quot;screenshot of the &amp;quot;Shutdown and Restart&amp;quot; dialog&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;machines-support-for-network-port-forwarding&quot;&gt;Machines: Support for network port forwarding&lt;/h2&gt;
+
+&lt;p&gt;Cockpit can now configure port forwarding for virtual machines on the user session.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/351-passt.png&quot; alt=&quot;screenshot of the port forwarding dialog&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;try-it-out&quot;&gt;Try it out&lt;/h2&gt;
+
+&lt;p&gt;Cockpit 351, cockpit-machines 344, and cockpit-podman 117 are available now:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://cockpit-project.org/running.html&quot;&gt;For your Linux system&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://flathub.org/apps/details/org.cockpit_project.CockpitClient&quot;&gt;Cockpit Client&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/cockpit-project/cockpit/releases/tag/351&quot;&gt;Cockpit Source Tarball&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2025-5e7212a181&quot;&gt;Cockpit Fedora 43&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2025-20d5cb0e41&quot;&gt;Cockpit Fedora 42&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/cockpit-project/cockpit-machines/releases/tag/344&quot;&gt;cockpit-machines Source Tarball&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2025-a175bcd6cd&quot;&gt;cockpit-machines Fedora 43&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2025-90b61e1f6b&quot;&gt;cockpit-machines Fedora 42&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/cockpit-project/cockpit-podman/releases/tag/117&quot;&gt;cockpit-podman Source Tarball&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2025-feea0649ba&quot;&gt;cockpit-podman Fedora 43&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2025-fcec857391&quot;&gt;cockpit-podman Fedora 42&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+        </description>
+        <pubDate>Tue, 11 Nov 2025 00:00:00 +0000</pubDate>
+        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/cockpit-351.html</link>
+        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/cockpit-351.html</guid>
+        
+        <category>cockpit,</category>
+        
+        <category>machines</category>
+        
+        
+        <category>release</category>
+        
+      </item>
+    
+      <item>
+        <title>Cockpit 350</title>
+        <description>
+          &lt;p&gt;Cockpit is the &lt;a href=&quot;https://cockpit-project.org/&quot;&gt;modern Linux admin interface&lt;/a&gt;.
+We release regularly.&lt;/p&gt;
+
+&lt;p&gt;Here are the release notes from cockpit-machines 343 and cockpit-podman 116:&lt;/p&gt;
+
+&lt;h2 id=&quot;machines-memory-usage-now-shows-numbers-reported-by-the-guest&quot;&gt;Machines: Memory usage now shows numbers reported by the guest&lt;/h2&gt;
+
+&lt;p&gt;The memory usage bars now show the same numbers as tools like “top” and “free” when run inside the guest. Specifically, the memory usage shown by Cockpit is based on the “MemAvailable” number of the guest kernel.&lt;/p&gt;
+
+&lt;p&gt;To implement this, Cockpit will run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;virsh dommemstat &amp;lt;vm name&amp;gt; --period 10 --life&lt;/code&gt;. If that is not acceptable, please let us know.&lt;/p&gt;
+
+&lt;h2 id=&quot;support-stoppingstartingrestarting-quadlets&quot;&gt;Support stopping/starting/restarting quadlets&lt;/h2&gt;
+
+&lt;p&gt;Quadlets now have lifecycle operations such as “Start”. These use systemd operations instead of podman’s &lt;abbr title=&quot;Application Programming Interface&quot;&gt;API&lt;/abbr&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/350-support-stopping-starting-restart-quadlets.png&quot; alt=&quot;screenshot of an inactive podman quadlet with stop/restart actions&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;try-it-out&quot;&gt;Try it out&lt;/h2&gt;
+
+&lt;p&gt;cockpit-machines 343 and cockpit-podman 116 are available now:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://cockpit-project.org/running.html&quot;&gt;For your Linux system&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://flathub.org/apps/details/org.cockpit_project.CockpitClient&quot;&gt;Cockpit Client&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/cockpit-project/cockpit-machines/releases/tag/343&quot;&gt;cockpit-machines Source Tarball&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2025-9c96b216aa&quot;&gt;cockpit-machines Fedora 43&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2025-e3ae7fd76d&quot;&gt;cockpit-machines Fedora 42&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/cockpit-project/cockpit-podman/releases/tag/116&quot;&gt;cockpit-podman Source Tarball&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2025-9ac6e67a12&quot;&gt;cockpit-podman Fedora 43&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2025-8d9c58de31&quot;&gt;cockpit-podman Fedora 42&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+        </description>
+        <pubDate>Wed, 29 Oct 2025 00:00:00 +0000</pubDate>
+        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/cockpit-350.html</link>
+        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/cockpit-350.html</guid>
+        
+        <category>machines,</category>
+        
+        <category>podman</category>
+        
+        
+        <category>release</category>
+        
+      </item>
+    
+      <item>
+        <title>Cockpit 349</title>
+        <description>
+          &lt;p&gt;Cockpit is the &lt;a href=&quot;https://cockpit-project.org/&quot;&gt;modern Linux admin interface&lt;/a&gt;.
+We release regularly.&lt;/p&gt;
+
+&lt;p&gt;Here are the release notes from Cockpit 349, and cockpit-podman 115:&lt;/p&gt;
+
+&lt;h2 id=&quot;package-manifests-add-any-test&quot;&gt;Package manifests: Add &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;any&lt;/code&gt; test&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://cockpit-project.org/guide/latest/packages.html#package-manifest&quot;&gt;Package manifests&lt;/a&gt; can have a list of conditions.
+Cockpit will only consider the package if &lt;em&gt;all&lt;/em&gt; conditions are met. This release introduces an operator for alternative checks in a condition, for example&lt;/p&gt;
+
+&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nl&quot;&gt;&quot;conditions&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;any&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[{&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;path-exists&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;…/packagekit.service&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;path-exists&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;…/dnfdaemon.service&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}]}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;That condition will be true if at least one of its subconditions matches.&lt;/p&gt;
+
+&lt;h2 id=&quot;list-stopped-quadlets&quot;&gt;List stopped quadlets&lt;/h2&gt;
+
+&lt;p&gt;Quadlets are a declarative way to define podman pods/containers using systemd-like configuration files.
+These podman containers/pods are ephemeral and previously disappeared from cockpit-podman when stopped.&lt;/p&gt;
+
+&lt;p&gt;With this release, cockpit-podman can now detect stopped quadlets on the system for the logged in user and superuser.
+The quadlets are shown as normal “inactive” pods/containers. In the future, lifecycle actions such as start/stop/restart will be added.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/349-inactive-podman-quadlet.png&quot; alt=&quot;screenshot of inactive podman quadlet&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;try-it-out&quot;&gt;Try it out&lt;/h2&gt;
+
+&lt;p&gt;Cockpit 349, cockpit-podman 115, cockpit-files 30, cockpit-machines 342,
+and cockpit-ostree 216 are available now:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://cockpit-project.org/running.html&quot;&gt;For your Linux system&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://flathub.org/apps/details/org.cockpit_project.CockpitClient&quot;&gt;Cockpit Client&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/cockpit-project/cockpit/releases/tag/349&quot;&gt;Cockpit Source Tarball&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2025-5afa4ee846&quot;&gt;Cockpit Fedora 43&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2025-5fd1666bcf&quot;&gt;Cockpit Fedora 42&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/cockpit-project/cockpit-podman/releases/tag/115&quot;&gt;cockpit-podman Source Tarball&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2025-1404566a88&quot;&gt;cockpit-podman Fedora 43&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2025-23dc695301&quot;&gt;cockpit-podman Fedora 42&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/cockpit-project/cockpit-files/releases/tag/30&quot;&gt;cockpit-files Source Tarball&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2025-31b88a9163&quot;&gt;cockpit-files Fedora 43&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2025-0b96fa8cfe&quot;&gt;cockpit-files Fedora 42&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/cockpit-project/cockpit-machines/releases/tag/342&quot;&gt;cockpit-machines Source Tarball&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2025-a4660c2f88&quot;&gt;cockpit-machines Fedora 43&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2025-eacacb4046&quot;&gt;cockpit-machines Fedora 42&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/cockpit-project/cockpit-ostree/releases/tag/216&quot;&gt;cockpit-ostree Source Tarball&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2025-e431550108&quot;&gt;cockpit-ostree Fedora 43&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2025-37d8669702&quot;&gt;cockpit-ostree Fedora 42&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+        </description>
+        <pubDate>Wed, 15 Oct 2025 00:00:00 +0000</pubDate>
+        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/cockpit-349.html</link>
+        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/cockpit-349.html</guid>
+        
+        <category>cockpit,</category>
+        
+        <category>machines,</category>
+        
+        <category>ostree,</category>
+        
+        <category>files,</category>
+        
+        <category>podman</category>
+        
+        
+        <category>release</category>
+        
+      </item>
+    
+      <item>
+        <title>Cockpit 348</title>
+        <description>
+          &lt;p&gt;Cockpit is the &lt;a href=&quot;https://cockpit-project.org/&quot;&gt;modern Linux admin interface&lt;/a&gt;.
+We release regularly.&lt;/p&gt;
+
+&lt;p&gt;Here are the release notes from cockpit-machines 341:&lt;/p&gt;
+
+&lt;h2 id=&quot;machines-improved-ux-for-disks-and-network-interface-tables&quot;&gt;Machines: Improved UX for Disks and Network interface tables&lt;/h2&gt;
+
+&lt;p&gt;Looking at a Virtual Machine’s available disks or the designated network interfaces there was too much detail being displayed, causing unintended wrapping and making some parts impossible to read with certain screen resolutions.&lt;/p&gt;
+
+&lt;p&gt;To alleviate this we have changed the UI around to showcase only the most important information a user would want and hid the rest within an expandable section.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/348-machines-nics-disks-ux.png&quot; alt=&quot;screenshot of disks table expanded&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;All the information we had prior to this change is still here, but in a much easier to read design.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/348-machines-disks-ux-expand.png&quot; alt=&quot;screenshot of disks table expanded&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/348-machines-nics-ux-expand.png&quot; alt=&quot;screenshot of network interfaces table expanded&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;try-it-out&quot;&gt;Try it out&lt;/h2&gt;
+
+&lt;p&gt;Cockpit 348, cockpit-podman 114, cockpit-files 29, cockpit-machines
+341, and cockpit-ostree 215 are available now:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://cockpit-project.org/running.html&quot;&gt;For your Linux system&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://flathub.org/apps/details/org.cockpit_project.CockpitClient&quot;&gt;Cockpit Client&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/cockpit-project/cockpit/releases/tag/348&quot;&gt;Cockpit Source Tarball&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2025-3d16d96da4&quot;&gt;Cockpit Fedora 43&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2025-101cb80f79&quot;&gt;Cockpit Fedora 42&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/cockpit-project/cockpit-podman/releases/tag/114&quot;&gt;cockpit-podman Source Tarball&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2025-e8cbff319b&quot;&gt;cockpit-podman Fedora 43&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2025-a767f40e58&quot;&gt;cockpit-podman Fedora 42&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/cockpit-project/cockpit-files/releases/tag/29&quot;&gt;cockpit-files Source Tarball&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2025-4221c954d3&quot;&gt;cockpit-files Fedora 43&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2025-a4241fced1&quot;&gt;cockpit-files Fedora 42&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/cockpit-project/cockpit-machines/releases/tag/341&quot;&gt;cockpit-machines Source Tarball&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2025-24e36e8212&quot;&gt;cockpit-machines Fedora 43&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2025-377be8f9c1&quot;&gt;cockpit-machines Fedora 42&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/cockpit-project/cockpit-ostree/releases/tag/215&quot;&gt;cockpit-ostree Source Tarball&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2025-70eabb049a&quot;&gt;cockpit-ostree Fedora 43&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bodhi.fedoraproject.org/updates/FEDORA-2025-94d94f6bd6&quot;&gt;cockpit-ostree Fedora 42&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+        </description>
+        <pubDate>Thu, 02 Oct 2025 00:00:00 +0000</pubDate>
+        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/cockpit-348.html</link>
+        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/cockpit-348.html</guid>
+        
+        <category>cockpit,</category>
+        
+        <category>machines,</category>
+        
+        <category>ostree,</category>
+        
+        <category>files,</category>
+        
+        <category>podman</category>
+        
+        
+        <category>release</category>
+        
+      </item>
+    
+  </channel>
+</rss>
+
+

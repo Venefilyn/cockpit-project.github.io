@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html class=" -path-blog-cockpit-339.html" lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Cockpit 339 &mdash; Cockpit Project</title>
+
+    <link rel="canonical" href="https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/blog/cockpit-339.html">
+
+    <link rel="manifest" href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/manifest.json">
+
+    <meta name="description" content="Cockpit makes it easy to administer your Linux servers via a web browser.
+">
+    <meta property="og:site_name" content="Cockpit Project">
+    <meta property="og:title" content="Cockpit 339">
+    <meta property="og:description" content="Cockpit-ws arm64 container, warn on SMART failures, Cockpit no longer modifies the "shareable" attribute of disks">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/blog/cockpit-339.html">
+    <meta name="author" content="Tomáš Matuš">
+    <meta property="og:image" content="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/site/opengraph.png">
+    <meta name="theme-color" content="#3e5375">
+
+    <!-- Favicon -->
+    
+    
+      <link rel="shortcut icon" href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/favicon.png" type="image/png">
+    
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/assets/main.js"></script>
+    <link rel="stylesheet" href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/assets/main.css">
+  </head>
+
+
+  <body id="page-top">
+    
+    
+      
+      
+      
+      
+
+      
+        
+        <header class="masthead hidden-print" id="branding" role="banner">
+
+  <section class="hgroup">
+    
+    
+
+    
+      <h1><a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/site/cockpit-logo.svg"></a></h1>
+    
+
+    
+  </section>
+
+  
+
+    <div class="nav-wrap">
+      
+
+
+  <nav role="navigation" class="">
+
+
+  <ul class="nav-menu" role="menubar">
+    
+      
+
+      <li class="nav--home" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/"><span class="label">Home</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--install" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/running.html"><span class="label">Install</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--documentation" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/documentation.html"><span class="label">Documentation</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--contribute" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--blog" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/blog/"><span class="label">Blog</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--search" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/search.html"><span class="label">Search</span></a>
+        
+        
+      </li>
+    
+
+  </ul>
+
+
+  </nav>
+
+
+    </div>
+
+  
+
+</header>
+
+
+<div class="page-content" id="page-wrap" role="main">
+  <div class="wrapper">
+    
+
+
+
+
+
+
+
+
+
+
+
+<article class="post hentry" id="-blog-cockpit-339.html">
+  <header class="post-header">
+    <h2 class="post-title entry-title">
+      
+        Cockpit 339
+      
+    </h2>
+    <header class="post-meta">
+      
+        
+          <span class="byline">
+            by
+            <span class="author vcard">
+              <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/blog/authors#tmatus">Tomáš Matuš</a>
+            </span>
+          </span>
+        
+        –
+      
+      <time class="published" datetime="3">
+        May 21, 2025
+      </time>
+
+      
+        
+        
+        
+
+        <div class="category">
+          
+            category: <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/blog/category/release.html">release</a>
+          
+        </div>
+      
+    </header>
+  </header>
+
+  
+  
+  
+  
+
+  <section class="post-content entry-content">
+    
+      <p>Cockpit is the <a href="https://cockpit-project.org/">modern Linux admin interface</a>.
+We release regularly.</p>
+
+<p>Here are the release notes from Cockpit 339, cockpit-podman 106,
+cockpit-files 21, cockpit-machines 332, and cockpit-ostree 210:</p>
+
+<h2 id="add-cockpitws-arm64-container">Add cockpit/ws arm64 container</h2>
+
+<p>The <a href="https://quay.io/repository/cockpit/ws?tab=info">cockpit webserver container image</a> is now available for the arm64 architecture as well.</p>
+
+<p><em>Thanks to Marvin Ruder for this contribution!</em></p>
+
+<h2 id="storage-disk-self-test-error-warnings">Storage: Disk Self-Test error warnings</h2>
+
+<p>The health card on the overview page now provides proactive warnings when a disk reports errors from its SMART self-test.</p>
+
+<p><img src="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/339-overview-smart-warning.png" alt="smart" /></p>
+
+<h2 id="machines-the-shareable-attribute-of-disks-is-no-longer-modified-by-cockpit">Machines: The “shareable” attribute of disks is no longer modified by Cockpit</h2>
+
+<p>By default, libvirt can attach a disk to multiple virtual machines, but if the disk allows writing, only a single one of these machines
+can be running at a given time. Writing to a disk concurrently from multiple VMs at the same time can easily lead to data corruption,
+and libvirt prevents this unless the “shareable” attribute of a disk is set. Previously, Cockpit would set this attribute by default
+and would thus invite data corruption. To avoid this, Cockpit no longer marks disks as “shareable” when attaching them to multiple VMs.</p>
+
+<p>Moreover, the “Edit attributes” dialog no longer allows setting the “shareable” attribute either.
+We now believe this attribute is too dangerous to be exposed in such an easy way. If you really need it,
+you can use “virt-xml” on the command line.
+Cockpit will show disks with the “shareable” attribute as “Concurrently writable” in the UI.</p>
+
+<h2 id="try-it-out">Try it out</h2>
+
+<p>Cockpit 339, cockpit-podman 106, cockpit-files 21, cockpit-machines
+332, and cockpit-ostree 210 are available now:</p>
+
+<ul>
+  <li><a href="https://cockpit-project.org/running.html">For your Linux system</a></li>
+  <li>
+    <p><a href="https://flathub.org/apps/details/org.cockpit_project.CockpitClient">Cockpit Client</a></p>
+  </li>
+  <li><a href="https://github.com/cockpit-project/cockpit/releases/tag/339">Cockpit Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2025-b414ded6de">Cockpit Fedora 42</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2025-dc44e3ebf2">Cockpit Fedora 41</a></li>
+  <li><a href="https://github.com/cockpit-project/cockpit-podman/releases/tag/106">cockpit-podman Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2025-33e26f7c12">cockpit-podman Fedora 42</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2025-e867161328">cockpit-podman Fedora 41</a></li>
+  <li><a href="https://github.com/cockpit-project/cockpit-files/releases/tag/21">cockpit-files Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2025-3136f15eb8">cockpit-files Fedora 42</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2025-332f1df14a">cockpit-files Fedora 41</a></li>
+  <li><a href="https://github.com/cockpit-project/cockpit-machines/releases/tag/332">cockpit-machines Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2025-ef270f0390">cockpit-machines Fedora 42</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2025-065f8865d6">cockpit-machines Fedora 41</a></li>
+  <li><a href="https://github.com/cockpit-project/cockpit-ostree/releases/tag/210">cockpit-ostree Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2025-cca579c4b9">cockpit-ostree Fedora 42</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2025-e28678da70">cockpit-ostree Fedora 41</a></li>
+</ul>
+
+    
+  </section>
+
+  
+
+</article>
+
+
+  
+  <div class="author-info author-card" id="author-info">
+    <h2>About Tomáš Matuš</h2>
+    <div class="author-blurb">
+      
+
+
+      <div class="more-link">
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/blog/authors#tmatus">
+          View all posts by Tomáš Matuš »
+        </a>
+      </div>
+
+      
+    </div>
+  </div>
+
+
+
+  </div>
+</div>
+
+<footer class="footer-cockpit" role="contentinfo">
+    <p class="copyright">
+        
+
+        © 2013 - 2026
+
+        &mdash;
+
+        Cockpit is a <a href="https://redhat.com/">Red Hat</a> sponsored
+        free software project released under the
+        <a href="https://opensource.org/licenses/lgpl-2.1.php">LGPL v2.1+</a>
+    </p>
+
+    <p class="policy">
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/privacy.html">
+            Privacy Policy
+        </a>
+        &mdash;
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/code-of-conduct.html">
+            Code of Conduct
+        </a>
+    </p>
+
+    <p class="edit-page"><a
+      href="https://github.com/Venefilyn/cockpit-project.github.io/edit/main/_posts/2025-05-21-cockpit-339.md">Edit page on GitHub</a>
+</p>
+</footer>
+
+
+      
+    
+  </body>
+
+</html>

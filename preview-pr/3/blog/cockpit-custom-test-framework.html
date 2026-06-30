@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html class=" -path-blog-cockpit-custom-test-framework.html" lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Using Cockpit test VMs with your own test framework &mdash; Cockpit Project</title>
+
+    <link rel="canonical" href="https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/blog/cockpit-custom-test-framework.html">
+
+    <link rel="manifest" href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/manifest.json">
+
+    <meta name="description" content="Cockpit makes it easy to administer your Linux servers via a web browser.
+">
+    <meta property="og:site_name" content="Cockpit Project">
+    <meta property="og:title" content="Using Cockpit test VMs with your own test framework">
+    <meta property="og:description" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/blog/cockpit-custom-test-framework.html">
+    <meta name="author" content="Martin Pitt">
+    <meta property="og:image" content="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/site/opengraph.png">
+    <meta name="theme-color" content="#3e5375">
+
+    <!-- Favicon -->
+    
+    
+      <link rel="shortcut icon" href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/favicon.png" type="image/png">
+    
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/assets/main.js"></script>
+    <link rel="stylesheet" href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/assets/main.css">
+  </head>
+
+
+  <body id="page-top">
+    
+    
+      
+      
+      
+      
+
+      
+        
+        <header class="masthead hidden-print" id="branding" role="banner">
+
+  <section class="hgroup">
+    
+    
+
+    
+      <h1><a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/site/cockpit-logo.svg"></a></h1>
+    
+
+    
+  </section>
+
+  
+
+    <div class="nav-wrap">
+      
+
+
+  <nav role="navigation" class="">
+
+
+  <ul class="nav-menu" role="menubar">
+    
+      
+
+      <li class="nav--home" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/"><span class="label">Home</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--install" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/running.html"><span class="label">Install</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--documentation" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/documentation.html"><span class="label">Documentation</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--contribute" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--blog" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/blog/"><span class="label">Blog</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--search" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/search.html"><span class="label">Search</span></a>
+        
+        
+      </li>
+    
+
+  </ul>
+
+
+  </nav>
+
+
+    </div>
+
+  
+
+</header>
+
+
+<div class="page-content" id="page-wrap" role="main">
+  <div class="wrapper">
+    
+
+
+
+
+
+
+
+
+
+
+
+<article class="post hentry" id="-blog-cockpit-custom-test-framework.html">
+  <header class="post-header">
+    <h2 class="post-title entry-title">
+      
+        Using Cockpit test VMs with your own test framework
+      
+    </h2>
+    <header class="post-meta">
+      
+        
+          <span class="byline">
+            by
+            <span class="author vcard">
+              <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/blog/authors#pitti">Martin Pitt</a>
+            </span>
+          </span>
+        
+        –
+      
+      <time class="published" datetime="3">
+        Mar 28, 2018
+      </time>
+
+      
+        
+        
+        
+
+        <div class="category">
+          
+            category: <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/blog/category/tutorial.html">tutorial</a>
+          
+        </div>
+      
+    </header>
+  </header>
+
+  
+  
+  
+  
+
+  <section class="post-content entry-content">
+    
+      <p>The <a href="https://github.com/cockpit-project/starter-kit/">Cockpit Starter Kit</a> provides the scaffolding for your own Cockpit
+extensions: a simple page (in React), build system (webpack, babel, eslint, etc.), and an integration test using
+Cockpit’s own Python test API on top of the
+<a href="https://chromedevtools.github.io/devtools-protocol/">Chromium DevTools Protocol</a>.  See the recent
+<a href="https://cockpit-project.org/blog/cockpit-starter-kit.html">introduction</a> for details.</p>
+
+<p>But in some cases you want to use a different testing framework; perhaps you have an already existing project and tests.
+Then it is convenient and recommended to still using Cockpit’s test VM images: they provide an easy way to test your
+project on various Fedora/Red Hat/Debian/Ubuntu flavors; and they take quite a lot of effort to maintain! Quite
+fortunately, using the test images is not tightly bound to using Cockpit’s test API, and not even to tests being written
+Python. They can be built and used entirely through command line tools from Cockpit’s <a href="https://github.com/cockpit-project/cockpit/tree/master/bots/">bots/
+directory</a>, so you can use those with any programming
+language and test framework.</p>
+
+<h2 id="building-and-interacting-with-a-test-vm">Building and interacting with a test VM</h2>
+
+<p>To illustrate this, let’s check out the Starter Kit and build a CentOS 7 based VM with cockpit and the starter kit
+installed:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git clone https://github.com/cockpit-project/starter-kit.git
+<span class="nv">$ </span><span class="nb">cd </span>starter-kit
+<span class="nv">$ </span>make vm
+</code></pre></div></div>
+
+<p>Ordinarily, the generated <code class="language-plaintext highlighter-rouge">test/images/centos-7.qcow2</code> would be used by
+<a href="https://github.com/cockpit-project/starter-kit/blob/master/test/check-starter-kit">test/check-starter-kit</a>. But let’s
+tinker around with the VM image manually. Cockpit’s
+<a href="https://github.com/cockpit-project/cockpit/blob/master/bots/machine/testvm.py">testvm.py</a> module for using these VMs
+can be used as a command line program:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>bots/machine/testvm.py centos-7
+ssh <span class="nt">-o</span> <span class="nv">ControlPath</span><span class="o">=</span>/tmp/ssh-%h-%p-%r-23253 <span class="nt">-p</span> 2201 root@127.0.0.2
+http://127.0.0.2:9091
+RUNNING
+</code></pre></div></div>
+
+<p>It takes a few seconds to boot the VM, then it prints three lines:</p>
+
+<ul>
+  <li>The SSH command to run something inside the VM</li>
+  <li>The URL for the forwarded Cockpit port 9090</li>
+  <li>A constant <code class="language-plaintext highlighter-rouge">RUNNING</code> flag that test suites can poll for to know when to proceed.</li>
+</ul>
+
+<p>You can now open that URL in your browser to log into Cockpit (user “admin”, password “foobar”) and see the installed
+Starter Kit page, or run a command in the VM through the given SSH command:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>ssh <span class="nt">-o</span> <span class="nv">ControlPath</span><span class="o">=</span>/tmp/ssh-%h-%p-%r-23253 <span class="nt">-p</span> 2202 root@127.0.0.2 <span class="nb">head</span> <span class="nt">-n2</span> /etc/os-release
+<span class="nv">NAME</span><span class="o">=</span><span class="s2">"CentOS Linux"</span>
+<span class="nv">VERSION</span><span class="o">=</span><span class="s2">"7 (Core)"</span>
+</code></pre></div></div>
+
+<p>The VM gets shut down once the <code class="language-plaintext highlighter-rouge">testvm.py</code> process gets a <code class="language-plaintext highlighter-rouge">SIGTERM</code> (useful for test suites) or <code class="language-plaintext highlighter-rouge">SIGINT</code> (useful for
+just pressing Control-C when interactively starting this in a shell).</p>
+
+<h2 id="using-testvmpy-in-your-test-suite">Using testvm.py in your test suite</h2>
+
+<p>Let’s use the above in a <a href="https://github.com/GoogleChrome/puppeteer">Puppeteer</a> test.
+<a href="../files/starter-kit/check-puppeteer.js">check-puppeteer.js</a> is a straight port of
+<a href="https://github.com/cockpit-project/starter-kit/blob/master/test/check-starter-kit">check-starter-kit</a>; of course it is
+a little longer than the original as we don’t have the convenience functions of
+<a href="https://github.com/cockpit-project/cockpit/blob/master/test/common/testlib.py">testlib.py</a> to automatically start and
+tear down VMs or do actions like “log into Cockpit”, but it is still fairly comprehensible. Download it into the tests/ directory of
+your starter-kit checkout, then install puppeteer:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ PUPPETEER_SKIP_CHROMIUM_DOWNLOAD</span><span class="o">=</span>1 npm <span class="nb">install </span>puppeteer@0.12.0
+</code></pre></div></div>
+
+<p>This will avoid downloading an entire private copy of chromium-browser and use the system-installed one. (Of course you
+can also just call <code class="language-plaintext highlighter-rouge">npm install puppeteer</code> if you don’t care about the overhead). Now run the tests:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ DEBUG</span><span class="o">=</span><span class="s2">"puppeteer:page,puppeteer:frame"</span> <span class="nv">PYTHONPATH</span><span class="o">=</span>bots/machine <span class="nb">test</span>/check-puppeteer.js
+</code></pre></div></div>
+
+<p>This will run them in a verbose mode where you can follow the browser queries and events.</p>
+
+<p>Let’s walk through some of the code:</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">startVm</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="kd">let</span> <span class="nx">proc</span> <span class="o">=</span> <span class="nx">child_process</span><span class="p">.</span><span class="nx">spawn</span><span class="p">(</span><span class="dl">"</span><span class="s2">bots/machine/testvm.py</span><span class="dl">"</span><span class="p">,</span> <span class="p">[</span><span class="nx">testOS</span><span class="p">],</span> <span class="p">{</span> <span class="na">stdio</span><span class="p">:</span> <span class="p">[</span><span class="dl">"</span><span class="s2">pipe</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">pipe</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">inherit</span><span class="dl">"</span><span class="p">]</span> <span class="p">});</span>
+        <span class="kd">let</span> <span class="nx">buf</span> <span class="o">=</span> <span class="dl">""</span><span class="p">;</span>
+        <span class="nx">proc</span><span class="p">.</span><span class="nx">stdout</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">"</span><span class="s2">data</span><span class="dl">"</span><span class="p">,</span> <span class="nx">data</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="nx">buf</span> <span class="o">+=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">toString</span><span class="p">();</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">buf</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="dl">"</span><span class="se">\n</span><span class="s2">RUNNING</span><span class="se">\n</span><span class="dl">"</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                <span class="kd">let</span> <span class="nx">lines</span> <span class="o">=</span> <span class="nx">buf</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="dl">"</span><span class="se">\n</span><span class="dl">"</span><span class="p">);</span>
+                <span class="nx">resolve</span><span class="p">({</span> <span class="na">proc</span><span class="p">:</span> <span class="nx">proc</span><span class="p">,</span> <span class="na">ssh</span><span class="p">:</span> <span class="nx">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="na">cockpit</span><span class="p">:</span> <span class="nx">lines</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">});</span>
+            <span class="p">}</span>
+        <span class="p">});</span>
+        <span class="nx">proc</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">"</span><span class="s2">error</span><span class="dl">"</span><span class="p">,</span> <span class="nx">err</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="k">throw</span> <span class="s2">`Failed to start vm-run: </span><span class="p">${</span><span class="nx">err</span><span class="p">}</span><span class="s2">`</span> <span class="p">});</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This uses <code class="language-plaintext highlighter-rouge">testvm.py</code> as above to launch the VM. In a “real” test suite this would go into the per-test setup code.
+<code class="language-plaintext highlighter-rouge">check-puppeteer.js</code> does not use any test case organization framework (like <a href="https://www.npmjs.com/package/jest">jest</a>
+or <a href="https://qunitjs.com/">QUnit</a>), but if you have more than two or three test cases it’s recommended to use one.</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">async</span> <span class="kd">function</span> <span class="nx">testStarterKit</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">vm</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">startVm</span><span class="p">();</span>
+
+    <span class="kd">const</span> <span class="nx">browser</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">puppeteer</span><span class="p">.</span><span class="nx">launch</span><span class="p">(</span>
+        <span class="c1">// disable sandboxing to also work in docker</span>
+        <span class="p">{</span> <span class="na">headless</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="na">executablePath</span><span class="p">:</span> <span class="dl">'</span><span class="s1">chromium-browser</span><span class="dl">'</span><span class="p">,</span> <span class="na">args</span><span class="p">:</span> <span class="p">[</span> <span class="dl">"</span><span class="s2">--no-sandbox</span><span class="dl">"</span> <span class="p">]</span> <span class="p">});</span>
+</code></pre></div></div>
+
+<p>This is the actual test case. Here we start Puppeteer, and here you can change various
+<a href="https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerlaunchoptions">options</a>
+to influence the test. For example, set <code class="language-plaintext highlighter-rouge">headless: false</code> to get a visible Chomium window and follow live what the test
+does (or where it hangs).</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">const</span> <span class="nx">page</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">browser</span><span class="p">.</span><span class="nx">newPage</span><span class="p">();</span>
+
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="c1">// log in</span>
+        <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="nx">goto</span><span class="p">(</span><span class="nx">vm</span><span class="p">.</span><span class="nx">cockpit</span><span class="p">);</span>
+        <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="nx">type</span><span class="p">(</span><span class="dl">'</span><span class="s1">#login-user-input</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">admin</span><span class="dl">'</span><span class="p">);</span>
+        <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="nx">type</span><span class="p">(</span><span class="dl">'</span><span class="s1">#login-password-input</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">foobar</span><span class="dl">'</span><span class="p">);</span>
+        <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="dl">'</span><span class="s1">#login-button</span><span class="dl">'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>This is the equivalent of Cockpit test’s <code class="language-plaintext highlighter-rouge">Browser.login_and_go()</code>. In a real test you would probably factorize this into
+a helper function.</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="nx">waitFor</span><span class="p">(</span><span class="dl">'</span><span class="s1">#host-nav a[title="Starter Kit"]</span><span class="dl">'</span><span class="p">);</span>
+        <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="nx">goto</span><span class="p">(</span><span class="nx">vm</span><span class="p">.</span><span class="nx">cockpit</span> <span class="o">+</span> <span class="dl">"</span><span class="s2">/starter-kit</span><span class="dl">"</span><span class="p">);</span>
+        <span class="kd">let</span> <span class="nx">frame</span> <span class="o">=</span> <span class="nx">getFrame</span><span class="p">(</span><span class="nx">page</span><span class="p">,</span> <span class="dl">'</span><span class="s1">cockpit1:localhost/starter-kit</span><span class="dl">'</span><span class="p">);</span>
+
+        <span class="c1">// verify expected heading</span>
+        <span class="k">await</span> <span class="nx">frame</span><span class="p">.</span><span class="nx">waitFor</span><span class="p">(</span><span class="dl">'</span><span class="s1">.container-fluid h2</span><span class="dl">'</span><span class="p">);</span>
+        <span class="k">await</span> <span class="nx">frame</span><span class="p">.</span><span class="nx">waitForFunction</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="dl">"</span><span class="s2">.container-fluid h2</span><span class="dl">"</span><span class="p">).</span><span class="nx">innerHTML</span> <span class="o">==</span> <span class="dl">"</span><span class="s2">Starter Kit</span><span class="dl">"</span><span class="p">);</span>
+
+        <span class="c1">// verify expected host name</span>
+        <span class="kd">let</span> <span class="nx">hostname</span> <span class="o">=</span> <span class="nx">vmExecute</span><span class="p">(</span><span class="nx">vm</span><span class="p">,</span> <span class="dl">"</span><span class="s2">cat /etc/hostname</span><span class="dl">"</span><span class="p">).</span><span class="nx">trim</span><span class="p">();</span>
+        <span class="k">await</span> <span class="nx">frame</span><span class="p">.</span><span class="nx">waitFor</span><span class="p">(</span><span class="dl">'</span><span class="s1">.container-fluid span</span><span class="dl">'</span><span class="p">);</span>
+        <span class="k">await</span> <span class="nx">frame</span><span class="p">.</span><span class="nx">waitForFunction</span><span class="p">(</span>
+            <span class="nx">h</span> <span class="o">=&gt;</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="dl">"</span><span class="s2">.container-fluid span</span><span class="dl">"</span><span class="p">).</span><span class="nx">innerHTML</span> <span class="o">==</span> <span class="p">(</span><span class="dl">"</span><span class="s2">Running on </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">h</span><span class="p">),</span>
+            <span class="p">{},</span> <span class="nx">hostname</span><span class="p">);</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<p>This is a direct translation of what check-starter-kit does: Assert the expected heading and host name message.</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">catch</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">const</span> <span class="nx">attachments</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">[</span><span class="dl">"</span><span class="s2">TEST_ATTACHMENTS</span><span class="dl">"</span><span class="p">];</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">attachments</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="dl">"</span><span class="s2">Test failed, taking screenshot...</span><span class="dl">"</span><span class="p">);</span>
+            <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="nx">screenshot</span><span class="p">({</span> <span class="na">path</span><span class="p">:</span> <span class="nx">attachments</span> <span class="o">+</span> <span class="dl">"</span><span class="s2">/testStarterKit-FAIL.png</span><span class="dl">"</span><span class="p">});</span>
+        <span class="p">}</span>
+        <span class="k">throw</span> <span class="nx">err</span><span class="p">;</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<p>This part is optional, but very useful for debugging failed tests. If any assertion fails, this creates a PNG screenshot
+from the current browser page state. Run the test with <code class="language-plaintext highlighter-rouge">TEST_ATTACHMENTS=/some/existing/directory</code> to enable this. The
+Cockpit CI machinery will export any files in this directory to the http browsable test results directory.</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code>     <span class="k">finally</span> <span class="p">{</span>
+        <span class="k">await</span> <span class="nx">browser</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
+        <span class="nx">vm</span><span class="p">.</span><span class="nx">proc</span><span class="p">.</span><span class="nx">kill</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>This is a poor man’s “test teardown” which closes the browser and VM.</p>
+
+<h2 id="feedback">Feedback</h2>
+
+<p>starter-kit and external Cockpit project tests are still fairly new, so there are for sure things that could work more
+robustly, easier, more flexibly, or just have better documentation. If you run into trouble, please don’t hesitate
+telling us about it, preferably by <a href="https://github.com/cockpit-project/starter-kit/issues">filing an issue</a>.</p>
+
+<p>Happy hacking!</p>
+
+<p>The Cockpit Development Team</p>
+
+    
+  </section>
+
+  
+
+</article>
+
+
+  
+  <div class="author-info author-card" id="author-info">
+    <h2>About Martin Pitt</h2>
+    <div class="author-blurb">
+      
+
+
+      <div class="more-link">
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/blog/authors#pitti">
+          View all posts by Martin Pitt »
+        </a>
+      </div>
+
+      
+    </div>
+  </div>
+
+
+
+  </div>
+</div>
+
+<footer class="footer-cockpit" role="contentinfo">
+    <p class="copyright">
+        
+
+        © 2013 - 2026
+
+        &mdash;
+
+        Cockpit is a <a href="https://redhat.com/">Red Hat</a> sponsored
+        free software project released under the
+        <a href="https://opensource.org/licenses/lgpl-2.1.php">LGPL v2.1+</a>
+    </p>
+
+    <p class="policy">
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/privacy.html">
+            Privacy Policy
+        </a>
+        &mdash;
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/code-of-conduct.html">
+            Code of Conduct
+        </a>
+    </p>
+
+    <p class="edit-page"><a
+      href="https://github.com/Venefilyn/cockpit-project.github.io/edit/main/_posts/2018-03-28-puppeteer-tests.md">Edit page on GitHub</a>
+</p>
+</footer>
+
+
+      
+    
+  </body>
+
+</html>

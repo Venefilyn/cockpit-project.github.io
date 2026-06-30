@@ -1,0 +1,1691 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cockpit Project - Tutorial</title>
+    <description>Cockpit makes it easy to administer your Linux servers via a web browser.
+</description>
+    <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/</link>
+    <atom:link href="https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/blog/feeds/tutorial.atom.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Tue, 30 Jun 2026 15:09:34 +0000</pubDate>
+    <lastBuildDate>Tue, 30 Jun 2026 15:09:34 +0000</lastBuildDate>
+    <generator>Jekyll v3.9.5</generator>
+    
+      <item>
+        <title>Pixel testing update</title>
+        <description>
+          &lt;p&gt;Since May last year, the Cockpit integration tests contain “pixel
+tests”, as described &lt;a href=&quot;pixel-testing.html&quot;&gt;here&lt;/a&gt;.  Let’s have a look at
+what has happened since then.&lt;/p&gt;
+
+&lt;h2 id=&quot;mobile-layout&quot;&gt;Mobile layout&lt;/h2&gt;
+
+&lt;p&gt;Katerina has made it so that all our integration tests run with two
+sizes of the browser: one time with the old “desktop” size
+(1920x1280), and again with a “mobile” size (414x1920). This has
+forced us to look more closely at how Cockpit behaves in such a narrow
+screen, and we have since fixed it up quite a bit.&lt;/p&gt;
+
+&lt;p&gt;Before this, we had relied on people manually testing Cockpit in a
+mobile layout.  This was done occasionally, but now the mobile layout
+is almost a first class citizen, and I am certain we will keep fixing
+Cockpit until we are fully happy with it.  My feeling is that this
+would not have happened without automated pixel testing.&lt;/p&gt;
+
+&lt;p&gt;A recent example is &lt;a href=&quot;https://github.com/cockpit-project/cockpit-podman/pull/902&quot;&gt;this pull
+request&lt;/a&gt;.
+We did know about the broken mobile layout of the images list, but the
+thing that kicked us to actually fix it was the enabling of “mobile”
+pixel tests in the cockpit-podman repository.  Having to commit a
+obviously terrible reference image is unpleasant enough to finally sit
+down and fix the thing.&lt;/p&gt;
+
+&lt;p&gt;Of course, it helped that we had enough experience from fixing the
+mobile layout of Cockpit, and that’s how the rising tide lifts all the
+boats: Soon everyone in the team will not only care about the mobile
+layout, but also know how to fix any issues with it. We have managed
+to push the mobile layout over the threshold where it becomes
+rewarding to keep it in good shape, instead of it being so annyoing
+that we would rather ignore it.&lt;/p&gt;
+
+&lt;h2 id=&quot;some-numbers&quot;&gt;Some numbers&lt;/h2&gt;
+
+&lt;p&gt;Right now, we have 52 pixel tests in Cockpit itself, 20 in
+Cockpit-machines, and 5 in Cockpit-podman.  Each pixel test has a
+reference image for three layouts, so we have 231 of them, totalling
+about 10 MiB.  The Git repository with all their history is about 22
+MiB, for nine months of pixel testing.  (The main Cockpit repository is
+about 110 MiB, for about nine years of hacking.)&lt;/p&gt;
+
+&lt;p&gt;Pixel tests are kind of slow, up to a few seconds per image
+comparison.  They might increase the running time of our tests by a
+couple of minutes.  We will have to measure this more carefully.&lt;/p&gt;
+
+&lt;h2 id=&quot;reproducing-pixels&quot;&gt;Reproducing pixels&lt;/h2&gt;
+
+&lt;p&gt;Unsurprisingly, it is non-trivial to make sure that the integration
+tests always perform a given pixel test with exactly the same result.
+We know that we had to battle rendering issues from the start, but it
+took us a bit to figure out the following:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Elements need to be scrolled into view before we can test their
+pixels.  Obvious, but it needed to actually happen before we
+realized it.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;There are some animations, and we need to make sure that we don’t
+take a pixel test mid-animation.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;When the Shell of Cockpit is changed, the content area for pages
+like Networking might change size.  This is a problem for external
+projects that don’t control the version of the Cockpit shell.  We
+worked around this by giving the content iframe a fixed size (by
+making the browser window slightly bigger or smaller if necessary).&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;We would miss failed pixels when a test ran into a known issue. A
+known issue would cause the test to be skipped, and one would have
+to look very closely to spot that it also had a failing pixel
+test. This means that we sometimes forgot to update some reference
+images, and would later be surprised by how we could have missed
+them.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;As we change tests, we would accumulate unused reference images.
+The bots now force us to clean up properly.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Even though the actual DOM rendering is suprisingly deterministic,
+one or two pixels in a million still come out slightly differently,
+from time to time.  We have no better idea but to allow a low
+number of imperfections per pixel test.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;With every change, we are more certain that we can get the pixel test
+costs under control.  We might never reach a point where we can stop
+tweaking the pixel test machinery, but the same is true about our CI
+testing machinery in general.&lt;/p&gt;
+
+&lt;h2 id=&quot;why-dont-we-hate-them&quot;&gt;Why don’t we hate them?&lt;/h2&gt;
+
+&lt;p&gt;I was expecting that adding pixel tests to Cockpit would be a hard
+sell, but we all seem to like them.  That’s awesome!  What a team!&lt;/p&gt;
+
+&lt;p&gt;I was afraid that pixel tests would be very unreliable because
+browsers would not be nearly pixel perfect enough.  But it turns out
+that they are very good at this, actually, even across versions.  We
+had to switch off font hinting, and results are not consistent between
+running the tests locally and runnning them in the cloud, but pixels
+are almost never changing randomly from one run to the next.&lt;/p&gt;
+
+&lt;p&gt;The unreliability comes mostly from not getting the DOM into the exact
+same state every time a given pixel test runs. This has always been a
+problem with our tests and we are pretty good at dealing with it.&lt;/p&gt;
+
+&lt;p&gt;However, while the traditional tests were just code in the main repo,
+pixel tests are binary files in a Git submodule. Submodules can be
+very confusing, and we tried to hide most of it behind a script.  And
+Github is actually pretty good with images.&lt;/p&gt;
+
+&lt;p&gt;One thing we have learned is to update reference images only very late
+in the life of a pull request. Resolving merge conflicts of binary
+files in a submodule is just not fun.&lt;/p&gt;
+
+&lt;p&gt;I think we all like them because the value that we derive from pixel
+tests is well worth their cost. It feels awesome to officially replace
+an image of a sucky part of Cockpit with a nice one while fixing the
+code, and to show off a new feature with a couple of screenshots that
+you know will be kept from regressing.&lt;/p&gt;
+
+&lt;p&gt;The original goal, updating Patternfly and not having to worry about
+missing visual regressions, has been reached.&lt;/p&gt;
+
+&lt;p&gt;So I would say the future looks good for pixel tests.  We are still
+adding more, and we have recently added a whole new browser size with
+it’s own set of 77 new reference images.  We keep them working, and
+they keep Cockpit pretty and us honest.&lt;/p&gt;
+
+&lt;p&gt;I count that as a success!  And a lot of thanks to the team for being
+so willing to experiment.  Especially to Katerina for being even more
+excited about pixel tests in the beginning than I was. 😁&lt;/p&gt;
+
+        </description>
+        <pubDate>Thu, 03 Feb 2022 10:00:00 +0000</pubDate>
+        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/pixel-testing-update.html</link>
+        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/pixel-testing-update.html</guid>
+        
+        <category>cockpit</category>
+        
+        
+        <category>tutorial</category>
+        
+      </item>
+    
+      <item>
+        <title>Testing all the pixels</title>
+        <description>
+          &lt;p&gt;The Cockpit integration tests can now contain “pixel tests”. Such a
+ test will take a screenshot with the browser and compare it with a
+ reference.  The idea is that we can catch visual regressions much
+ easier this way than if we would hunt for them in a purely manual
+ fashion.&lt;/p&gt;
+
+&lt;h2 id=&quot;preparing-a-repository-for-pixel-tests&quot;&gt;Preparing a repository for pixel tests&lt;/h2&gt;
+
+&lt;p&gt;A pixel test will take a screenshot of part of the Cockpit UI and
+compare it with a reference.  Thus, these reference images are
+important and play the biggest role.&lt;/p&gt;
+
+&lt;p&gt;A large part of dealing with pixel tests will consequently consist of
+maintaining the reference images.  At the same time, we don’t want to
+clog up our main source repository with them.  While the number and
+size of the reference images at any one point in time should not pose
+a problem, we will over time accumulate a history of them that we are
+afraid would dominate the source repository.&lt;/p&gt;
+
+&lt;p&gt;Thus, the reference images are not stored in the source repository.
+Instead, we store them in an external repository that is linked into
+the source repository as a
+&lt;a href=&quot;https://git-scm.com/book/en/v2/Git-Tools-Submodules&quot;&gt;submodule&lt;/a&gt;.
+That external repository doesn’t keep any history and can be
+aggressively pruned.&lt;/p&gt;
+
+&lt;p&gt;Developers are mostly isolated from this via the new
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;test/common/pixel-tests&lt;/code&gt; tool.  But if you are familiar with git
+submodules, there should be no surprises for you here.&lt;/p&gt;
+
+&lt;p&gt;A source repository needs to be prepared before it can store reference
+images in a external storage repository. You can let the tool do it by
+running&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ ./test/common/pixel-tests init
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;and then committing the changes it has done to the source repository.
+(Those changes will be a new or modified .gitmodules file, and a new
+gitlink at test/reference.)&lt;/p&gt;
+
+&lt;h2 id=&quot;adding-a-pixel-test&quot;&gt;Adding a pixel test&lt;/h2&gt;
+
+&lt;p&gt;To add a pixel test to a test program, call the new “assert_pixels”
+function of the Browser class:&lt;/p&gt;
+
+&lt;div class=&quot;language-py highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;testSomeDialog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;browser&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;assert_pixels&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;#dialog button.apply&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;button&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The first argument is a CSS selector that identifies the part of the
+UI that you want to compare.  The screenshot will only include that
+element.  The second argument is an arbitrary but unique key for this
+test point.  It is used to name the files that go with it.&lt;/p&gt;
+
+&lt;p&gt;For each such call, there needs to be a reference image in the
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;test/reference/&lt;/code&gt; directory.&lt;/p&gt;
+
+&lt;p&gt;As mentioned above, the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;test/reference/&lt;/code&gt; directory is very special
+indeed, and needs to be carefully managed with the
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;test/common/pixel-tests&lt;/code&gt; tool (or even more carefully with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git
+submodule&lt;/code&gt; et al).&lt;/p&gt;
+
+&lt;p&gt;First, make sure &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;test/reference&lt;/code&gt; is up-to-date:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ ./test/common/pixel-tests pull
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Then you can add new reference images to it.&lt;/p&gt;
+
+&lt;p&gt;The easiest way to get a new reference image is to just run the test
+once (locally or in the CI machinery).  It will fail, but produce a
+reference image for the current state of the UI.&lt;/p&gt;
+
+&lt;p&gt;When you run the test locally, the new reference image will appear in
+the current directory.  Just move it into test/reference/.  The next
+run of the test should then be green.&lt;/p&gt;
+
+&lt;p&gt;When you run the tests in the CI machinery, you need to download the
+new reference images from the test results directory.  They show up as
+regular screenshots.&lt;/p&gt;
+
+&lt;p&gt;If there are parts of the reference image that you want to ignore, you
+can pass a suitable “ignore” argument to assert_pixels.  It contains a
+list of CSS selectors, and any pixel that is within their bounding
+rectangles is ignored.  For example, this&lt;/p&gt;
+
+&lt;div class=&quot;language-py highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;testSomeDialog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;browser&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;assert_pixels&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;#dialog&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;dialog&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ignore&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;#memory-available&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;would compare a full dialog to a reference, but would exclude the DOM
+element that shows a number that is dependent on the environment that
+the test runs in.&lt;/p&gt;
+
+&lt;p&gt;You can also change the transparency (alpha channel) of parts of the
+reference image itself (with the GIMP, say).  Any pixel that is not
+fully opaque will be ignored during comparison.&lt;/p&gt;
+
+&lt;p&gt;When you are done adding images to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;test/reference&lt;/code&gt;, push them into
+the storage repository like so:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ ./test/common/pixel-tests push
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;push&lt;/code&gt; command will record a change to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;test/reference&lt;/code&gt; in the
+main repository, and you need to commit this change.  This is how the
+main repository specifies which reference images to use exactly for
+each of its commits.&lt;/p&gt;
+
+&lt;p&gt;If you want to see what changes would be pushed without actually
+pushing them, you can run this:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ ./test/common/pixel-tests status
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Here is a PR that adds two pixel test points to the starter-kit,
+complete with reference images:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/cockpit-project/starter-kit/pull/436&quot;&gt;starter-kit#436&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;debugging-a-failed-pixel-test&quot;&gt;Debugging a failed pixel test&lt;/h2&gt;
+
+&lt;p&gt;When making changes that change how the UI looks, some pixel tests
+will fail.  The test results will contain the new pixels, and you can
+compare them with the reference image right in the browser when looking
+at the test logs.&lt;/p&gt;
+
+&lt;p&gt;Here is a PR that makes the two pixel tests fail that had been added
+in #436:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/cockpit-project/starter-kit/pull/435&quot;&gt;starter-kit#435&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;As you can see, it has “changed pixels” links in the same place as the
+well known “screenshot” links.  Clicking on it gets you to a page
+where you can directly compare the previous and current UI.&lt;/p&gt;
+
+&lt;p&gt;As the author of the pull request, you can decide from there whether
+these changes are intended or not.&lt;/p&gt;
+
+&lt;p&gt;For a intended change, see the next section.  For unintended changes,
+you need to fix your code and try again, of course.&lt;/p&gt;
+
+&lt;h2 id=&quot;updating-a-pixel-test&quot;&gt;Updating a pixel test&lt;/h2&gt;
+
+&lt;p&gt;If you make a change that intentionally changes how Cockpit looks, you
+need to install new reference images in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;test/reference/&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;This is very similar to adding a new pixel test point.  Take the
+TestFoo-testBasic-pixels.png that was written by the failed test run,
+move it into &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;test/reference&lt;/code&gt;, push it to the storage repository with
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;./test/common/pixel-tests push&lt;/code&gt;, and commit &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;test/reference&lt;/code&gt; in the
+main repository.&lt;/p&gt;
+
+&lt;p&gt;A local test run has dropped the new reference image into the current
+directory, for a remote run it will be in the test results directory
+and the pixel comparison view has a link to it.&lt;/p&gt;
+
+&lt;p&gt;When a test writes a new TestFoo-testBasic-pixels.png file for a
+failed test, it will have the alpha channel of the old reference
+copied into it.  That makes it easy to keep ignoring the same parts.&lt;/p&gt;
+
+&lt;h2 id=&quot;reviewing-a-changed-pixel-test&quot;&gt;Reviewing a changed pixel test&lt;/h2&gt;
+
+&lt;p&gt;Here is a second version of the starter-kit pull request from the
+previous section:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/cockpit-project/starter-kit/pull/438&quot;&gt;starter-kit#438&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;It has the same code changes, but now the reference images have been
+updated as well, since the change in color was of course intended.&lt;/p&gt;
+
+&lt;p&gt;Now this PR needs to be reviewed, and the changed visuals need to be
+approved.  But since the reference images are not stored in the main
+repository, Github will not include them in the PR diff view.&lt;/p&gt;
+
+&lt;p&gt;Instead, the robots will automatically add a comment to a pull request
+with a link to a page that allows reviewing the changed reference
+images.&lt;/p&gt;
+
+        </description>
+        <pubDate>Thu, 06 May 2021 10:00:00 +0000</pubDate>
+        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/pixel-testing.html</link>
+        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/pixel-testing.html</guid>
+        
+        <category>cockpit</category>
+        
+        
+        <category>tutorial</category>
+        
+      </item>
+    
+      <item>
+        <title>Creating Plugins for the Cockpit User Interface</title>
+        <description>
+          &lt;p class=&quot;note&quot;&gt;&lt;em&gt;&lt;strong&gt;Note&lt;/strong&gt;: This post was updated in Aug 2022 to adjust to reflect Cockpit UI and development best practices.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://cockpit-project.org&quot;&gt;Cockpit is a web-based graphical interface for servers&lt;/a&gt;. You can easily add your own custom pages to the navigation.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/pages-menu-top.png&quot; alt=&quot;Navigation menu&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;For this tutorial you need to &lt;a href=&quot;../running.html&quot;&gt;install your distribution’s cockpit packages&lt;/a&gt; or &lt;a href=&quot;https://github.com/cockpit-project/cockpit/blob/master/HACKING.md&quot;&gt;build it from git&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;We’ll make a package called &lt;em&gt;pinger&lt;/em&gt; that checks whether your server has network connectivity to the Internet by pinging another host. It’s simple and not too fancy. The package will spawn a process on the server to do all the work.&lt;/p&gt;
+
+&lt;p&gt;This example package is already &lt;a href=&quot;https://github.com/cockpit-project/cockpit/tree/master/examples/pinger&quot;&gt;included in the Cockpit sources&lt;/a&gt;. You can look it over and modify it.&lt;/p&gt;
+
+&lt;p&gt;To start, let’s get ready for development by launching a terminal on your local computer.&lt;/p&gt;
+
+&lt;p&gt;First, create a project directory and download the example:&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;mkdir &lt;/span&gt;pinger&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;pinger
+curl &lt;span class=&quot;nt&quot;&gt;-O&lt;/span&gt; https://raw.githubusercontent.com/cockpit-project/cockpit/master/examples/pinger/manifest.json
+curl &lt;span class=&quot;nt&quot;&gt;-O&lt;/span&gt; https://raw.githubusercontent.com/cockpit-project/cockpit/master/examples/pinger/ping.html
+curl &lt;span class=&quot;nt&quot;&gt;-O&lt;/span&gt; https://raw.githubusercontent.com/cockpit-project/cockpit/master/examples/pinger/pinger.js
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Cockpit pages — more specifically their HTML and Javascript files — live in &lt;a href=&quot;https://cockpit-project.org/guide/latest/packages.html&quot;&gt;package directories&lt;/a&gt;. In the package directory there’s also a &lt;a href=&quot;https://cockpit-project.org/guide/latest/packages.html#package-manifest&quot;&gt;manifest.json&lt;/a&gt; file which tells Cockpit about the package. The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pinger&lt;/code&gt; directory above is such a package. Its &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;manifest.json&lt;/code&gt; file looks like this:&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
+    &quot;version&quot;: 0,
+    &quot;tools&quot;: {
+        &quot;pinger&quot;: {
+            &quot;label&quot;: &quot;Pinger&quot;,
+            &quot;path&quot;: &quot;ping.html&quot;
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The manifest above has a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;tools&quot;&lt;/code&gt; subsection, which means that it will appear in the lower section of the menu (see the &lt;a href=&quot;https://cockpit-project.org/guide/latest/packages.html#package-manifest&quot;&gt;manifest documentation&lt;/a&gt; for details). Each tool is listed in the menu by Cockpit. The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;path&quot;&lt;/code&gt; is the name of the HTML file that implements the tool, and the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;label&quot;&lt;/code&gt; is the text to show in the menu.&lt;/p&gt;
+
+&lt;p&gt;You’ll notice that we haven’t told Cockpit about how to find the package yet. To do so you either copy or symlink the package into one of two places:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/.local/share/cockpit&lt;/code&gt; in your home directory. It’s used for user specific packages and ones that you’re developing. You can edit these on the fly and refresh your browser to see changes.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/usr/share/cockpit&lt;/code&gt; is the location for installed packages available to all users of a system. Changing files in this path requires administrator (“root”) privileges. These should not be changed while Cockpit is running.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Since we’re going to be actively editing this package, let’s symlink it into the first location, in your home directory.&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;mkdir&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; ~/.local/share/cockpit
+&lt;span class=&quot;nb&quot;&gt;ln&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-snf&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$PWD&lt;/span&gt; ~/.local/share/cockpit/pinger
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;To list the Cockpit packages which are installed, use the following command:&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ cockpit-bridge --packages
+...
+pinger: /home/.../.local/share/cockpit/pinger
+...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;You should see &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pinger&lt;/code&gt; listed among all the active modules, like the above example.&lt;/p&gt;
+
+&lt;p&gt;Log into Cockpit on this machine with your current user name, as the package is installed in your home directory. (If you’re already logged in to Cockpit with your user account, you can simply reload your browser.)&lt;/p&gt;
+
+&lt;p&gt;You should now see a new item:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/cockpit-tools-pinger.png&quot; alt=&quot;Tools menu with pinger&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The pinger tool itself looks like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/cockpit-pinger-tool.png&quot; alt=&quot;Pinger tool&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Lets take a look at the pinger HTML, and see how it works.&lt;/p&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;title&amp;gt;&lt;/span&gt;Pinger&lt;span class=&quot;nt&quot;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;charset=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;utf-8&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;../base1/cockpit.js&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;main&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;tabindex=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;-1&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;section&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&amp;gt;&lt;/span&gt;
+                &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&amp;gt;&lt;/span&gt;
+                    &lt;span class=&quot;nt&quot;&gt;&amp;lt;label&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;for=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;address&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Address&lt;span class=&quot;nt&quot;&gt;&amp;lt;/label&amp;gt;&lt;/span&gt;
+                    &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;address&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;8.8.8.8&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+                &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+                &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&amp;gt;&lt;/span&gt;
+                    &lt;span class=&quot;nt&quot;&gt;&amp;lt;button&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ping&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Ping&lt;span class=&quot;nt&quot;&gt;&amp;lt;/button&amp;gt;&lt;/span&gt;
+                    &lt;span class=&quot;nt&quot;&gt;&amp;lt;span&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;result&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/span&amp;gt;&lt;/span&gt;
+                &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+                &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&amp;gt;&lt;/span&gt;
+                    &lt;span class=&quot;nt&quot;&gt;&amp;lt;pre&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;output&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/pre&amp;gt;&lt;/span&gt;
+                &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/section&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/main&amp;gt;&lt;/span&gt;
+
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;pinger.js&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Included in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;head&amp;gt;&lt;/code&gt; block: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cockpit.js&lt;/code&gt; is the basic API for interacting with the system, as well as Cockpit itself. You can find &lt;a href=&quot;https://cockpit-project.org/guide/latest/api-base1.html&quot;&gt;detailed documentation in the Cockpit guide&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The HTML is pretty basic. It defines a little form with a field to type an address, a button to click to start pinging, and an area to present output and results.&lt;/p&gt;
+
+&lt;p&gt;The logic lives in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pinger.js&lt;/code&gt;, shown in full here:&lt;/p&gt;
+
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;address&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getElementById&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;output&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getElementById&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;output&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getElementById&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;button&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getElementById&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;ping&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ping_run&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;cockpit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;spawn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;ping&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;-c&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ping_output&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ping_success&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ping_fail&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+    &lt;span class=&quot;nx&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;innerHTML&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;output&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;innerHTML&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ping_success&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;color&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;green&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;innerHTML&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;success&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ping_fail&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;color&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;red&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;innerHTML&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;fail&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ping_output&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;output&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;createTextNode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// Connect the button to starting the &quot;ping&quot; process&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;button&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;addEventListener&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;click&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ping_run&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// Send a &apos;init&apos; message.  This tells integration tests that we are ready to go&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;cockpit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;transport&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;wait&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;First we get a bunch of variables pointing to the HTML elements we want to interact with. Next we attach a handler to the &lt;em&gt;Ping&lt;/em&gt; button so that the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ping_run()&lt;/code&gt; function is called when it is clicked.&lt;/p&gt;
+
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ping_run&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;button&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;addEventListener&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;click&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ping_run&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ping_run()&lt;/code&gt; function is where the magic happens. &lt;a href=&quot;https://cockpit-project.org/guide/latest/cockpit-spawn.html&quot;&gt;cockpit.spawn&lt;/a&gt; lets you spawn processes on the server and interact with them via &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;stdin&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;stdout&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Here we spawn the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ping&lt;/code&gt; command with some arguments:&lt;/p&gt;
+
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;cockpit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;spawn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;ping&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;-c&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()])&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In a web browser you cannot block and wait until a method call completes. Anything that doesn’t happen instantaneously gets its results reported back to you by &lt;a href=&quot;https://cockpit-project.org/guide/latest/cockpit-spawn.html#cockpit-spawn-then&quot;&gt;means of callback handlers&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;JavaScript has a standard interface called a &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise&quot;&gt;Promise&lt;/a&gt;. You add handlers by calling the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.then()&lt;/code&gt; or &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.catch()&lt;/code&gt; methods and registering callbacks (Note: historically these have been called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.done()&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.fail()&lt;/code&gt;, but these should not be used any more in new code.) The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cockpit.spawn&lt;/code&gt; specific &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.stream()&lt;/code&gt; handler registers a callback to be invoked whenever the process produces output.&lt;/p&gt;
+
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;   &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;some&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;promise&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ping_output&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ping_success&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ping_fail&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ping_success()&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ping_fail()&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ping_output()&lt;/code&gt; update the display as you would expect.&lt;/p&gt;
+
+&lt;p class=&quot;warning&quot;&gt;&lt;em&gt;&lt;strong&gt;Warning&lt;/strong&gt;: Don’t start long-running, uninterruptible processes in this naïve way. Browser tabs are easily closed, network connections get severed, laptops suspend, and so on. Take care to use a mechanism like &lt;a href=&quot;https://www.freedesktop.org/software/systemd/man/systemd-run.html&quot;&gt;systemd-run&lt;/a&gt; (or similar) for processes that should not be interrupted, such as installation procedures.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;This should be enough to get you started with your first useful (but admittedly basic) Cockpit page!  Please see the &lt;a href=&quot;https://cockpit-project.org/external/wiki/Contributing.html&quot;&gt;Contributing&lt;/a&gt; page for more documentation on where to grow from here.&lt;/p&gt;
+
+        </description>
+        <pubDate>Mon, 04 May 2020 00:00:00 +0000</pubDate>
+        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/creating-plugins-for-the-cockpit-user-interface.html</link>
+        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/creating-plugins-for-the-cockpit-user-interface.html</guid>
+        
+        <category>cockpit</category>
+        
+        <category>linux</category>
+        
+        
+        <category>tutorial</category>
+        
+      </item>
+    
+      <item>
+        <title>Make your Cockpit page easily installable</title>
+        <description>
+          &lt;p&gt;Since version 152, Cockpit can discover and install packages that add
+pages to Cockpit.  We call them “Applications” and as of now, only two
+of them exist: We have Fleet Commander and Cockpit’s own Diagnostic
+Reports in Fedora.  You might have seen them on the Applications page:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/cockpit-two-apps.png&quot; alt=&quot;Two Cockpit Applications&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;If you want your own page to appear there, you have to add suitable
+&lt;a href=&quot;https://www.freedesktop.org/wiki/Distributions/AppStream/&quot;&gt;AppStream&lt;/a&gt;
+data to your package in the right location.&lt;/p&gt;
+
+&lt;p&gt;When your package is included in a distribution repository, the
+repository machinery will find the data in your package and make it
+available to software managers, such as the Cockpit “Applications”
+page.&lt;/p&gt;
+
+&lt;p&gt;For a Cockpit component, the AppStream data looks like this:&lt;/p&gt;
+&lt;div class=&quot;language-xml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;component&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;addon&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;id&amp;gt;&lt;/span&gt;org.cockpit_project.demo-app&lt;span class=&quot;nt&quot;&gt;&amp;lt;/id&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;metadata_license&amp;gt;&lt;/span&gt;CC0-1.0&lt;span class=&quot;nt&quot;&gt;&amp;lt;/metadata_license&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;name&amp;gt;&lt;/span&gt;Demo Application&lt;span class=&quot;nt&quot;&gt;&amp;lt;/name&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;summary&amp;gt;&lt;/span&gt;
+    A demo add-on application for Cockpit
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/summary&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;description&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;This is a demo application&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/description&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;extends&amp;gt;&lt;/span&gt;org.cockpit_project.cockpit&lt;span class=&quot;nt&quot;&gt;&amp;lt;/extends&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;launchable&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cockpit-manifest&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;demo-app&lt;span class=&quot;nt&quot;&gt;&amp;lt;/launchable&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/component&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This would be placed at
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/usr/share/metainfo/org.cockpit_project.demo-app.metainfo.xml&lt;/code&gt; in
+your package.&lt;/p&gt;
+
+&lt;p&gt;The important bit is the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;launchable&lt;/code&gt; element with type
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cockpit-manifest&lt;/code&gt;.  Any such AppStream component will be offered for
+installation by Cockpit.  The value is the name of the &lt;a href=&quot;https://cockpit-project.org/guide/latest/packages.html&quot;&gt;Cockpit
+package&lt;/a&gt; for
+your page.&lt;/p&gt;
+
+&lt;p&gt;Use the component type &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;addon&lt;/code&gt; and add an &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;extends&lt;/code&gt; element for
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;org.cockpit_project.cockpit&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;You should of course come up with your own value for the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;id&lt;/code&gt; element,
+in the usual reverse-DNS style, and adjust the filename accordingly.&lt;/p&gt;
+
+        </description>
+        <pubDate>Mon, 09 Apr 2018 10:00:00 +0000</pubDate>
+        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/making-a-cockpit-application.html</link>
+        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/making-a-cockpit-application.html</guid>
+        
+        <category>cockpit</category>
+        
+        
+        <category>tutorial</category>
+        
+      </item>
+    
+      <item>
+        <title>Using Cockpit test VMs with your own test framework</title>
+        <description>
+          &lt;p&gt;The &lt;a href=&quot;https://github.com/cockpit-project/starter-kit/&quot;&gt;Cockpit Starter Kit&lt;/a&gt; provides the scaffolding for your own Cockpit
+extensions: a simple page (in React), build system (webpack, babel, eslint, etc.), and an integration test using
+Cockpit’s own Python test API on top of the
+&lt;a href=&quot;https://chromedevtools.github.io/devtools-protocol/&quot;&gt;Chromium DevTools Protocol&lt;/a&gt;.  See the recent
+&lt;a href=&quot;https://cockpit-project.org/blog/cockpit-starter-kit.html&quot;&gt;introduction&lt;/a&gt; for details.&lt;/p&gt;
+
+&lt;p&gt;But in some cases you want to use a different testing framework; perhaps you have an already existing project and tests.
+Then it is convenient and recommended to still using Cockpit’s test VM images: they provide an easy way to test your
+project on various Fedora/Red Hat/Debian/Ubuntu flavors; and they take quite a lot of effort to maintain! Quite
+fortunately, using the test images is not tightly bound to using Cockpit’s test API, and not even to tests being written
+Python. They can be built and used entirely through command line tools from Cockpit’s &lt;a href=&quot;https://github.com/cockpit-project/cockpit/tree/master/bots/&quot;&gt;bots/
+directory&lt;/a&gt;, so you can use those with any programming
+language and test framework.&lt;/p&gt;
+
+&lt;h2 id=&quot;building-and-interacting-with-a-test-vm&quot;&gt;Building and interacting with a test VM&lt;/h2&gt;
+
+&lt;p&gt;To illustrate this, let’s check out the Starter Kit and build a CentOS 7 based VM with cockpit and the starter kit
+installed:&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git clone https://github.com/cockpit-project/starter-kit.git
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;starter-kit
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;make vm
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Ordinarily, the generated &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;test/images/centos-7.qcow2&lt;/code&gt; would be used by
+&lt;a href=&quot;https://github.com/cockpit-project/starter-kit/blob/master/test/check-starter-kit&quot;&gt;test/check-starter-kit&lt;/a&gt;. But let’s
+tinker around with the VM image manually. Cockpit’s
+&lt;a href=&quot;https://github.com/cockpit-project/cockpit/blob/master/bots/machine/testvm.py&quot;&gt;testvm.py&lt;/a&gt; module for using these VMs
+can be used as a command line program:&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;bots/machine/testvm.py centos-7
+ssh &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ControlPath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/tmp/ssh-%h-%p-%r-23253 &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 2201 root@127.0.0.2
+http://127.0.0.2:9091
+RUNNING
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;It takes a few seconds to boot the VM, then it prints three lines:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The SSH command to run something inside the VM&lt;/li&gt;
+  &lt;li&gt;The URL for the forwarded Cockpit port 9090&lt;/li&gt;
+  &lt;li&gt;A constant &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RUNNING&lt;/code&gt; flag that test suites can poll for to know when to proceed.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You can now open that URL in your browser to log into Cockpit (user “admin”, password “foobar”) and see the installed
+Starter Kit page, or run a command in the VM through the given SSH command:&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;ssh &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ControlPath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/tmp/ssh-%h-%p-%r-23253 &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 2202 root@127.0.0.2 &lt;span class=&quot;nb&quot;&gt;head&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-n2&lt;/span&gt; /etc/os-release
+&lt;span class=&quot;nv&quot;&gt;NAME&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;CentOS Linux&quot;&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;VERSION&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;7 (Core)&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The VM gets shut down once the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;testvm.py&lt;/code&gt; process gets a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SIGTERM&lt;/code&gt; (useful for test suites) or &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SIGINT&lt;/code&gt; (useful for
+just pressing Control-C when interactively starting this in a shell).&lt;/p&gt;
+
+&lt;h2 id=&quot;using-testvmpy-in-your-test-suite&quot;&gt;Using testvm.py in your test suite&lt;/h2&gt;
+
+&lt;p&gt;Let’s use the above in a &lt;a href=&quot;https://github.com/GoogleChrome/puppeteer&quot;&gt;Puppeteer&lt;/a&gt; test.
+&lt;a href=&quot;../files/starter-kit/check-puppeteer.js&quot;&gt;check-puppeteer.js&lt;/a&gt; is a straight port of
+&lt;a href=&quot;https://github.com/cockpit-project/starter-kit/blob/master/test/check-starter-kit&quot;&gt;check-starter-kit&lt;/a&gt;; of course it is
+a little longer than the original as we don’t have the convenience functions of
+&lt;a href=&quot;https://github.com/cockpit-project/cockpit/blob/master/test/common/testlib.py&quot;&gt;testlib.py&lt;/a&gt; to automatically start and
+tear down VMs or do actions like “log into Cockpit”, but it is still fairly comprehensible. Download it into the tests/ directory of
+your starter-kit checkout, then install puppeteer:&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ PUPPETEER_SKIP_CHROMIUM_DOWNLOAD&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1 npm &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;puppeteer@0.12.0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This will avoid downloading an entire private copy of chromium-browser and use the system-installed one. (Of course you
+can also just call &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;npm install puppeteer&lt;/code&gt; if you don’t care about the overhead). Now run the tests:&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ DEBUG&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;puppeteer:page,puppeteer:frame&quot;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;PYTHONPATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;bots/machine &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt;/check-puppeteer.js
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This will run them in a verbose mode where you can follow the browser queries and events.&lt;/p&gt;
+
+&lt;p&gt;Let’s walk through some of the code:&lt;/p&gt;
+
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;startVm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;reject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;proc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;child_process&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;spawn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;bots/machine/testvm.py&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;testOS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;stdio&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;pipe&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;pipe&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;inherit&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+        &lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;buf&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;proc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;stdout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;buf&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;toString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;buf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;indexOf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;RUNNING&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;lines&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;buf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;split&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+                &lt;span class=&quot;nx&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;proc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;proc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;ssh&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;lines&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cockpit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;lines&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;proc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;`Failed to start vm-run: &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;`&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This uses &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;testvm.py&lt;/code&gt; as above to launch the VM. In a “real” test suite this would go into the per-test setup code.
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;check-puppeteer.js&lt;/code&gt; does not use any test case organization framework (like &lt;a href=&quot;https://www.npmjs.com/package/jest&quot;&gt;jest&lt;/a&gt;
+or &lt;a href=&quot;https://qunitjs.com/&quot;&gt;QUnit&lt;/a&gt;), but if you have more than two or three test cases it’s recommended to use one.&lt;/p&gt;
+
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;testStarterKit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;vm&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;startVm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;browser&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;puppeteer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;launch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// disable sandboxing to also work in docker&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;headless&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;executablePath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;chromium-browser&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;--no-sandbox&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This is the actual test case. Here we start Puppeteer, and here you can change various
+&lt;a href=&quot;https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerlaunchoptions&quot;&gt;options&lt;/a&gt;
+to influence the test. For example, set &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;headless: false&lt;/code&gt; to get a visible Chomium window and follow live what the test
+does (or where it hangs).&lt;/p&gt;
+
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;page&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;browser&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;newPage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// log in&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;page&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;goto&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;vm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;cockpit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;page&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;#login-user-input&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;admin&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;page&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;#login-password-input&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;foobar&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;page&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;click&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;#login-button&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This is the equivalent of Cockpit test’s &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Browser.login_and_go()&lt;/code&gt;. In a real test you would probably factorize this into
+a helper function.&lt;/p&gt;
+
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;        &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;page&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;waitFor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;#host-nav a[title=&quot;Starter Kit&quot;]&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;page&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;goto&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;vm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;cockpit&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/starter-kit&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;frame&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;getFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;page&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;cockpit1:localhost/starter-kit&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+        &lt;span class=&quot;c1&quot;&gt;// verify expected heading&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;frame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;waitFor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;.container-fluid h2&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;frame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;waitForFunction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;querySelector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;.container-fluid h2&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;innerHTML&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;Starter Kit&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+        &lt;span class=&quot;c1&quot;&gt;// verify expected host name&lt;/span&gt;
+        &lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;hostname&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;vmExecute&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;vm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;cat /etc/hostname&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;trim&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;frame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;waitFor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;.container-fluid span&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;frame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;waitForFunction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;querySelector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;.container-fluid span&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;innerHTML&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;Running on &lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;{},&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;hostname&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This is a direct translation of what check-starter-kit does: Assert the expected heading and host name message.&lt;/p&gt;
+
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;attachments&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;process&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;TEST_ATTACHMENTS&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attachments&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;Test failed, taking screenshot...&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;page&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;screenshot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;attachments&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/testStarterKit-FAIL.png&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This part is optional, but very useful for debugging failed tests. If any assertion fails, this creates a PNG screenshot
+from the current browser page state. Run the test with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TEST_ATTACHMENTS=/some/existing/directory&lt;/code&gt; to enable this. The
+Cockpit CI machinery will export any files in this directory to the http browsable test results directory.&lt;/p&gt;
+
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;     &lt;span class=&quot;k&quot;&gt;finally&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;browser&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;vm&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;proc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;kill&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This is a poor man’s “test teardown” which closes the browser and VM.&lt;/p&gt;
+
+&lt;h2 id=&quot;feedback&quot;&gt;Feedback&lt;/h2&gt;
+
+&lt;p&gt;starter-kit and external Cockpit project tests are still fairly new, so there are for sure things that could work more
+robustly, easier, more flexibly, or just have better documentation. If you run into trouble, please don’t hesitate
+telling us about it, preferably by &lt;a href=&quot;https://github.com/cockpit-project/starter-kit/issues&quot;&gt;filing an issue&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Happy hacking!&lt;/p&gt;
+
+&lt;p&gt;The Cockpit Development Team&lt;/p&gt;
+
+        </description>
+        <pubDate>Wed, 28 Mar 2018 00:00:00 +0000</pubDate>
+        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/cockpit-custom-test-framework.html</link>
+        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/cockpit-custom-test-framework.html</guid>
+        
+        <category>cockpit</category>
+        
+        <category>starter-kit</category>
+        
+        <category>tests</category>
+        
+        <category>puppeteer</category>
+        
+        
+        <category>tutorial</category>
+        
+      </item>
+    
+      <item>
+        <title>Starter Kit - the turn-key template for your own pages</title>
+        <description>
+          &lt;h2 id=&quot;the-bare-minimum&quot;&gt;The bare minimum&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://cockpit-project.org/guide/latest/development.html&quot;&gt;Cockpit’s API&lt;/a&gt; makes it easy to create your own pages (or
+“extensions” if you will) that appear in Cockpit’s menu and interact with your system in any way you like. Our pet
+example is the &lt;a href=&quot;https://github.com/cockpit-project/cockpit/tree/master/examples/pinger&quot;&gt;Pinger&lt;/a&gt; which is just the bare
+minimum: a &lt;a href=&quot;https://github.com/cockpit-project/cockpit/blob/master/examples/pinger/ping.html&quot;&gt;HTML file&lt;/a&gt; with a form to
+enter an IP, a small &lt;a href=&quot;https://github.com/cockpit-project/cockpit/blob/master/examples/pinger/pinger.js&quot;&gt;piece of JavaScript&lt;/a&gt;
+to call the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ping&lt;/code&gt; Linux command  through Cockpit &lt;a href=&quot;https://cockpit-project.org/guide/latest/cockpit-spawn.html&quot;&gt;spawn()&lt;/a&gt;
+and capture its output; and a
+&lt;a href=&quot;https://github.com/cockpit-project/cockpit/blob/master/examples/pinger/manifest.json&quot;&gt;manifest file&lt;/a&gt; which tells
+cockpit how to add it to the menu and where the entry point is.&lt;/p&gt;
+
+&lt;p&gt;There is a rather old &lt;a href=&quot;https://cockpit-project.org/blog/creating-plugins-for-the-cockpit-user-interface.html&quot;&gt;blog post&lt;/a&gt;
+which explains the Pinger example in detail. Cockpit changed its visual design quite dramatically since then, Pinger’s
+JavaScript got split into a separate file and does not use jQuery any more, but aside from these details that post is
+still generally applicable.&lt;/p&gt;
+
+&lt;h2 id=&quot;requirements-for-real-projects&quot;&gt;Requirements for real projects&lt;/h2&gt;
+
+&lt;p&gt;Pinger is great for explaining and understanding the gist of how Cockpit works. But an actual production-ready project
+requires a lot more:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Separation of HTML, CSS, and JavaScript code: This ensures that your code can use a safe
+&lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP&quot;&gt;Content-Security-Policy&lt;/a&gt; and does not have to use e. g.
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;unsafe-inline&lt;/code&gt;.  We &lt;em&gt;strongly&lt;/em&gt; recommend this for third-party pages, and absolutely require this for Cockpit’s own
+pages.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Modern frameworks for creating page contents. For any non-trivial page you really don’t want to dabble with piecing
+together &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;myelement.innerHTML = …&lt;/code&gt; strings, but use something like &lt;a href=&quot;https://reactjs.org/&quot;&gt;React&lt;/a&gt; to build page
+contents and &lt;a href=&quot;http://www.patternfly.org/&quot;&gt;PatternFly&lt;/a&gt; so that your page fits into Cockpit’s design.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Use &lt;a href=&quot;https://babeljs.io/&quot;&gt;Babel&lt;/a&gt; to write your code in modern &lt;a href=&quot;http://es6-features.org/&quot;&gt;ES6 JavaScript&lt;/a&gt;.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Use &lt;a href=&quot;https://eslint.org/&quot;&gt;ESLint&lt;/a&gt; to spot functional and legibility errors in your code.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;A build system like &lt;a href=&quot;https://webpack.js.org/&quot;&gt;webpack&lt;/a&gt; to drive all of the above and build blobs (“minified
+Javascript in a single file”) that are efficiently consumable by browsers.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Building of release tarballs, source and binary RPMs for testing and distribution.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Tests to make sure your code keeps working, new features work on all supported operating systems, and changes (pull
+requests) get validated.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;As a bonus, easy and safe testing of your page in a &lt;a href=&quot;https://www.vagrantup.com/&quot;&gt;Vagrant virtual machine&lt;/a&gt;.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Sounds complex? It indeed is for someone who is not familiar with the ever-changing “modern” JavaScript world, and
+doesn’t want to learn the details of all of these before you can even begin working on your code. This is where the
+Starter Kit comes in!&lt;/p&gt;
+
+&lt;h2 id=&quot;bootstrapping-your-way-from-zero-to-works&quot;&gt;Bootstrapping your way from zero to “works!”&lt;/h2&gt;
+
+&lt;p&gt;The &lt;a href=&quot;https://github.com/cockpit-project/starter-kit/&quot;&gt;Cockpit Starter Kit&lt;/a&gt; is an example project which provides all of
+the above requirements. It provides a simple
+&lt;a href=&quot;https://github.com/cockpit-project/starter-kit/blob/master/src/starter-kit.jsx&quot;&gt;React page&lt;/a&gt;
+that uses the &lt;a href=&quot;https://cockpit-project.org/guide/latest/cockpit-file.html&quot;&gt;cockpit.file() API&lt;/a&gt; to read &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/etc/hostname&lt;/code&gt;
+and show it. There is also an accompanying
+&lt;a href=&quot;https://github.com/cockpit-project/starter-kit/blob/master/test/check-starter-kit&quot;&gt;test&lt;/a&gt; that verifies this page. The
+other files are mostly build system boilerplate, i. e. the things you don’t want to worry about as the first thing when
+you start a project.&lt;/p&gt;
+
+&lt;p&gt;So, how to get this? Make sure you have the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;npm&lt;/code&gt; package installed. Then check out the repository and build it:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git clone https://github.com/cockpit-project/starter-kit.git
+cd starter-kit
+make
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;After that, install (or rather, symlink) the webpack-generated output page in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dist/&lt;/code&gt; to where cockpit can see it:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mkdir -p ~/.local/share/cockpit
+ln -s `pwd`/dist ~/.local/share/cockpit/starter-kit
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Now you should be able to log into &lt;a href=&quot;https://localhost:9090&quot;&gt;https://localhost:9090&lt;/a&gt; and see the “Starter Kit” menu entry:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/starter-kit.png&quot; alt=&quot;starter kit&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The symlink into your source code checkout is a very convenient and efficient way of development as you can just type
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;make&lt;/code&gt; after changing code and directly see the effect in Cockpit after a page reload.&lt;/p&gt;
+
+&lt;p&gt;You should now play around with this a little by hacking src/starter-kit.jsx, running &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;make&lt;/code&gt;, and reloading the page.
+For example, try to read and show another file, run a program and show its output, or use
+&lt;a href=&quot;https://cockpit-project.org/guide/latest/cockpit-file.html&quot;&gt;cockpit.file(“/etc/hostname”).watch(callback)&lt;/a&gt;
+to react to changes of /etc/hostname and immediately update the page.&lt;/p&gt;
+
+&lt;h2 id=&quot;testing&quot;&gt;Testing&lt;/h2&gt;
+
+&lt;p&gt;Untested code is broken code. If not here and now, then in the future or some other operating system. This is why
+Cockpit has a rather complex machinery of regularly building 26 (!) VM images ranging from RHEL-7 and Fedora 27 over
+various releases of Debian and Ubuntu to OpenShift and Windows 8, and running hundreds of integration tests on each of
+them for every PR in an OpenShift cluster.&lt;/p&gt;
+
+&lt;p&gt;Replicating this for other projects isn’t easy, and this has been one, if not &lt;em&gt;the&lt;/em&gt; major reason why there aren’t many
+third-party Cockpit projects yet. So we now made it possible for third-party GitHub projects to use Cockpit’s CI
+environment, test VM images, and (independently) Cockpit’s browser test abstraction API.&lt;/p&gt;
+
+&lt;p&gt;starter-kit uses all three of those: When you run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;make check&lt;/code&gt;, it will:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;build an RPM out of your current code&lt;/li&gt;
+  &lt;li&gt;check out cockpit’s &lt;a href=&quot;https://github.com/cockpit-project/cockpit/tree/master/bots/&quot;&gt;bots/ directory&lt;/a&gt; that has the
+current image symlinks and tools to download, customize and run VM images&lt;/li&gt;
+  &lt;li&gt;check out cockpit’s &lt;a href=&quot;https://github.com/cockpit-project/cockpit/tree/master/test/common&quot;&gt;tests/common directory&lt;/a&gt; from
+a stable Cockpit release (as the API is not guaranteed to be stable)
+which provides a convenient Python API for the &lt;a href=&quot;https://chromedevtools.github.io/devtools-protocol/&quot;&gt;Chrome DevTools protocol&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;download Cockpit’s current CentOS-7 VM image; you can test on a different operating system by setting the environment
+variable &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TEST_OS=fedora-27&lt;/code&gt; (or a different operating system - but note that starter-kit does not currently build
+debs)&lt;/li&gt;
+  &lt;li&gt;create an overlay on that pristine centos-7 image with the operating system’s standard “cockpit” package and your
+locally built starter-kit RPM installed&lt;/li&gt;
+  &lt;li&gt;run a VM with that overlay image with libvirt and QEMU&lt;/li&gt;
+  &lt;li&gt;launch a chromium (or chromium-headless) browser&lt;/li&gt;
+  &lt;li&gt;Run the actual &lt;a href=&quot;https://github.com/cockpit-project/starter-kit/blob/master/test/check-starter-kit&quot;&gt;check-starter-kit&lt;/a&gt;
+test which instructs the web browser what to do and which assertions to make&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[starter-kit] $ make check
+[...]
+rpmbuild -bb [...] cockpit-starter-kit.spec
+[...]
+git fetch --depth=1 https://github.com/cockpit-project/cockpit.git
+From https://github.com/cockpit-project/cockpit
+ * branch            HEAD       -&amp;gt; FETCH_HEAD
+git checkout --force FETCH_HEAD -- bots/
+[...]
+bots/image-customize -v -r &apos;rpm -e cockpit-starter-kit || true&apos; -i cockpit -i `pwd`/cockpit-starter-kit-*.noarch.rpm -s /home/martin/upstream/starter-kit/test/vm.install centos-7
+[...]
+TEST_AUDIT_NO_SELINUX=1 test/check-starter-kit
+1..1
+# ----------------------------------------------------------------------
+# testBasic (__main__.TestStarterKit)
+#
+
+ok 1 testBasic (__main__.TestStarterKit) # duration: 21s
+# TESTS PASSED [22s on donald]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Note that the first time you run this will take a long time due to the rather large VM image download. But it will be
+reused for further tests.&lt;/p&gt;
+
+&lt;p&gt;For writing your own tests with the Cockpit Python API, have a look at the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Browser&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MachineCase&lt;/code&gt; classes in
+&lt;a href=&quot;https://github.com/cockpit-project/cockpit/blob/master/test/common/testlib.py&quot;&gt;testlib.py&lt;/a&gt;. These provide both
+low-level (like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;click()&lt;/code&gt; or &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;key_press()&lt;/code&gt;) and high-level (like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;login_and_go()&lt;/code&gt;) methods for writing test cases. And
+of course you  have a wealth of &lt;a href=&quot;https://github.com/cockpit-project/cockpit/tree/master/test/verify&quot;&gt;Cockpit tests&lt;/a&gt; for
+getting inspiration.&lt;/p&gt;
+
+&lt;p&gt;starter-kit itself is also covered by Cockpit’s CI, i. e. pull requests will run tests on CentOS 7 and Fedora 27
+(&lt;a href=&quot;https://github.com/cockpit-project/starter-kit/pull/17&quot;&gt;example&lt;/a&gt;, click on “View Details”). Please come and talk to us
+once your project is mature enough to do the same, then we can enable automatic pull request testing on your project as well.&lt;/p&gt;
+
+&lt;h2 id=&quot;using-different-technologies&quot;&gt;Using different technologies&lt;/h2&gt;
+
+&lt;p&gt;starter-kit makes opinionated choices like using React, webpack, and Cockpit’s testing framework.  These are the
+technologies that we use for developing Cockpit itself, so if you use them you have the best chance that the Cockpit
+team can help you with problems. Of course you are free to replace any of these, especially if you have already existing
+code/tests or a build system.&lt;/p&gt;
+
+&lt;p&gt;For example, it is straightforward to just use Cockpit’s test images with the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;image-customize&lt;/code&gt; tool and running these
+as ephemeral VMs with &lt;a href=&quot;https://github.com/cockpit-project/cockpit/blob/master/bots/machine/testvm.py&quot;&gt;testvm.py&lt;/a&gt;, but
+not use Cockpit’s &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;test/common&lt;/code&gt;. Tests can also be written with e. g. &lt;a href=&quot;https://github.com/GoogleChrome/puppeteer&quot;&gt;puppeteer&lt;/a&gt;
+or &lt;a href=&quot;https://github.com/segmentio/nightmare&quot;&gt;nightmare&lt;/a&gt;. I will write about that separately.&lt;/p&gt;
+
+&lt;h2 id=&quot;feedback&quot;&gt;Feedback&lt;/h2&gt;
+
+&lt;p&gt;starter-kit is still fairly new, so there are for sure things that could work more robustly, easier, more flexibly, or
+just have better documentation. If you run into trouble, please don’t hesitate telling us about it, preferably by
+&lt;a href=&quot;https://github.com/cockpit-project/starter-kit/issues&quot;&gt;filing an issue&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Happy hacking!&lt;/p&gt;
+
+&lt;p&gt;The Cockpit Development Team&lt;/p&gt;
+
+        </description>
+        <pubDate>Fri, 09 Mar 2018 00:00:00 +0000</pubDate>
+        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/cockpit-starter-kit.html</link>
+        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/cockpit-starter-kit.html</guid>
+        
+        <category>cockpit</category>
+        
+        <category>starter-kit</category>
+        
+        
+        <category>tutorial</category>
+        
+      </item>
+    
+      <item>
+        <title>Using Vagrant to Develop Cockpit</title>
+        <description>
+          &lt;p&gt;Starting with Cockpit release 0.79 you can use &lt;a href=&quot;https://www.vagrantup.com/&quot;&gt;Vagrant&lt;/a&gt; to bring up a VM in which
+you can test or develop Cockpit. The VM is isolated from your main system so any system configuration
+you change via Cockpit will only happen in the VM.&lt;/p&gt;
+
+&lt;p&gt;The Vagrant VM mounts the Cockpit package assets from your git repository checkout, so when you make on the
+host system, you can refresh the browser and immediately see the resulting changes. For changes to
+C code, the Cockpit binaries would have to be rebuilt and testing via Vagrant won’t work.&lt;/p&gt;
+
+&lt;h2 id=&quot;getting-started&quot;&gt;Getting Started&lt;/h2&gt;
+
+&lt;p&gt;To start, you’ll need Vagrant. On Fedora I use &lt;em&gt;vagrant-libvirt&lt;/em&gt;. In addition keep in mind that on
+&lt;em&gt;vagrant-libvirt&lt;/em&gt; requires root privileges, so you’ll need to use vagrant with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo yum install vagrant vagrant-libvirt
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Next, in a copy of the Cockpit git repository, you run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vagrant up&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ git clone https://github.com/cockpit-project/cockpit
+$ cd cockpit
+$ sudo vagrant up
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The first time this runs it’ll take a while, but eventually you’ll have a Vagrant VM running. When you
+do this step again, it should be pretty fast.&lt;/p&gt;
+
+&lt;p&gt;The VM will
+listen for connections on your local machine’s &lt;a href=&quot;http://localhost:9090&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;http://localhost:9090&lt;/code&gt;&lt;/a&gt;, but
+even though you’re connecting to &lt;em&gt;localhost&lt;/em&gt; it’ll be Cockpit in the VM you’re talking to.&lt;/p&gt;
+
+&lt;p&gt;If you already have Cockpit running on your local machine, then this won’t work, and you’ll need to
+use the IP address of the VM instead of &lt;em&gt;localhost&lt;/em&gt;. To find it:&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo vagrant ssh-config
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Two user accounts are created in the VM, and you can use either one to log into Cockpit:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;User: “admin” Password: “foobar”&lt;/li&gt;
+  &lt;li&gt;User: “root” Password: “foobar”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;testing-a-pull-request&quot;&gt;Testing a Pull Request&lt;/h2&gt;
+
+&lt;p&gt;If there’s a Cockpit &lt;a href=&quot;https://github.com/cockpit-project/cockpit/pulls&quot;&gt;pull request&lt;/a&gt; that you’d like to
+test, you can now do that with the Vagrant VM.  Replace the &lt;em&gt;0000&lt;/em&gt; in the following command with the
+number of the pull request:&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ git fetch origin pull/0000/head
+$ git checkout FETCH_HEAD
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The pull request can only contain code to Cockpit package assets. If it contains changes to the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;src/&lt;/code&gt;
+directory, then the pull request involves rebuilding binaries, and testing it via Vagrant won’t work.&lt;/p&gt;
+
+&lt;p&gt;Now refresh your browser, or if necessary, login again. You should see the changes in the pull request
+reflected in Cockpit.&lt;/p&gt;
+
+&lt;h2 id=&quot;making-a-change&quot;&gt;Making a change&lt;/h2&gt;
+
+&lt;p&gt;You can make a change to Cockpit while testing that out in your Vagrant VM. The changes should be
+to Cockpit package assets. If you change something in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;src/&lt;/code&gt; directory, then binaries will have
+to be rebuilt, and testing it via Vagrant won’t work.&lt;/p&gt;
+
+&lt;p&gt;I chose change some wording in the sidebar in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pkg/shell/index.html&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;          &amp;lt;a data-toggle=&quot;collapse&quot; data-target=&quot;#tools-panel&quot; class=&quot;collapsed&quot; translatable=&quot;yes&quot;&amp;gt;
+-           Tools
++           Beavers &apos;n Ducks
+          &amp;lt;/a&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And after refreshing Cockpit, I can see that change:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/vagrant-change.png&quot; alt=&quot;Showing the change made&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The same applies to javascript or CSS changes as well. In order to actually contribute a change to Cockpit
+you’ll want to look at the information about
+&lt;a href=&quot;https://github.com/cockpit-project/cockpit/wiki/Contributing&quot;&gt;Contributing&lt;/a&gt; and if you need help
+understanding how to add a
+&lt;a href=&quot;https://cockpit-project.org/blog/creating-plugins-for-the-cockpit-user-interface.html&quot;&gt;plugin package&lt;/a&gt;
+you can look at the &lt;a href=&quot;https://cockpit-project.org/guide/latest/development.html&quot;&gt;Developer Guide&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;bringing-the-vagrant-vm-in-sync&quot;&gt;Bringing the Vagrant VM in sync&lt;/h2&gt;
+
+&lt;p&gt;After each Cockpit release, there will be new binary parts to Cockpit. In order to continue to use the
+Vagrant VM, you’ll need to rebuild it. A message like this should appear when that’s necessary.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/cockpit-incompatible-sources.png&quot; alt=&quot;Cockpit is incompatible with sources&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Rebuild the Vagrant VM like this:&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo vagrant destroy
+$ sudo vagrant up
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;troubleshooting&quot;&gt;Troubleshooting&lt;/h2&gt;
+
+&lt;p&gt;On Fedora, FirewallD got in the way of Vagrants use of NFS. On my machine, I had to do this
+to get it to work:&lt;/p&gt;
+
+&lt;p&gt;```text
+$ sudo firewall-cmd –set-default-zone=trusted&lt;/p&gt;
+
+        </description>
+        <pubDate>Thu, 08 Oct 2015 00:00:00 +0000</pubDate>
+        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/cockpit-vagrantfile.html</link>
+        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/cockpit-vagrantfile.html</guid>
+        
+        <category>cockpit</category>
+        
+        <category>linux</category>
+        
+        
+        <category>tutorial</category>
+        
+      </item>
+    
+      <item>
+        <title>Making REST calls from Javascript in Cockpit</title>
+        <description>
+          &lt;p class=&quot;note&quot;&gt;&lt;em&gt;Note: This post has been updated for changes in Cockpit 0.90 and later.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://cockpit-project.org&quot;&gt;Cockpit is a user interface for servers&lt;/a&gt;. In &lt;a href=&quot;https://cockpit-project.org/blog/creating-plugins-for-the-cockpit-user-interface.html&quot;&gt;earlier&lt;/a&gt; &lt;a href=&quot;https://cockpit-project.org/blog/using-dbus-from-javascript-in-cockpit.html&quot;&gt;tutorials&lt;/a&gt; there’s a guide on how to add components to Cockpit.&lt;/p&gt;
+
+&lt;p&gt;Not all of the &lt;a href=&quot;https://cockpit-project.org/blog/d-bus-is-powerful-ipc.html&quot;&gt;system APIs use DBus&lt;/a&gt;. So sometimes we find ourselves in a situation where we have to use REST (which is often just treated as another word for HTTP) to talk to certain parts of the system. For example &lt;a href=&quot;https://docs.docker.com/reference/api/docker_remote_api/&quot;&gt;Docker has a REST API&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;For this tutorial you’ll need at least Cockpit 0.58. There was one last tweak that helped with the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;superuser&lt;/code&gt; option you see below. You can install it in &lt;a href=&quot;https://cockpit-project.org/running.html&quot;&gt;Fedora 22&lt;/a&gt; or &lt;a href=&quot;https://github.com/cockpit-project/cockpit/blob/master/HACKING.md&quot;&gt;build it from git&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Here we’ll make a package called &lt;em&gt;docker-info&lt;/em&gt; which shows info about the docker daemon. We use the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/info&lt;/code&gt; &lt;a href=&quot;https://docs.docker.com/reference/api/docker_remote_api_v1.18/#display-system-wide-information&quot;&gt;docker API&lt;/a&gt; to retrieve that info.&lt;/p&gt;
+
+&lt;p&gt;I’ve prepared the &lt;a href=&quot;https://cockpit-project.org/files/docker-info.tgz&quot;&gt;docker-info package here&lt;/a&gt;. It’s just two files. To download them and extract to your current directory, and installs it as a Cockpit package:&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ wget https://cockpit-project.org/files/docker-info.tgz -O - | tar -xzf -
+$ cd docker-info/
+$ mkdir -p ~/.local/share/cockpit
+$ ln -snf $PWD ~/.local/share/cockpit/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Previously we &lt;a href=&quot;https://cockpit-project.org/blog/creating-plugins-for-the-cockpit-user-interface.html&quot;&gt;talked about&lt;/a&gt; how packages are installed, and what &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;manifest.json&lt;/code&gt; does so I won’t repeat myself here. But to make sure the above worked correctly, you can run the following command. You should see &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;docker-info&lt;/code&gt; listed in the output:&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ cockpit-bridge --packages
+...
+docker-info: .../.local/share/cockpit/docker-info
+...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If you’re logged into Cockpit on this machine, first log out. And log in again. Make sure to log into Cockpit with your current user name, since you installed the package in your home directory. You should now see a new item in the &lt;em&gt;Tools&lt;/em&gt; menu called &lt;em&gt;Docker Info&lt;/em&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/cockpit-docker-info.png&quot; alt=&quot;Docker Info tool&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;After a moment, you should see numbers pop up with some stats about the docker daemon. Now in a terminal try to run something like:&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo docker run -ti fedora /bin/bash
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;You should see the numbers update as the container is pulled and started. When you type &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;exit&lt;/code&gt; in the container, you should see the numbers update again. How is this happening? Lets take a look at the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;docker-info&lt;/code&gt; HTML:&lt;/p&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;title&amp;gt;&lt;/span&gt;Docker Info&lt;span class=&quot;nt&quot;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;charset=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;utf-8&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;link&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;../base1/cockpit.css&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/css&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;rel=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;stylesheet&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;../base1/jquery.js&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;../base1/cockpit.js&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;container-fluid&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;h2&amp;gt;&lt;/span&gt;Docker Daemon Info&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h2&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;ul&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt;Total Memory: &lt;span class=&quot;nt&quot;&gt;&amp;lt;span&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;docker-memory&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;?&lt;span class=&quot;nt&quot;&gt;&amp;lt;/span&amp;gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt;Go Routines: &lt;span class=&quot;nt&quot;&gt;&amp;lt;span&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;docker-routines&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;?&lt;span class=&quot;nt&quot;&gt;&amp;lt;/span&amp;gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt;File Descriptors: &lt;span class=&quot;nt&quot;&gt;&amp;lt;span&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;docker-files&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;?&lt;span class=&quot;nt&quot;&gt;&amp;lt;/span&amp;gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt;Containers: &lt;span class=&quot;nt&quot;&gt;&amp;lt;span&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;docker-containers&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;?&lt;span class=&quot;nt&quot;&gt;&amp;lt;/span&amp;gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt;Images: &lt;span class=&quot;nt&quot;&gt;&amp;lt;span&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;docker-images&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;?&lt;span class=&quot;nt&quot;&gt;&amp;lt;/span&amp;gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/ul&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;script&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;docker&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;cockpit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/var/run/docker.sock&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;superuser&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+
+        &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;retrieve_info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;info&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;docker&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/info&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;done&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;process_info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;fail&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;print_failure&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+        &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;process_info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;resp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;JSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;parse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;#docker-memory&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;resp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;MemTotal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;#docker-routines&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;resp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;NGoroutines&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;#docker-files&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;resp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;NFd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;#docker-containers&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;resp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Containers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;#docker-images&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;resp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Images&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+        &lt;span class=&quot;cm&quot;&gt;/* First time */&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;retrieve_info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+        &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;events&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;docker&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/events&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;events&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;got_event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;events&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;always&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;print_failure&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+        &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;got_event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;retrieve_info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+        &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;print_failure&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;First we include &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;jquery.js&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cockpit.js&lt;/code&gt;. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cockpit.js&lt;/code&gt; defines the basic API for interacting with the system, as well as Cockpit itself. You can find &lt;a href=&quot;https://cockpit-project.org/guide/latest/api-cockpit.html&quot;&gt;detailed documentation here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;../base1/jquery.js&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;../base1/cockpit.js&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We also include the cockpit.css file to make sure the look of our tool matches that of Cockpit. The HTML is pretty basic, defining a little list where the info shown.&lt;/p&gt;
+
+&lt;p&gt;In the javascript code, first we setup an HTTP client to access docker. Docker listens for HTTP requests on a Unix socket called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/var/run/docker.sock&lt;/code&gt;. In addition the permissions on that socket often require escalated privileges to access, so we tell Cockpit to try to gain &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;superuser&lt;/code&gt; privileges for this task, but continue anyway if it cannot:&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;docker&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;cockpit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/var/run/docker.sock&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;superuser&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;First we define how to retrieve info from Docker. We use the REST &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/info&lt;/code&gt; API to do this.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-javascipt&quot;&gt;function retrieve_info() {
+    var info = docker.get(&quot;/info&quot;);
+    info.done(process_info);
+    info.fail(print_failure);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In a browser you cannot stop and wait until a REST call completes. Anything that doesn’t happen instantaneously gets its results reported back to you by &lt;a href=&quot;https://cockpit-project.org/guide/latest/api-cockpit.html#cockpit-http-done&quot;&gt;means of callback handlers&lt;/a&gt;. jQuery has a standard interface &lt;a href=&quot;http://api.jquery.com/deferred.promise/&quot;&gt;called a promise&lt;/a&gt;. You add handlers by calling the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.done()&lt;/code&gt; or &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.fail()&lt;/code&gt; methods and registering callbacks.&lt;/p&gt;
+
+&lt;p&gt;The result of the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/info&lt;/code&gt; call is JSON, and we process it here. This is standard jQuery for filling in text data into the various elements:&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;process_info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;resp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;JSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;parse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;#docker-memory&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;resp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;MemTotal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;#docker-routines&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;resp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;NGoroutines&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;#docker-files&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;resp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;NFd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;#docker-containers&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;resp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Containers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;#docker-images&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;resp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Images&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And then we trigger the invocation of our &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/info&lt;/code&gt; REST API call.&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cm&quot;&gt;/* First time */&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;retrieve_info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Because we want to react to changes in Docker state, we also start a long request to its &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/events&lt;/code&gt; API.&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;events&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;docker&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/events&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.get(&quot;/events&quot;)&lt;/code&gt; call returns a jQuery Promise. When a line of event data arrives, the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.stream()&lt;/code&gt; callback in invoked, and we use it to trigger a reload of the Docker info.&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;events&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;got_event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;events&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;always&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;print_failure&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;got_event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;retrieve_info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This is a simple example, but I hope it helps you get started. There are further REST &lt;a href=&quot;https://cockpit-project.org/guide/latest/api-cockpit.html#latest-http&quot;&gt;javascript calls&lt;/a&gt;. Obviously you can also do &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;POST&lt;/code&gt; and so on.&lt;/p&gt;
+
+        </description>
+        <pubDate>Fri, 10 Jul 2015 00:00:00 +0000</pubDate>
+        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/making-rest-calls-from-javascript-in-cockpit.html</link>
+        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/making-rest-calls-from-javascript-in-cockpit.html</guid>
+        
+        <category>cockpit</category>
+        
+        <category>linux</category>
+        
+        
+        <category>tutorial</category>
+        
+      </item>
+    
+      <item>
+        <title>Protocol for Web access to System APIs</title>
+        <description>
+          &lt;p class=&quot;note&quot;&gt;&lt;em&gt;Note: This post has been updated for changes in Cockpit 0.48 and later.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;A Linux system today has a lot of local system configuration APIs. I’m not talking about library APIs here, but things like DBus services, command/scripts to be executed, or files placed in various locations. All of these constitute the API by which we configure a Linux system. In &lt;a href=&quot;https://cockpit-project.org&quot;&gt;Cockpit&lt;/a&gt; we access these APIs from a web browser (after authentication of course).&lt;/p&gt;
+
+&lt;p&gt;How do we access the system APIs? The answer is the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cockpit-bridge&lt;/code&gt; tool. It proxies requests from the Cockpit user interface, running in a web browser, to the system. Typically the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cockpit-bridge&lt;/code&gt; runs as the logged in user, in a user session. It has similar permissions and capabilities as if you had used &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh&lt;/code&gt; to log into the system.&lt;/p&gt;
+
+&lt;p&gt;Lets look at an example DBus API that we call from Cockpit. systemd has an API to set the system host name, called &lt;a href=&quot;http://www.freedesktop.org/wiki/Software/systemd/hostnamed/&quot;&gt;SetStaticHostname&lt;/a&gt;. In Cockpit we can invoke that API using simple JSON like this:&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
+  &quot;call&quot;: [
+    &quot;/org/freedesktop/hostname1&quot;,
+    &quot;org.freedesktop.hostname1&quot;,
+    &quot;SetStaticHostname&quot;, [ &quot;mypinkpony.local&quot;, true ]
+  ]
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The protocol that the web browser uses is a &lt;a href=&quot;https://github.com/cockpit-project/cockpit/blob/master/doc/protocol.md&quot;&gt;message based protocol&lt;/a&gt;, and runs over a &lt;a href=&quot;http://en.wikipedia.org/wiki/WebSocket&quot;&gt;WebSocket&lt;/a&gt;. This is a “post-HTTP” protocol, and isn’t limited by the request/response semantics inherent to HTTP. Our protocol has a lot of JSON, and has a number of interesting characteristics, which you’ll see below. In general we’ve tried to keep this protocol readable and debuggable.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cockpit-bridge&lt;/code&gt; tool speaks this protocol on its standard in and standard output. The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cockpit-ws&lt;/code&gt; process hosts the WebSocket and passes the messages to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cockpit-bridge&lt;/code&gt; for processing.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Following along:&lt;/strong&gt; In order to follow along with the stuff below, you’ll need at least Cockpit 0.48. The protocol is not yet frozen, and we merged some cleanup recently. You can install it on &lt;a href=&quot;https://lists.fedorahosted.org/pipermail/cockpit-devel/2014-November/000196.html&quot;&gt;Fedora 21 using a COPR&lt;/a&gt; or &lt;a href=&quot;https://github.com/cockpit-project/cockpit/blob/master/HACKING.md&quot;&gt;build it from git&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;channels&quot;&gt;Channels&lt;/h2&gt;
+
+&lt;p&gt;Cockpit can be doing lots of things at the same time and we don’t want to have to open a new WebSocket each time. So we allow the protocol to be shared by multiple concurrent tasks. Each of these is assigned a &lt;em&gt;channel&lt;/em&gt;. Channels have a string identifier. The data transferred in a channel is called the payload. To combine these into a message I simply concatenate the identifier, a new line, and the payload. Lets say I wanted to send the message &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Oh marmalade!&lt;/code&gt; over the channel called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;scruffy&lt;/code&gt; the message would look like this:&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scruffy
+Oh marmalade!
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;How do we know what channel to send messages on? We send &lt;em&gt;control messages&lt;/em&gt; on a &lt;em&gt;control channel&lt;/em&gt; to open other channels, and indicate what they should do. The identifier for the control channel is an empty string. More on that below.&lt;/p&gt;
+
+&lt;h2 id=&quot;framing&quot;&gt;Framing&lt;/h2&gt;
+
+&lt;p&gt;In order to pass a message based protocol over a plain stream, such the standard in and standard out of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cockpit-bridge&lt;/code&gt;, one needs some form of framing. This framing is not used when the messages are passed over a WebSocket, since WebSockets inherently have a message concept.&lt;/p&gt;
+
+&lt;p&gt;The framing the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cockpit-bridge&lt;/code&gt; uses is simply the byte length of the message, encoded as a string, and followed by a new line. So Scruffy’s 21 byte message above, when sent over a stream, would like this:&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;21
+scruffy
+Oh marmalade!
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Alternatively, when debugging or testing &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cockpit-bridge&lt;/code&gt; you can run in an interactive mode, where we frame our messages by using boundaries. That way we don’t have to count the byte length of all of our messages meticulously, if we’re writing them by hand. We specify the boundary when invoking &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cockpit-bridge&lt;/code&gt; like so:&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ cockpit-bridge --interact=----
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And then we can send a message by using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;----&lt;/code&gt; boundary on a line by itself:&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scruffy
+Oh marmalade!
+----
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;control-channels&quot;&gt;Control channels&lt;/h2&gt;
+
+&lt;p&gt;Before we can use a channel, we need to tell &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cockpit-bridge&lt;/code&gt; about the channel and what that channel is meant to do. We do this with a &lt;em&gt;control message&lt;/em&gt; sent on the &lt;em&gt;control channel&lt;/em&gt;. The &lt;em&gt;control channel&lt;/em&gt; is a channel with an empty string as an identifier. Each control message is a JSON object, or dict. Each control message has a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;command&quot;&lt;/code&gt; field, which determines what kind of control message it is.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;open&quot;&lt;/code&gt; control message opens a new channel. The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;payload&quot;&lt;/code&gt; field indicates the type of the channel, so that &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cockpit-bridge&lt;/code&gt; knows what to do with the messages. The various &lt;a href=&quot;https://github.com/cockpit-project/cockpit/blob/master/doc/protocol.md&quot;&gt;channel types are documented&lt;/a&gt;. Some channels connect talk to a DBus service, others spawn a process, etc.&lt;/p&gt;
+
+&lt;p&gt;When you send an &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;open&quot;&lt;/code&gt; you also choose a new channel identifier and place it in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;channel&quot;&lt;/code&gt; field. This channel identifier must not already be in use.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;echo&quot;&lt;/code&gt; channel type just sends the messages you send to the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cockpit-bridge&lt;/code&gt; back to you. Here’s the control message that is used to open an echo channel. Note the empty channel identifier on the first line:&lt;/p&gt;
+
+&lt;pre&gt;
+
+{
+  &quot;command&quot;: &quot;open&quot;,
+  &quot;channel&quot;: &quot;mychannel&quot;,
+  &quot;payload&quot;: &quot;echo&quot;
+}
+&lt;/pre&gt;
+
+&lt;p&gt;Now we’re ready to play … Well almost.&lt;/p&gt;
+
+&lt;p&gt;The very first control message sent to and from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cockpit-bridge&lt;/code&gt; should be an &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;init&quot;&lt;/code&gt; message containing a version number. That version number is &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;1&lt;/code&gt; for the foreseeable future.&lt;/p&gt;
+
+&lt;pre&gt;
+
+{
+  &quot;command&quot;: &quot;init&quot;,
+  &quot;version&quot;: 1
+}
+&lt;/pre&gt;
+
+&lt;h2 id=&quot;try-it-out&quot;&gt;Try it out&lt;/h2&gt;
+
+&lt;p&gt;So combining our knowledge so far, we can run the following:&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ cockpit-bridge --interact=----
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In this debugging mode sent by &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cockpit-bridge&lt;/code&gt; will be bold in your terminal. Now paste the following in:&lt;/p&gt;
+
+&lt;pre&gt;
+
+{ &quot;command&quot;: &quot;open&quot;, &quot;channel&quot;: &quot;mychannel&quot;, &quot;payload&quot;: &quot;echo&quot; }
+----
+mychannel
+This is a test
+----
+&lt;/pre&gt;
+
+&lt;p&gt;You’ll notice that &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cockpit-bridge&lt;/code&gt; sends your message back. You can use this technique to experiment. Unfortunately
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cockpit-bridge&lt;/code&gt; exits immediately when it’s stdin closes, so you &lt;a href=&quot;https://github.com/cockpit-project/cockpit/issues/1594&quot;&gt;can’t yet use shell redirection from a file effectively&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;making-a-dbus-method-call&quot;&gt;Making a DBus method call&lt;/h2&gt;
+
+&lt;p&gt;To make a DBus method call, we open a channel with the payload type &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;dbus-json3&quot;&lt;/code&gt;. Then we send JSON messages as payloads inside that channel. An additional field in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;open&quot;&lt;/code&gt; control message is required. The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;name&quot;&lt;/code&gt; field is the bus name of the DBus service we want to talk to:&lt;/p&gt;
+
+&lt;pre&gt;
+
+{
+  &quot;command&quot;: &quot;open&quot;,
+  &quot;channel&quot;: &quot;mydbus&quot;,
+  &quot;payload&quot;: &quot;dbus-json3&quot;,
+  &quot;name&quot;: &quot;org.freedesktop.hostname1&quot;
+}
+&lt;/pre&gt;
+
+&lt;p&gt;Once the channel is open we send a JSON object as a payload in the channel with a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;call&quot;&lt;/code&gt; field. It is set to an array with the DBus interface, DBus object path, method name, and an array of arguments.&lt;/p&gt;
+
+&lt;pre&gt;
+mydbus
+{
+  &quot;call&quot;: [ &quot;/org/freedesktop/hostname1&quot;, &quot;org.freedesktop.hostname1&quot;,
+```unknown
+        &quot;SetStaticHostname&quot;, [ &quot;mypinkpony.local&quot;, true ] ],
+  &quot;id&quot;: &quot;cookie&quot;
+}
+&lt;/pre&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+If we want a reply from the service we specify an `&quot;id&quot;` field. The resulting `&quot;reply&quot;` will have a matching `&quot;id&quot;` and would look something like this:
+
+&amp;lt;pre&amp;gt;
+mydbus
+{
+  &quot;reply&quot;: [ null ],
+  &quot;id&quot;: &quot;cookie&quot;
+}
+&amp;lt;/pre&amp;gt;
+
+If an error occurred you would see a reply like this:
+
+&amp;lt;pre&amp;gt;
+mydbus
+{
+  &quot;error&quot;: [
+```unknown
+&quot;org.freedesktop.DBus.Error.UnknownMethod&quot;,
+[ &quot;MyMethodName not available&quot;]
+  ],
+  &quot;id&quot;:&quot;cookie&quot;
+}
+&amp;lt;/pre&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This is just the basics. You can do much more than this with DBus, including watching for signals, lookup up properties, tracking when they change, introspecting services, watching for new objects to show up, and so on.&lt;/p&gt;
+
+&lt;h2 id=&quot;spawning-a-process&quot;&gt;Spawning a process&lt;/h2&gt;
+
+&lt;p&gt;Spawning a process is easier than calling a DBus method. You open the channel with the payload type &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;stream&quot;&lt;/code&gt; and you specify the process you would like to spawn in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;open&quot;&lt;/code&gt; control message:&lt;/p&gt;
+
+&lt;pre&gt;
+
+{
+  &quot;command&quot;: &quot;open&quot;,
+  &quot;channel&quot;: &quot;myproc&quot;,
+  &quot;payload&quot;: &quot;stream&quot;,
+  &quot;spawn&quot;: [ &quot;ip&quot;, &quot;addr&quot;, &quot;show&quot; ]
+}
+&lt;/pre&gt;
+
+&lt;p&gt;The process will send its output in the payload of one or more messages of the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;myproc&quot;&lt;/code&gt; channel, and at the end you’ll encounter the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;close&quot;&lt;/code&gt; control message. We haven’t looked at until now. A &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;close&quot;&lt;/code&gt; control message is sent when a channel closes. Either the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cockpit-bridge&lt;/code&gt; or its caller can send this message to close a channel. Often the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;close&quot;&lt;/code&gt; message contains additional information, such as a problem encountered, or in this case the exit status of the process:&lt;/p&gt;
+
+&lt;pre&gt;
+
+{
+  &quot;command&quot;: &quot;close&quot;,
+  &quot;channel&quot;: &quot;myproc&quot;,
+  &quot;exit-status&quot;: 0
+}
+&lt;/pre&gt;
+
+&lt;h2 id=&quot;doing-it-over-a-websocket&quot;&gt;Doing it over a WebSocket&lt;/h2&gt;
+
+&lt;p&gt;Obviously in Cockpit we send all of these messages from the browser through a WebSocket hosted by &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cockpit-ws&lt;/code&gt;. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cockpit-ws&lt;/code&gt; then passes them on to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cockpit-bridge&lt;/code&gt;. You can communicate this way too, if you &lt;a href=&quot;https://cockpit-project.org/guide/cockpit.conf.5.html&quot;&gt;configure Cockpit to accept different Websocket Origins&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;and-on-it-goes&quot;&gt;And on it goes&lt;/h2&gt;
+
+&lt;p&gt;There are payload types for reading files, replacing them, connecting to unix sockets, accessing system resource metrics, doing local HTTP requests, and more. Once the protocol is stable, solid documentation is in order.&lt;/p&gt;
+
+&lt;p&gt;I hope that this has given some insight into how Cockpit works under the hood. If you’re interested in using this same protocol, I’d love to get feedback … especially while the basics of the protocol are not yet frozen.&lt;/p&gt;
+
+        </description>
+        <pubDate>Tue, 16 Dec 2014 00:00:00 +0000</pubDate>
+        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/protocol-for-web-access-to-system-apis.html</link>
+        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/protocol-for-web-access-to-system-apis.html</guid>
+        
+        <category>cockpit</category>
+        
+        <category>linux</category>
+        
+        
+        <category>tutorial</category>
+        
+      </item>
+    
+      <item>
+        <title>Using DBus from Javascript in Cockpit</title>
+        <description>
+          &lt;p class=&quot;note&quot;&gt;&lt;em&gt;Note: This post has been updated for changes in Cockpit 0.90 and later.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://cockpit-project.org&quot;&gt;Cockpit is a user interface for servers&lt;/a&gt;. As we covered in the &lt;a href=&quot;https://cockpit-project.org/blog/creating-plugins-for-the-cockpit-user-interface.html&quot;&gt;last tutorial&lt;/a&gt; you can add user interface component to Cockpit, and build your own parts of the Server UI.&lt;/p&gt;
+
+&lt;p&gt;Much of Cockpit interacts with the server using DBus. We have a powerful yet simple API for doing that, and you should use DBus too when building your own Cockpit user interfaces. For this tutorial you’ll need at least Cockpit 0.41. A few tweaks landed in that release to solve a couple rough edges we had in our DBus support. You can install it in &lt;a href=&quot;https://lists.fedorahosted.org/pipermail/cockpit-devel/2014-November/000196.html&quot;&gt;Fedora 21&lt;/a&gt; or &lt;a href=&quot;https://github.com/cockpit-project/cockpit/blob/master/HACKING.md&quot;&gt;build it from git&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Here we’ll make a package called &lt;em&gt;zoner&lt;/em&gt; which lets you set the time zone of your server. We use the systemd &lt;a href=&quot;http://www.freedesktop.org/wiki/Software/systemd/timedated/&quot;&gt;timedated DBus API&lt;/a&gt; to do actually switch time zones.&lt;/p&gt;
+
+&lt;p&gt;I’ve prepared the &lt;a href=&quot;https://cockpit-project.org/files/zoner.tgz&quot;&gt;zoner package here&lt;/a&gt;. It’s just two files. To download them and extract to your current directory, and installs it as a Cockpit package:&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ wget https://cockpit-project.org/files/zoner.tgz -O - | tar -xzf -
+$ cd zoner/
+$ mkdir -p ~/.local/share/cockpit
+$ ln -snf $PWD ~/.local/share/cockpit/zoner
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Previously we &lt;a href=&quot;https://cockpit-project.org/blog/creating-plugins-for-the-cockpit-user-interface.html&quot;&gt;talked about&lt;/a&gt; how packages are installed, and what &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;manifest.json&lt;/code&gt; does so I won’t repeat myself here. But to make sure the above worked correctly, you can run the following command. You should see &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;zoner&lt;/code&gt; listed in the output:&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ cockpit-bridge --packages
+...
+zoner: .../.local/share/cockpit/zoner
+...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If you’re logged into Cockpit on this machine, first log out. And log in again. Make sure to log into Cockpit with your current user name, since you installed the package in your home directory. You should now see a new item in the &lt;em&gt;Tools&lt;/em&gt; menu called &lt;em&gt;Time Zone&lt;/em&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/cockpit-zoner-tool.png&quot; alt=&quot;Pinger tool&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Try it out by typing &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Australia/Tasmania&lt;/code&gt; in the box, and clicking &lt;em&gt;Change&lt;/em&gt;. You should see that the &lt;em&gt;Time Zone&lt;/em&gt; changes. You can verify this by typing the following on the same server in a terminal:&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ date
+Sa 15. Nov 01:48:01 AEDT 2014
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Try typing an invalid timezone like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;blah&lt;/code&gt;, and you’ll see an error message displayed. Now try changing the timezone from the terminal using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;timedatectl&lt;/code&gt; command while you have Cockpit open displaying your &lt;em&gt;Time Zone&lt;/em&gt; screen:&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo timedatectl set-timezone UTC
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;You should see your timezone on your screen update immediately to reflect the new state of the server. So how does this work? Lets take a look at the zoner HTML:&lt;/p&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;title&amp;gt;&lt;/span&gt;Time Zone&lt;span class=&quot;nt&quot;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;charset=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;utf-8&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;link&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;../base1/cockpit.css&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/css&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;rel=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;stylesheet&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;../base1/jquery.js&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;../base1/cockpit.js&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;container-fluid&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;style=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&apos;max-width: 400px&apos;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;table&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cockpit-form-table&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;tr&amp;gt;&lt;/span&gt;
+                &lt;span class=&quot;nt&quot;&gt;&amp;lt;td&amp;gt;&lt;/span&gt;Time Zone&lt;span class=&quot;nt&quot;&gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
+                &lt;span class=&quot;nt&quot;&gt;&amp;lt;td&amp;gt;&amp;lt;span&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;current&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;/tr&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;tr&amp;gt;&lt;/span&gt;
+                &lt;span class=&quot;nt&quot;&gt;&amp;lt;td&amp;gt;&lt;/span&gt;New Zone&lt;span class=&quot;nt&quot;&gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
+                &lt;span class=&quot;nt&quot;&gt;&amp;lt;td&amp;gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;form-control&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;new&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;UTC&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;/tr&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;tr&amp;gt;&lt;/span&gt;
+                &lt;span class=&quot;nt&quot;&gt;&amp;lt;td&amp;gt;&amp;lt;button&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;btn btn-default btn-primary&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;change&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Change&lt;span class=&quot;nt&quot;&gt;&amp;lt;/button&amp;gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
+                &lt;span class=&quot;nt&quot;&gt;&amp;lt;td&amp;gt;&amp;lt;span&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;failure&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;/tr&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/table&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;script&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;#new&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;current&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;#current&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;failure&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;#failure&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+        &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;#change&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;click&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;change_zone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+        &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;service&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;cockpit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dbus&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;org.freedesktop.timedate1&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;timedate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;service&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;proxy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;timedate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;changed&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;display_zone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+        &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;display_zone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;current&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;timedate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Timezone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+        &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;change_zone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;timedate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;SetTimezone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;input&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;fail&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;change_fail&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;failure&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;empty&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+        &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;change_fail&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;failure&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;First we include &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;jquery.js&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cockpit.js&lt;/code&gt;. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cockpit.js&lt;/code&gt; defines the basic API for interacting with the system, as well as Cockpit itself. You can find &lt;a href=&quot;https://cockpit-project.org/guide/latest/api-cockpit.html&quot;&gt;detailed documentation here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;../base1/jquery.js&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;../base1/cockpit.js&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We also include the cockpit.css file to make sure the look of our tool matches that of Cockpit. The HTML is pretty basic, defining a little form where the current timezone is shown, a field to type an address, a button to click change to a new one, and an area to show errors.&lt;/p&gt;
+
+&lt;p&gt;In the javascript code, first we get a bunch of variables pointing to the HTML elements we want to interact with.
+Next we attach a handler to the &lt;em&gt;Change&lt;/em&gt; button so that the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;change_zone()&lt;/code&gt; function is called when it is clicked.&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;#change&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;click&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;change_zone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Next we connect to the &lt;a href=&quot;http://www.freedesktop.org/wiki/Software/systemd/timedated/&quot;&gt;timedated&lt;/a&gt; DBus service using the &lt;a href=&quot;https://cockpit-project.org/guide/latest/api-cockpit.html#latest-dbus-dbus&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cockpit.dbus()&lt;/code&gt;&lt;/a&gt; function:&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;service&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;cockpit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dbus&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;org.freedesktop.timedate1&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now we make a proxy which represents a particular DBus interface containing methods and properties. Simple services have only one interface. When more than one interface or instance of that interface is present, there are additional arguments to the &lt;a href=&quot;https://cockpit-project.org/guide/latest/api-cockpit.html#latest-dbus-proxy&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.proxy()&lt;/code&gt;&lt;/a&gt; method that you can specify.&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;timedate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;service&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;proxy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Each interface proxy has a &lt;a href=&quot;https://cockpit-project.org/guide/latest/api-cockpit.html#latest-dbus-proxy-onchanged&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;changed&quot;&lt;/code&gt;&lt;/a&gt; event we can connect to. When properties on the proxy change, or are received for the first time, this event is fired. We use this to call our &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;display_zone()&lt;/code&gt; function and update the display of the current time zone:&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;timedate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;changed&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;display_zone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;s2&quot;&gt;`Timezone`&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;property&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;on&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;the&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;timedated&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;DBus&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;interface&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;](&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;//www.freedesktop.org/wiki/Software/systemd/timedated/). We can access these properties directly, and the proxy will keep them up to date. Here we use the property to update our display of the current time zone:&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;display_zone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;current&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;timedate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Timezone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;s2&quot;&gt;`SetTimezone`&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;method&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;on&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;the&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;timedated&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;DBus&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;interface&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;](&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;//www.freedesktop.org/wiki/Software/systemd/timedated/) interface, and we can invoke it directly as we would a javascript function. In this case we pass the arguments the DBus method expects, a `timezone` string, and a `user_interaction` boolean.&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;change_zone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;timedate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;SetTimezone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;input&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In a web browser you cannot block and wait until a method call completes. Anything that doesn’t happen instantaneously gets its results reported back to you by &lt;a href=&quot;https://cockpit-project.org/guide/latest/api-cockpit.html#latest-dbus-done&quot;&gt;means of callback handlers&lt;/a&gt;. jQuery has a standard interface &lt;a href=&quot;http://api.jquery.com/deferred.promise/&quot;&gt;called a promise&lt;/a&gt;. You add handlers by calling the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.done()&lt;/code&gt; or &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.fail()&lt;/code&gt; methods and registering callbacks.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-unknown&quot;&gt;    call.fail(change_fail);
+    failure.empty();
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;change_fail()&lt;/code&gt; displays any failures that happen. In this case, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SetTimezone&lt;/code&gt; DBus method has no return value, however if there were, we could use something like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;call.done(myhandler)&lt;/code&gt; to register a handler to receive them.&lt;/p&gt;
+
+&lt;p&gt;Notice that we relied on DBus to tell us when things changed and just updated the display from our event handler. That way we reacted both when the time zone changed due to an action in Cockpit, as well as an action on the server.&lt;/p&gt;
+
+&lt;p&gt;Again this is a simple example, but I hope it will whet your appetite to what &lt;a href=&quot;https://cockpit-project.org/guide/latest/api-cockpit.html#latest-dbus&quot;&gt;Cockpit can do with DBus&lt;/a&gt;. Obviously you can also do signal handling, working with return values from methods, tracking all instances of a given interface, and other stuff you would expect to do as a DBus client.&lt;/p&gt;
+
+        </description>
+        <pubDate>Thu, 13 Nov 2014 00:00:00 +0000</pubDate>
+        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/using-dbus-from-javascript-in-cockpit.html</link>
+        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3//blog/using-dbus-from-javascript-in-cockpit.html</guid>
+        
+        <category>cockpit</category>
+        
+        <category>linux</category>
+        
+        
+        <category>tutorial</category>
+        
+      </item>
+    
+  </channel>
+</rss>
+
+

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html class=" -path-blog-cockpit-257.html" lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Cockpit 257 &mdash; Cockpit Project</title>
+
+    <link rel="canonical" href="https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/blog/cockpit-257.html">
+
+    <link rel="manifest" href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/manifest.json">
+
+    <meta name="description" content="Cockpit makes it easy to administer your Linux servers via a web browser.
+">
+    <meta property="og:site_name" content="Cockpit Project">
+    <meta property="og:title" content="Cockpit 257">
+    <meta property="og:description" content="Certificate changes, systemd for users, virtual console selecting in Machines, a new container workflow for Podman">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/blog/cockpit-257.html">
+    <meta name="author" content="Garrett LeSage">
+    <meta property="og:image" content="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/site/opengraph.png">
+    <meta name="theme-color" content="#3e5375">
+
+    <!-- Favicon -->
+    
+    
+      <link rel="shortcut icon" href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/favicon.png" type="image/png">
+    
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/assets/main.js"></script>
+    <link rel="stylesheet" href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/assets/main.css">
+  </head>
+
+
+  <body id="page-top">
+    
+    
+      
+      
+      
+      
+
+      
+        
+        <header class="masthead hidden-print" id="branding" role="banner">
+
+  <section class="hgroup">
+    
+    
+
+    
+      <h1><a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/site/cockpit-logo.svg"></a></h1>
+    
+
+    
+  </section>
+
+  
+
+    <div class="nav-wrap">
+      
+
+
+  <nav role="navigation" class="">
+
+
+  <ul class="nav-menu" role="menubar">
+    
+      
+
+      <li class="nav--home" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/"><span class="label">Home</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--install" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/running.html"><span class="label">Install</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--documentation" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/documentation.html"><span class="label">Documentation</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--contribute" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--blog" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/blog/"><span class="label">Blog</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--search" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/search.html"><span class="label">Search</span></a>
+        
+        
+      </li>
+    
+
+  </ul>
+
+
+  </nav>
+
+
+    </div>
+
+  
+
+</header>
+
+
+<div class="page-content" id="page-wrap" role="main">
+  <div class="wrapper">
+    
+
+
+
+
+
+
+
+
+
+
+
+<article class="post hentry" id="-blog-cockpit-257.html">
+  <header class="post-header">
+    <h2 class="post-title entry-title">
+      
+        Cockpit 257
+      
+    </h2>
+    <header class="post-meta">
+      
+        
+          <span class="byline">
+            by
+            <span class="author vcard">
+              <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/blog/authors#garrett">Garrett LeSage</a>
+            </span>
+          </span>
+        
+        –
+      
+      <time class="published" datetime="3">
+        Nov 10, 2021
+      </time>
+
+      
+        
+        
+        
+
+        <div class="category">
+          
+            category: <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/blog/category/release.html">release</a>
+          
+        </div>
+      
+    </header>
+  </header>
+
+  
+  
+  
+  
+
+  <section class="post-content entry-content">
+    
+      <p>Cockpit is the <a href="https://cockpit-project.org/">modern Linux admin interface</a>.
+We release regularly.</p>
+
+<p>Here are the release notes from Cockpit 257, cockpit-machines 256, and cockpit-podman 36:</p>
+
+<h2 id="support-for-reading-tls-certificates-with-any-permissions">Support for reading <abbr title="Transport Layer Security">TLS</abbr> certificates with any permissions</h2>
+
+<p>Formerly, <code class="language-plaintext highlighter-rouge">cockpit-tls</code>, the process responsible for handling encryption on HTTPS connections to cockpit, would directly read the certificate file for itself.  This required the private key file to be owned by the <code class="language-plaintext highlighter-rouge">cockpit-ws</code> user (or group) that this process ran as.  Users sometimes want to share the same key file with several different services, making this arrangement awkward.  It also required additional configuration steps in the case of automatically-issued certificates.</p>
+
+<p>Cockpit now reads the certificate and key files as the root user, allowing them to be installed with any set of permissions.</p>
+
+<h2 id="cockpit-ws-no-longer-supports-merged-certificates">cockpit-ws no longer supports merged certificates</h2>
+
+<p>When running in a container, <code class="language-plaintext highlighter-rouge">cockpit-tls</code> cannot be used, and <code class="language-plaintext highlighter-rouge">cockpit-ws</code> must be run directly.</p>
+
+<p>When running in this mode, merged key and certificate files are no longer supported: you must switch to separate <code class="language-plaintext highlighter-rouge">.cert</code> and <code class="language-plaintext highlighter-rouge">.key</code> files. If you did not do any particular certificate setup, you can just remove <code class="language-plaintext highlighter-rouge">/etc/cockpit/ws-certs.d/0-self-signed.crt</code> and let the container re-create a fresh self-signed certificate on startup.</p>
+
+<h2 id="services-show-user-owned-systemd-units">Services: Show user-owned systemd units</h2>
+
+<p>In addition to system system-wide units, systemd manages user-specific units as well. The Services page can now show and control these user instance units with the new “System”/”User” toggle. Changing user units does not require Administrator privileges.</p>
+
+<p><img src="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/257-services-show-user-owned-systemd-units.png" alt="140483853-7c31cd69-4d5d-4b37-8cdc-4498e1daf813" /></p>
+
+<h2 id="machines-support-selecting-between-consoles-of-the-same-type">Machines: Support selecting between consoles of the same type</h2>
+
+<p><abbr title="Virtual Machine">VM</abbr> configurations can specify multiple PTY consoles. A <abbr title="Virtual Machine">VM</abbr> can have an emulated serial console and a virtio serial console. The console menu now shows alias identifiers, making it possible to choose between consoles of the same type.</p>
+
+<p><img src="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/257-machines-support-selecting-between-consoles-of-the-same-type.png" alt="140937551-4e7bb79d-54da-4bf7-9c67-b1ac85f1f074" /></p>
+
+<h2 id="podman-new-create-container-workflow">Podman: New “Create container” workflow</h2>
+
+<p>Creating a container is easier and more featureful. The new container creation workflow starts by clicking the “Create container” button, which shows a new dialog.</p>
+
+<p><img src="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/257-podman-new-create-container-workflow.png" alt="141087576-66ad8aaa-937f-44ae-99f9-738fd75ed146" /></p>
+
+<p>The dialog itself shows local images, including manually created images and previously created images, and can download an image directly from a registry.</p>
+
+<p><img src="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/257-podman-new-create-container-workflow-2.png" alt="141087882-48f73144-549b-44d2-b3ad-bd007e2e3422" /></p>
+
+<p>A second tab contains optional system integration with port mapping, volume mapping, and environment variables.</p>
+
+<p><img src="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/257-podman-new-create-container-workflow-3.png" alt="141087968-5d7ee210-92cc-4efd-87f5-43569b9be60c" /></p>
+
+<h2 id="podman-prune-unused-images">Podman: Prune unused images</h2>
+
+<p>Unused images can now be cleaned up in cockpit-podman. This behaves similar to <code class="language-plaintext highlighter-rouge">podman image prune -a</code> and can delete unused system <em>and</em> user container images at the same time.</p>
+
+<p><img src="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/257-podman-prune-unused-images.png" alt="139233630-1ca43c26-a276-4f9a-9ac5-5caf0d56b277" /></p>
+
+<p><img src="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/images/257-podman-prune-unused-images-2.png" alt="140961475-7dbd2501-5a3b-49e0-8edc-f5d5f1f7df53" /></p>
+
+<h2 id="try-it-out">Try it out</h2>
+
+<p>Cockpit 257, cockpit-machines 256, and cockpit-podman 36 are available now:</p>
+
+<ul>
+  <li>
+    <p><a href="https://cockpit-project.org/running.html">For your Linux system</a></p>
+  </li>
+  <li><a href="https://github.com/cockpit-project/cockpit/releases/tag/257">Cockpit Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2021-562664e808">Cockpit Fedora 35</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2021-9b41f0e6c8">Cockpit Fedora 34</a></li>
+  <li><a href="https://github.com/cockpit-project/cockpit-machines/releases/tag/256">cockpit-machines Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2021-7616340d68">cockpit-machines Fedora 35</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2021-57970264be">cockpit-machines Fedora 34</a></li>
+  <li><a href="https://github.com/cockpit-project/cockpit-podman/releases/tag/36">cockpit-podman Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2021-2088f7eb4a">cockpit-podman Fedora 35</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2021-58b0f7c034">cockpit-podman Fedora 34</a></li>
+</ul>
+
+
+    
+  </section>
+
+  
+
+</article>
+
+
+  
+  <div class="author-info author-card" id="author-info">
+    <h2>About Garrett LeSage</h2>
+    <div class="author-blurb">
+      <p>Garrett has been a designer in the FOSS (free and open source software)
+world since the late 90s and works at Red Hat in the Cockpit team.</p>
+
+
+      <div class="more-link">
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/blog/authors#garrett">
+          View all posts by Garrett LeSage »
+        </a>
+      </div>
+
+      
+    </div>
+  </div>
+
+
+
+  </div>
+</div>
+
+<footer class="footer-cockpit" role="contentinfo">
+    <p class="copyright">
+        
+
+        © 2013 - 2026
+
+        &mdash;
+
+        Cockpit is a <a href="https://redhat.com/">Red Hat</a> sponsored
+        free software project released under the
+        <a href="https://opensource.org/licenses/lgpl-2.1.php">LGPL v2.1+</a>
+    </p>
+
+    <p class="policy">
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/privacy.html">
+            Privacy Policy
+        </a>
+        &mdash;
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview-pr/3/code-of-conduct.html">
+            Code of Conduct
+        </a>
+    </p>
+
+    <p class="edit-page"><a
+      href="https://github.com/Venefilyn/cockpit-project.github.io/edit/main/_posts/2021-11-10-cockpit-257.md">Edit page on GitHub</a>
+</p>
+</footer>
+
+
+      
+    
+  </body>
+
+</html>
