@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html class=" -path-blog-cockpit-314.html" lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Cockpit 314 &mdash; Cockpit Project</title>
+
+    <link rel="canonical" href="https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/cockpit-314.html">
+
+    <link rel="manifest" href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/manifest.json">
+
+    <meta name="description" content="Cockpit makes it easy to administer your Linux servers via a web browser.
+">
+    <meta property="og:site_name" content="Cockpit Project">
+    <meta property="og:title" content="Cockpit 314">
+    <meta property="og:description" content="read-only encryption improvements, OCI container origins">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/cockpit-314.html">
+    <meta name="author" content="Marius Vollmer">
+    <meta property="og:image" content="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/site/opengraph.png">
+    <meta name="theme-color" content="#3e5375">
+
+    <!-- Favicon -->
+    
+    
+      <link rel="shortcut icon" href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/favicon.png" type="image/png">
+    
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/assets/main.js"></script>
+    <link rel="stylesheet" href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/assets/main.css">
+  </head>
+
+
+  <body id="page-top">
+    
+    
+      
+      
+      
+      
+
+      
+        
+        <header class="masthead hidden-print" id="branding" role="banner">
+
+  <section class="hgroup">
+    
+    
+
+    
+      <h1><a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/site/cockpit-logo.svg"></a></h1>
+    
+
+    
+  </section>
+
+  
+
+    <div class="nav-wrap">
+      
+
+
+  <nav role="navigation" class="">
+
+
+  <ul class="nav-menu" role="menubar">
+    
+      
+
+      <li class="nav--home" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/"><span class="label">Home</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--install" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/running.html"><span class="label">Install</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--documentation" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/documentation.html"><span class="label">Documentation</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--contribute" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--blog" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/"><span class="label">Blog</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--search" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/search.html"><span class="label">Search</span></a>
+        
+        
+      </li>
+    
+
+  </ul>
+
+
+  </nav>
+
+
+    </div>
+
+  
+
+</header>
+
+
+<div class="page-content" id="page-wrap" role="main">
+  <div class="wrapper">
+    
+
+
+
+
+
+
+
+
+
+
+
+<article class="post hentry" id="-blog-cockpit-314.html">
+  <header class="post-header">
+    <h2 class="post-title entry-title">
+      
+        Cockpit 314
+      
+    </h2>
+    <header class="post-meta">
+      
+        
+          <span class="byline">
+            by
+            <span class="author vcard">
+              <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/authors#mvo">Marius Vollmer</a>
+            </span>
+          </span>
+        
+        –
+      
+      <time class="published" datetime="3">
+        Mar 27, 2024
+      </time>
+
+      
+        
+        
+        
+
+        <div class="category">
+          
+            category: <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/category/release.html">release</a>
+          
+        </div>
+      
+    </header>
+  </header>
+
+  
+  
+  
+  
+
+  <section class="post-content entry-content">
+    
+      <p>Cockpit is the <a href="https://cockpit-project.org/">modern Linux admin interface</a>.
+We release regularly.</p>
+
+<p>Here are the release notes from Cockpit 314 and cockpit-ostree 201:</p>
+
+<h2 id="diagnostic-reports-fix-command-injection-vulnerability-with-crafted-report-names">Diagnostic reports: Fix command injection vulnerability with crafted report names</h2>
+
+<p><a href="https://cockpit-project.org/blog/cockpit-270.html">Cockpit 270</a>
+introduced a possible local privilege escalation vulnerability with
+deleting diagnostic reports (sosreport). Files in /var/tmp/ are
+controllable by any user. In particular, an unprivileged user could
+create an sosreport* file containing a <code class="language-plaintext highlighter-rouge">'</code> and a shell command, which
+would then run with root privileges when the admin Cockpit user tried
+to delete the report.</p>
+
+<p>This Cockpit version fixes the problem by removing the files with
+direct system calls instead of a shell command.</p>
+
+<p>This is tracked as <a href="https://www.cve.org/CVERecord?id=CVE-2024-2947">CVE-2024-2947</a>.
+If you need to backport this to older cockpit versions, you can apply
+the <a href="https://github.com/cockpit-project/cockpit/commit/9c4cc9b6df632082538b53bdc8ee9ec1c5cad4da">upstream patch</a>.</p>
+
+<p>If you cannot update or patch, then check the displayed report file
+names for non-standard characters, in particular <code class="language-plaintext highlighter-rouge">'</code>, <code class="language-plaintext highlighter-rouge">$</code>, <code class="language-plaintext highlighter-rouge">(</code> and `,
+and don’t use Cockpit’s Diagnostic reports page to delete them.</p>
+
+<h2 id="storage-improvements-to-read-only-encrypted-filesystems">Storage: Improvements to read-only encrypted filesystems</h2>
+
+<p>Cockpit now unlocks encrypted filesystems with a “read-only”
+encryption layer when the filesystem itself is mounted read-only.</p>
+
+<h2 id="ostree-show-oci-container-origin">Ostree: Show OCI container origin</h2>
+
+<p>cockpit-ostree now detects and shows the origin, repository, and
+branch name of <a href="https://coreos.github.io/rpm-ostree/container/">native container repositories</a>
+in both the “OSTree source” card and the deployment list:</p>
+
+<p><img src="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/314-ostree-show-oci-container-origin.png" alt="screenshot of show oci container origin" /></p>
+
+<p><img src="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/314-ostree-show-oci-container-origin-2.png" alt="screenshot of show oci container origin" /></p>
+
+<h2 id="try-it-out">Try it out</h2>
+
+<p>Cockpit 314 and cockpit-ostree 201 are available now:</p>
+
+<ul>
+  <li><a href="https://cockpit-project.org/running.html">For your Linux system</a></li>
+  <li>
+    <p><a href="https://flathub.org/apps/details/org.cockpit_project.CockpitClient">Cockpit Client</a></p>
+  </li>
+  <li><a href="https://github.com/cockpit-project/cockpit/releases/tag/314">Cockpit Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2024-6065341780">Cockpit Fedora 39</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2024-4e95f130fc">Cockpit Fedora 40</a></li>
+  <li><a href="https://github.com/cockpit-project/cockpit-ostree/releases/tag/201">cockpit-ostree Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2024-80a6144d2d">cockpit-ostree Fedora 39</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2024-a1d54f64d2">cockpit-ostree Fedora 40</a></li>
+</ul>
+
+    
+  </section>
+
+  
+
+</article>
+
+
+  
+  <div class="author-info author-card" id="author-info">
+    <h2>About Marius Vollmer</h2>
+    <div class="author-blurb">
+      
+
+
+      <div class="more-link">
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/authors#mvo">
+          View all posts by Marius Vollmer »
+        </a>
+      </div>
+
+      
+    </div>
+  </div>
+
+
+
+  </div>
+</div>
+
+<footer class="footer-cockpit" role="contentinfo">
+    <p class="copyright">
+        
+
+        © 2013 - 2026
+
+        &mdash;
+
+        Cockpit is a <a href="https://redhat.com/">Red Hat</a> sponsored
+        free software project released under the
+        <a href="https://opensource.org/licenses/lgpl-2.1.php">LGPL v2.1+</a>
+    </p>
+
+    <p class="policy">
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/privacy.html">
+            Privacy Policy
+        </a>
+        &mdash;
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/code-of-conduct.html">
+            Code of Conduct
+        </a>
+    </p>
+
+    <p class="edit-page"><a
+      href="https://github.com/Venefilyn/cockpit-project.github.io/edit/main/_posts/2024-03-27-cockpit-314.md">Edit page on GitHub</a>
+</p>
+</footer>
+
+
+      
+    
+  </body>
+
+</html>

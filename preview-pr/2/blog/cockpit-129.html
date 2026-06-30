@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html class=" -path-blog-cockpit-129.html" lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Cockpit 128 and 129 &mdash; Cockpit Project</title>
+
+    <link rel="canonical" href="https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/cockpit-129.html">
+
+    <link rel="manifest" href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/manifest.json">
+
+    <meta name="description" content="Cockpit makes it easy to administer your Linux servers via a web browser.
+">
+    <meta property="og:site_name" content="Cockpit Project">
+    <meta property="og:title" content="Cockpit 128 and 129">
+    <meta property="og:description" content="Cockpit supports rebasing on Atomic Host with OSTree.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/cockpit-129.html">
+    <meta name="author" content="Dominik Perpeet">
+    <meta property="og:image" content="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/site/opengraph.png">
+    <meta name="theme-color" content="#3e5375">
+
+    <!-- Favicon -->
+    
+    
+      <link rel="shortcut icon" href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/favicon.png" type="image/png">
+    
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/assets/main.js"></script>
+    <link rel="stylesheet" href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/assets/main.css">
+  </head>
+
+
+  <body id="page-top">
+    
+    
+      
+      
+      
+      
+
+      
+        
+        <header class="masthead hidden-print" id="branding" role="banner">
+
+  <section class="hgroup">
+    
+    
+
+    
+      <h1><a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/site/cockpit-logo.svg"></a></h1>
+    
+
+    
+  </section>
+
+  
+
+    <div class="nav-wrap">
+      
+
+
+  <nav role="navigation" class="">
+
+
+  <ul class="nav-menu" role="menubar">
+    
+      
+
+      <li class="nav--home" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/"><span class="label">Home</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--install" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/running.html"><span class="label">Install</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--documentation" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/documentation.html"><span class="label">Documentation</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--contribute" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--blog" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/"><span class="label">Blog</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--search" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/search.html"><span class="label">Search</span></a>
+        
+        
+      </li>
+    
+
+  </ul>
+
+
+  </nav>
+
+
+    </div>
+
+  
+
+</header>
+
+
+<div class="page-content" id="page-wrap" role="main">
+  <div class="wrapper">
+    
+
+
+
+
+
+
+
+
+
+
+
+<article class="post hentry" id="-blog-cockpit-129.html">
+  <header class="post-header">
+    <h2 class="post-title entry-title">
+      
+        Cockpit 128 and 129
+      
+    </h2>
+    <header class="post-meta">
+      
+        
+          <span class="byline">
+            by
+            <span class="author vcard">
+              <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/authors#dperpeet">Dominik Perpeet</a>
+            </span>
+          </span>
+        
+        –
+      
+      <time class="published" datetime="4">
+        Jan 19, 2017
+      </time>
+
+      
+        
+        
+        
+
+        <div class="category">
+          
+            category: <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/category/release.html">release</a>
+          
+        </div>
+      
+    </header>
+  </header>
+
+  
+  
+  
+  
+
+  <section class="post-content entry-content">
+    
+      <p>Cockpit is the <a href="https://cockpit-project.org/">modern Linux admin interface</a>. We release
+regularly. Here are the release notes from version 128 and 129.</p>
+
+<h3 id="manage-remotes-and-rebasing-in-ostree">Manage remotes and rebasing in OSTree</h3>
+
+<p>When working with OSTrees on operating systems like <a href="http://www.projectatomic.io/docs/os-updates/">Atomic Host</a>
+there will often be multiple branches to choose from. For example there may be a beta version of the operating system.
+Thanks to Peter’s work, Cockpit can now switch between branches and view and activate OSTrees from those branches.
+Also, Cockpit supports managing multiple remotes and viewing their branches. Remotes are a way of describing
+where OSTree should pull updates from. Take a look at the video below for a demo.</p>
+
+<iframe width="560" height="315" src="//www.youtube-nocookie.com/embed/dF8M3xq9FcI" frameborder="0" allowfullscreen=""></iframe>
+
+<h3 id="the-subpackage-cockpit-dashboard-has-been-split-out">The subpackage cockpit-dashboard has been split out</h3>
+
+<p>The new <code class="language-plaintext highlighter-rouge">cockpit-dashboard</code> subpackage contains the dashboard itself and
+the <code class="language-plaintext highlighter-rouge">cockpit-ssh</code> process. Eventually this paves the way for more flexibility
+regarding authentication processes, but for now <code class="language-plaintext highlighter-rouge">cockpit-ws</code> unconditionally
+depends on <code class="language-plaintext highlighter-rouge">cockpit-dashboard</code>, and also requires the identical versions.
+Nothing changes for those who install the <code class="language-plaintext highlighter-rouge">cockpit</code> package. But this allows more
+flexibility when using Cockpit for specific use cases.</p>
+
+<h3 id="issues-upgrading-cockpit-on-debian-and-fedora-have-been-fixed">Issues upgrading Cockpit on Debian and Fedora have been fixed</h3>
+
+<p>Our packaging changes in recent versions broke upgrading Cockpit on Debian and Fedora.
+This is fixed now and updates should work properly once again.</p>
+
+<h3 id="on-atomic-sosreport-works-again">On Atomic, sosreport works again</h3>
+
+<p>A bug that prevented the diagnostic tool sosreport from working on Atomic systems was fixed.
+Generating and accessing these diagnostic reports can be very helpful when diagnosing or
+reporting an issue on the system.</p>
+
+<h3 id="optionally-disable-the-dependency-on-libssh">Optionally disable the dependency on libssh</h3>
+
+<p>When configuring Cockpit, the option <code class="language-plaintext highlighter-rouge">disable-ssh</code> disables building <code class="language-plaintext highlighter-rouge">cockpit-ssh</code> and removes the
+dependency on <code class="language-plaintext highlighter-rouge">libssh</code>. This is useful when building on an operating system where <code class="language-plaintext highlighter-rouge">libssh</code> is not available.</p>
+
+<h3 id="try-it-out">Try it out</h3>
+
+<p>Cockpit 129 is available now:</p>
+
+<ul>
+  <li><a href="https://cockpit-project.org/running.html">For your Linux system</a></li>
+  <li><a href="https://github.com/cockpit-project/cockpit/releases/tag/129">Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/cockpit-129-1.fc25">Fedora 25</a></li>
+</ul>
+
+    
+  </section>
+
+  
+
+</article>
+
+
+  
+  <div class="author-info author-card" id="author-info">
+    <h2>About Dominik Perpeet</h2>
+    <div class="author-blurb">
+      
+
+
+      <div class="more-link">
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/authors#dperpeet">
+          View all posts by Dominik Perpeet »
+        </a>
+      </div>
+
+      
+    </div>
+  </div>
+
+
+
+  </div>
+</div>
+
+<footer class="footer-cockpit" role="contentinfo">
+    <p class="copyright">
+        
+
+        © 2013 - 2026
+
+        &mdash;
+
+        Cockpit is a <a href="https://redhat.com/">Red Hat</a> sponsored
+        free software project released under the
+        <a href="https://opensource.org/licenses/lgpl-2.1.php">LGPL v2.1+</a>
+    </p>
+
+    <p class="policy">
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/privacy.html">
+            Privacy Policy
+        </a>
+        &mdash;
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/code-of-conduct.html">
+            Code of Conduct
+        </a>
+    </p>
+
+    <p class="edit-page"><a
+      href="https://github.com/Venefilyn/cockpit-project.github.io/edit/main/_posts/2017-01-19-cockpit-129.md">Edit page on GitHub</a>
+</p>
+</footer>
+
+
+      
+    
+  </body>
+
+</html>

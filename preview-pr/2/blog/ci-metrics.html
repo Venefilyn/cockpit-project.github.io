@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html class=" -path-blog-ci-metrics.html" lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>CI Metrics and Error Budgets &mdash; Cockpit Project</title>
+
+    <link rel="canonical" href="https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/ci-metrics.html">
+
+    <link rel="manifest" href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/manifest.json">
+
+    <meta name="description" content="Cockpit makes it easy to administer your Linux servers via a web browser.
+">
+    <meta property="og:site_name" content="Cockpit Project">
+    <meta property="og:title" content="CI Metrics and Error Budgets">
+    <meta property="og:description" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/ci-metrics.html">
+    <meta name="author" content="Martin Pitt">
+    <meta property="og:image" content="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/site/opengraph.png">
+    <meta name="theme-color" content="#3e5375">
+
+    <!-- Favicon -->
+    
+    
+      <link rel="shortcut icon" href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/favicon.png" type="image/png">
+    
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/assets/main.js"></script>
+    <link rel="stylesheet" href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/assets/main.css">
+  </head>
+
+
+  <body id="page-top">
+    
+    
+      
+      
+      
+      
+
+      
+        
+        <header class="masthead hidden-print" id="branding" role="banner">
+
+  <section class="hgroup">
+    
+    
+
+    
+      <h1><a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/site/cockpit-logo.svg"></a></h1>
+    
+
+    
+  </section>
+
+  
+
+    <div class="nav-wrap">
+      
+
+
+  <nav role="navigation" class="">
+
+
+  <ul class="nav-menu" role="menubar">
+    
+      
+
+      <li class="nav--home" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/"><span class="label">Home</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--install" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/running.html"><span class="label">Install</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--documentation" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/documentation.html"><span class="label">Documentation</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--contribute" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--blog" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/"><span class="label">Blog</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--search" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/search.html"><span class="label">Search</span></a>
+        
+        
+      </li>
+    
+
+  </ul>
+
+
+  </nav>
+
+
+    </div>
+
+  
+
+</header>
+
+
+<div class="page-content" id="page-wrap" role="main">
+  <div class="wrapper">
+    
+
+
+
+
+
+
+
+
+
+
+
+<article class="post hentry" id="-blog-ci-metrics.html">
+  <header class="post-header">
+    <h2 class="post-title entry-title">
+      
+        CI Metrics and Error Budgets
+      
+    </h2>
+    <header class="post-meta">
+      
+        
+          <span class="byline">
+            by
+            <span class="author vcard">
+              <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/authors#pitti">Martin Pitt</a>
+            </span>
+          </span>
+        
+        –
+      
+      <time class="published" datetime="2">
+        Jul 13, 2021
+      </time>
+
+      
+        
+        
+        
+
+        <div class="category">
+          
+            category: howto
+          
+        </div>
+      
+    </header>
+  </header>
+
+  
+  
+  
+  
+
+  <section class="post-content entry-content">
+    
+      <p>The Cockpit project literally lives and dies together with our integration tests and the CI machinery to run them. We notice this the hard way whenever there is an outage; that’s why we invested quite some efforts to run tests on at least two different clouds, and <a href="https://github.com/cockpit-project/cockpituous/tree/main/ansible/aws">fall back to Amazon EC2</a> when needed.</p>
+
+<p>But there is a wholly different version of that pain: When tests or the infrastructure slowly become worse. At first it’s just a single “oh, a red test, this is unrelated, let’s just retry”, and before you know it it takes a day to get a pull request to green, and developers get frustrated and even afraid of touching tests.</p>
+
+<h2 id="error-budget">Error budget</h2>
+
+<p>With our tests and CI machinery being such important tools, we need to constantly measure their current state and quality to detect when they become too bad. In that case it is better to immediately react, stop feature development, and fix up our tools until they are in shape again. In total this minimizes the unnecessary pain and time spent on pull requests to get along with or work around breakage.</p>
+
+<p>The goal is to turn a vague gut feeling into objective numbers and alerts. This helps your own team to stay honest, be transparent to colleagues, users, and management, and also to invest the <em>right amount</em> of work into infrastructure. The latter point is crucial – clearly you can spend too little work and end up with a tool which is more of a hindrance than an aid. But you can also spend <em>too much</em> work on it, just because it’s fun, or you are a perfectionist, ending up with <a href="https://en.wikipedia.org/wiki/Diminishing_returns">diminishing returns</a>.</p>
+
+<p>This approach is called an <em>error budget</em> and described in all of its details and consequences in the free Google book <a href="https://sre.google/sre-book/table-of-contents/">Site Reliability Engineering</a>. This principle is mostly applied for services towards external customers, such as a web application or cloud engine. But we realized that it equally well applies to our development team as an internal service – we are just our own customers, with two different hats: Most of the time we develop Cockpit, but sometimes we switch roles and develop our infrastructure.</p>
+
+<h2 id="define-service-level-objectives">Define Service Level Objectives</h2>
+
+<p>The first step of that story is to sit down with the stakeholders – in this case our own development team. We discussed our high-level expectations on our development process, and agreed that we are “happy” as long as these hold:</p>
+
+<ul>
+  <li><abbr title="Pull Requests">PRs</abbr> get validated in a reasonable time (queue + test run time).</li>
+  <li>We don’t waste time on interpreting unstable test results.</li>
+  <li>We are not afraid of touching code.</li>
+  <li>Test failures are relevant and meaningful. Relieve us from having to decide about “unrelated or not” every. single. time.</li>
+</ul>
+
+<p>As stated, these expectations are not objective; they need to be translated into concrete and measurable “Service Level Indicators” (<abbr title="Service Level Indicator">SLI</abbr>), together with a definition which range of an <abbr title="Service Level Indicator">SLI</abbr> we consider as “good”/”keeps us happy” according to the abstract expectations above. The latter is called a <a href="https://en.wikipedia.org/wiki/Service-level_objective">Service Level Objective (<abbr title="Service Level Objective">SLO</abbr>)</a>. For us they look like this, in descending importance:</p>
+
+<ol>
+  <li>A merged <abbr title="Pull Request">PR</abbr> becomes fully green with a 75% chance at the first attempt, and with a 95% chance after one retry.</li>
+  <li>Every individual test succeeds at least 90% of the time.</li>
+  <li>95% of all <abbr title="Pull Requests">PRs</abbr> are merged without failed tests.</li>
+  <li>95% of test runs take no more than 1 hour to execute.</li>
+  <li>95% of test runs spend no more than 5 minutes in the queue until they get assigned to a runner.</li>
+  <li>95% of scheduled tests run through to completion (all tests ran and status got reported to <abbr title="Pull Request">PR</abbr>).</li>
+</ol>
+
+<p>These levels are not very ambitious compared to <a href="https://en.wikipedia.org/wiki/High_availability#Percentage_calculation">five nines</a> that are often required in other places. We intentionally started low to get a grasp of how an error budget works. These <abbr title="Service Level Objectives">SLOs</abbr> represented a challenge which was achievable with a realistic amount of effort, while being good enough to not hamper our Cockpit development life.</p>
+
+<p>We <a href="https://github.com/cockpit-project/cockpit/wiki/DevelopmentPrinciples#our-testsci-error-budget">published these <abbr title="Service Level Objectives">SLOs</abbr> on our wiki</a> to generate a sense of commitment and transparency.</p>
+
+<h2 id="implement-service-level-indicators">Implement Service Level Indicators</h2>
+
+<p>Now comes the time to meet the hard reality – to pry these numbers out of production CI. Fortunately, most of the above <abbr title="Service Level Indicators">SLIs</abbr> (all but #2) can be derived directly from the <a href="https://docs.github.com/en/rest/reference/repos#statuses">GitHub Statuses</a> history. For example, #5 is the time between “Not yet tested” and “Testing in progress” status changes, while #4 is the time between “Testing in progress” and any final (success, failure, error) status.</p>
+
+<p>Only #2 requires scanning the actual test logs; our logs are in <a href="https://testanything.org/tap-specification.html">TAP format</a>, which makes it easy to scan for lines starting with <code class="language-plaintext highlighter-rouge">ok</code> or <code class="language-plaintext highlighter-rouge">not ok</code> and reading the test name and retry attempt/reason after that.</p>
+
+<p>This evaluation happens in the <a href="https://github.com/cockpit-project/bots/blob/main/store-tests">store-tests bots script</a>. This gets called through a <a href="https://docs.github.com/en/developers/webhooks-and-events/webhooks">webhook</a> for each <em>merged</em> <abbr title="Pull Request">PR</abbr>. We deliberately do <em>not</em> count failures or long tests from intermediate force-pushes or abandoned <abbr title="Pull Requests">PRs</abbr>, as during that phase pretty much anything can (and does) go wrong. However, GitHub statuses do record test retries (for <abbr title="Service Level Objective">SLO</abbr> #1).</p>
+
+<p><a href="https://github.com/cockpit-project/bots/blob/main/store-tests"><code class="language-plaintext highlighter-rouge">store-tests</code></a> puts its results into an <a href="https://sqlite.org/index.html">SQLite database</a> which gets <a href="https://logs-https-frontdoor.apps.ocp.ci.centos.org/test-results.db">published on our logs server</a>.</p>
+
+<h2 id="visualizing-slis-and-slos-take-1">Visualizing <abbr title="Service Level Indicators">SLIs</abbr> and <abbr title="Service Level Objectives">SLOs</abbr>, take #1</h2>
+
+<p>To present the numbers in the database in a human friendly form, we started out with an “all-in-one” <a href="https://github.com/cockpit-project/bots/blob/main/tests.html">tests.html</a>. This uses <a href="https://github.com/ryan-codingintrigue/sql-wasm">sql-wasm</a> to directly read the above SQLite database URL and the <a href="https://github.com/rook2pawn/node-chart">chart</a> module to plot graphs. This got called the <a href="https://logs-https-frontdoor.apps.ocp.ci.centos.org/tests.html?repo=cockpit-project%2Fcockpit#">CI weather report</a>. The ingenious thing about it that it requires zero additional infrastructure and moving parts, and it has selectors and per-test subpages to drill down into any desirable detail. The major drawbacks are that it is <em>really</em> slow – each page update needs to fetch the database again, which by now has swollen into a ~ 40 MB blob; and making changes to it is rather hard, as it involves a lot of coding.</p>
+
+<p><img loading="lazy" src="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/ci-weather-report.png" alt="CI weather report" /></p>
+
+<h2 id="moving-to-prometheusgrafana">Moving to Prometheus/Grafana</h2>
+
+<p>We recently got a requirement to combine our metrics with those of other teams, to get a high-level overview of the status of various RHEL teams. That just wasn’t possible with the hand-woven all-in-one html. Due to that and the shortcomings from above, we moved to the industry-standard solutions.</p>
+
+<p><a href="https://prometheus.io/">Prometheus</a> collects metrics from an arbitrary number of sources, stores them in an internal database, and offers the <a href="https://prometheus.io/docs/prometheus/latest/querying/basics/">PromQL query language and API</a> for generating time series, statistical calculations, or making predictions. Data sources need to export metrics in a fairly straightforward <a href="https://prometheus.io/docs/instrumenting/exposition_formats/">text format</a>, so we wrote a <a href="https://github.com/cockpit-project/bots/blob/main/prometheus-stats">prometheus-stats</a> script which queries them from the same SQLite database, computes the metrics, and writes the Prometheus metrics to stdout. Our production metrics get <a href="https://logs-https-frontdoor.apps.ocp.ci.centos.org/prometheus">exported on our logs server</a>, but they are easy enough to generate locally as well in a <a href="https://github.com/cockpit-project/bots/">bots repository</a> checkout:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl -O https://logs-https-frontdoor.apps.ocp.ci.centos.org/test-results.db
+$ ./prometheus-stats
+# HELP queue_time_wait_seconds histogram of queue wait times
+# TYPE queue_time_wait_seconds histogram
+queue_time_wait_seconds_bucket{le="300"} 1720
+queue_time_wait_seconds_bucket{le="3600"} 2567
+queue_time_wait_seconds_bucket{le="+Inf"} 2646
+queue_time_wait_seconds_sum 2438358
+queue_time_wait_seconds_count 2646
+[...]
+</code></pre></div></div>
+
+<p><a href="https://grafana.com/">Grafana</a> builds graphs, dashboards, and alerts from Prometheus/PromQL. They are much easier and faster to create and iterate on than the static code from take #1. Grafana also offers variables, selector dropdowns, and time range selectors, so that you can restrict the view to a particular project repository only, or can switch between a recent view (last 24 hours) or a long-range evolution (like 30 days). However, this is not done yet: Compared to the weather report, you can’t drill down into individual test case failures, nor get links to example logs.</p>
+
+<p>We deploy Prometheus and Grafana to our Kubernetes cluster on CentOS CI. The resources, deployment scripts, and pre-defined dashboards live in our <a href="https://github.com/cockpit-project/cockpituous/tree/main/metrics">Cockpituous infrastructure repository</a>.</p>
+
+<p>There are currently two Dashboards defined: <a href="https://grafana-frontdoor.apps.ocp.ci.centos.org/d/ci/cockpit-ci">Cockpit CI</a> shows the straight <abbr title="Service Level Indicators">SLIs</abbr> and unstable tests, plus some extra information like how much space our test VM images use on S3.</p>
+
+<p>Recently we also added a more abstract <a href="https://grafana-frontdoor.apps.ocp.ci.centos.org/d/budget/cockpit-ci-error-budget">Error Budget</a> dashboard, which shows the <abbr title="Service Level Indicators">SLIs</abbr> with a focus on and normalization to the defined <abbr title="Service Level Objective">SLO</abbr> error budgets:</p>
+
+<p><img loading="lazy" src="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/grafana-error-budget.png" alt="Grafana error budget" /></p>
+
+<h2 id="drawing-conclusions">Drawing conclusions</h2>
+
+<p>This error budget view now can guide our activity in an objective way. For example, a value of 50% like on “<abbr title="Service Level Indicator">SLI</abbr> 4: percentage of tests with runtime &gt; 1 h” means that for that particular <abbr title="Service Level Objective">SLO</abbr> we used up half of the error budget. The <abbr title="Service Level Objective">SLO</abbr> is “95% of all tests take no more than 1 hour to execute”, so the error budget is 5%, and the graph tells us that currently roughly 2.5% of tests take longer than one hour. That metric can still become twice as bad before we have to stop the line and go into “infrastructure is on fire” mode.</p>
+
+<p>On the other hand, “<abbr title="Service Level Indicator">SLI</abbr> 5: percentage of tests with queue time &gt; 5 minutes” is way beyond the budget. The <a href="https://grafana-frontdoor.apps.ocp.ci.centos.org/d/ci/cockpit-ci?orgId=1&amp;viewPanel=6&amp;from=now-7d&amp;to=now">detailed graph</a> tells us that it’s not actually that bad, the average queue time is 5.17 minutes – just slightly off. We used to have a queue time of a few seconds, so in our case this is an actual bug. We actually know the cause of that – it will take a few hours to debug, but the details are not important for this post.</p>
+
+<p>But for other cases, it could just be that the queue time has been like that for months, and nobody was bothered by it – in that case it may be appropriate to redefine the <abbr title="Service Level Objective">SLO</abbr>, and bump it to 10 minutes. The initial <abbr title="Service Level Objective">SLO</abbr> was defined by gut feelings and polls as well, after all, and they should regularly be reviewed against the team’s opinion whether they still accurarely represent “happiness”.</p>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<p>Our current state is a good foundation, but we are not done:</p>
+
+<ul>
+  <li>
+    <p>There are no alerts yet. Grafana has alerting support, but I have not looked at this at all. We want our infrastructure maintainers to get an email, and/or possibly an IRC bot message.</p>
+  </li>
+  <li>
+    <p>Compared to the weather report, the biggest missing feature in our Grafana boards are links to example test runs which violate the <abbr title="Service Level Objectives">SLOs</abbr>. The <a href="https://prometheus.io/docs/instrumenting/exposition_formats/#openmetrics-text-format">OpenMetrics format</a> promises support for “exemplars” which fit exactly that use case, so we need to change our export accordingly, and figure out how to represent them in Grafana.</p>
+  </li>
+  <li>We need to define and follow a process how to react to exceeding the error budget:
+    <ul>
+      <li>How many/which team members stop working on regular projects to move to infrastructure fixing?</li>
+      <li>How does the team do a retrospective to determine why the error budget was exceeded?</li>
+      <li>Once we fix the problem, it will take some time for the usual “28 days” view to abate and leave the alert zone, even though the problem is fixed; how do we represent that in the default view? How do we communicate this to other teams?</li>
+    </ul>
+  </li>
+  <li>There are now two databases involved: Our own SQLite one, and Prometheus. It feels like it should be possible to get rid of our own one somehow, but computing the metrics does require a certain look-back window. It may be possible to simplify this once we retire the static weather report page.</li>
+</ul>
+
+
+    
+  </section>
+
+  
+
+</article>
+
+
+  
+  <div class="author-info author-card" id="author-info">
+    <h2>About Martin Pitt</h2>
+    <div class="author-blurb">
+      
+
+
+      <div class="more-link">
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/authors#pitti">
+          View all posts by Martin Pitt »
+        </a>
+      </div>
+
+      
+    </div>
+  </div>
+
+
+
+  </div>
+</div>
+
+<footer class="footer-cockpit" role="contentinfo">
+    <p class="copyright">
+        
+
+        © 2013 - 2026
+
+        &mdash;
+
+        Cockpit is a <a href="https://redhat.com/">Red Hat</a> sponsored
+        free software project released under the
+        <a href="https://opensource.org/licenses/lgpl-2.1.php">LGPL v2.1+</a>
+    </p>
+
+    <p class="policy">
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/privacy.html">
+            Privacy Policy
+        </a>
+        &mdash;
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/code-of-conduct.html">
+            Code of Conduct
+        </a>
+    </p>
+
+    <p class="edit-page"><a
+      href="https://github.com/Venefilyn/cockpit-project.github.io/edit/main/_posts/2021-07-13-ci-metrics.md">Edit page on GitHub</a>
+</p>
+</footer>
+
+
+      
+    
+  </body>
+
+</html>

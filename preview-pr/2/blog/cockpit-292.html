@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html class=" -path-blog-cockpit-292.html" lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Cockpit 292 &mdash; Cockpit Project</title>
+
+    <link rel="canonical" href="https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/cockpit-292.html">
+
+    <link rel="manifest" href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/manifest.json">
+
+    <meta name="description" content="Cockpit makes it easy to administer your Linux servers via a web browser.
+">
+    <meta property="og:site_name" content="Cockpit Project">
+    <meta property="og:title" content="Cockpit 292">
+    <meta property="og:description" content="Per-service disk IO, right-to-left language fixes, robust VM watchdog changes">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/cockpit-292.html">
+    <meta name="author" content="Martin Pitt">
+    <meta property="og:image" content="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/site/opengraph.png">
+    <meta name="theme-color" content="#3e5375">
+
+    <!-- Favicon -->
+    
+    
+      <link rel="shortcut icon" href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/favicon.png" type="image/png">
+    
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/assets/main.js"></script>
+    <link rel="stylesheet" href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/assets/main.css">
+  </head>
+
+
+  <body id="page-top">
+    
+    
+      
+      
+      
+      
+
+      
+        
+        <header class="masthead hidden-print" id="branding" role="banner">
+
+  <section class="hgroup">
+    
+    
+
+    
+      <h1><a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/site/cockpit-logo.svg"></a></h1>
+    
+
+    
+  </section>
+
+  
+
+    <div class="nav-wrap">
+      
+
+
+  <nav role="navigation" class="">
+
+
+  <ul class="nav-menu" role="menubar">
+    
+      
+
+      <li class="nav--home" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/"><span class="label">Home</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--install" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/running.html"><span class="label">Install</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--documentation" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/documentation.html"><span class="label">Documentation</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--contribute" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--blog" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/"><span class="label">Blog</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--search" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/search.html"><span class="label">Search</span></a>
+        
+        
+      </li>
+    
+
+  </ul>
+
+
+  </nav>
+
+
+    </div>
+
+  
+
+</header>
+
+
+<div class="page-content" id="page-wrap" role="main">
+  <div class="wrapper">
+    
+
+
+
+
+
+
+
+
+
+
+
+<article class="post hentry" id="-blog-cockpit-292.html">
+  <header class="post-header">
+    <h2 class="post-title entry-title">
+      
+        Cockpit 292
+      
+    </h2>
+    <header class="post-meta">
+      
+        
+          <span class="byline">
+            by
+            <span class="author vcard">
+              <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/authors#pitti">Martin Pitt</a>
+            </span>
+          </span>
+        
+        –
+      
+      <time class="published" datetime="2">
+        May 16, 2023
+      </time>
+
+      
+        
+        
+        
+
+        <div class="category">
+          
+            category: <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/category/release.html">release</a>
+          
+        </div>
+      
+    </header>
+  </header>
+
+  
+  
+  
+  
+
+  <section class="post-content entry-content">
+    
+      <p>Cockpit is the <a href="https://cockpit-project.org/">modern Linux admin interface</a>.
+We release regularly.</p>
+
+<p>Here are the release notes from Cockpit 292 and cockpit-machines 290:</p>
+
+<h2 id="metrics-add-disk-io-per-service">Metrics: Add disk I/O per service</h2>
+
+<p>The “Disks” usage metrics card now shows the active read and write bandwidth for the top 5 consumers by systemd unit. This is similar to the already existing per-service <abbr title="Central Processing Unit, the &quot;brain&quot; of a computer">CPU</abbr> and <abbr title="Random Access Memory">RAM</abbr> usage.</p>
+
+<p><img src="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/292-metrics-add-disk-io-per-service.png" alt="metrics-disks-io-cgroups" /></p>
+
+<h2 id="machines-add-watchdogs-which-require-reboot">Machines: Add watchdogs which require reboot</h2>
+
+<p>In some cases, adding a watchdog to a running <abbr title="Virtual Machine">VM</abbr> fails. When that happens, the changes can only be applied through rebooting the <abbr title="Virtual Machine">VM</abbr>. The “Add watchdog” dialog now supports this case.</p>
+
+<p><img src="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/292-machines-apply-watchdog-changes-on-next-boot-if-hotplug-fails.png" alt="234253257-d6bc8d91-7b66-4ef7-b9df-79d554f92b0b" /></p>
+<h2 id="several-right-to-left-language-fixes">Several right-to-left language fixes</h2>
+
+<p>In <a href="https://cockpit-project.org/blog/cockpit-282.html">Cockpit 282</a>, the first round of RTL support arrived. This release of Cockpit further dramatically improves RTL support.</p>
+
+<p><em>A big thanks to <a href="https://github.com/ahmedr2001/">Ahmed Abdelatty</a> for kickstarting this most recent round of improvements!</em></p>
+
+<h2 id="try-it-out">Try it out</h2>
+
+<p>Cockpit 292, cockpit-machines 290, cockpit-podman 69, and cockpit-ostree 193 are available now:</p>
+
+<ul>
+  <li><a href="https://cockpit-project.org/running.html">For your Linux system</a></li>
+  <li>
+    <p><a href="https://flathub.org/apps/details/org.cockpit_project.CockpitClient">Cockpit Client</a></p>
+  </li>
+  <li><a href="https://github.com/cockpit-project/cockpit/releases/tag/292">Cockpit Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2023-636e748ae9">Cockpit Fedora 38</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2023-603a5a4abc">Cockpit Fedora 37</a></li>
+  <li><a href="https://github.com/cockpit-project/cockpit-machines/releases/tag/290">cockpit-machines Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2023-eb3f0741df">cockpit-machines Fedora 38</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2023-c5ffcaae0d">cockpit-machines Fedora 37</a></li>
+  <li><a href="https://github.com/cockpit-project/cockpit-podman/releases/tag/69">cockpit-podman Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2023-a1c1894f12">cockpit-podman Fedora 38</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2023-b1b46b4120">cockpit-podman Fedora 37</a></li>
+  <li><a href="https://github.com/cockpit-project/cockpit-ostree/releases/tag/193">cockpit-ostree Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2023-9c114ab681">cockpit-ostree Fedora 38</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2023-f401c4af8b">cockpit-ostree Fedora 37</a></li>
+</ul>
+
+
+    
+  </section>
+
+  
+
+</article>
+
+
+  
+  <div class="author-info author-card" id="author-info">
+    <h2>About Martin Pitt</h2>
+    <div class="author-blurb">
+      
+
+
+      <div class="more-link">
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/authors#pitti">
+          View all posts by Martin Pitt »
+        </a>
+      </div>
+
+      
+    </div>
+  </div>
+
+
+
+  </div>
+</div>
+
+<footer class="footer-cockpit" role="contentinfo">
+    <p class="copyright">
+        
+
+        © 2013 - 2026
+
+        &mdash;
+
+        Cockpit is a <a href="https://redhat.com/">Red Hat</a> sponsored
+        free software project released under the
+        <a href="https://opensource.org/licenses/lgpl-2.1.php">LGPL v2.1+</a>
+    </p>
+
+    <p class="policy">
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/privacy.html">
+            Privacy Policy
+        </a>
+        &mdash;
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/code-of-conduct.html">
+            Code of Conduct
+        </a>
+    </p>
+
+    <p class="edit-page"><a
+      href="https://github.com/Venefilyn/cockpit-project.github.io/edit/main/_posts/2023-05-16-cockpit-292.md">Edit page on GitHub</a>
+</p>
+</footer>
+
+
+      
+    
+  </body>
+
+</html>

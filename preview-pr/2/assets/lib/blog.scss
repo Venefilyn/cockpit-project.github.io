@@ -1,0 +1,278 @@
+:root {
+  --color-author-card: inherit;
+  --author-card-padding: 0;
+  --author-card-margin: 2em 0;
+}
+
+body.archive {
+  &.category-blog,
+  &.category-1 {
+    .page-header {
+      display: none;
+    }
+
+    #content {
+      padding-block-start: 2em;
+    }
+
+    .entry-title {
+      a {
+        color: inherit;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+
+/* Make comments come from avatars */
+
+.commentlist {
+  .avatar {
+    inset: 0 auto auto -98px;
+  }
+
+  > li.comment {
+    margin-inline-start: 98px;
+
+    .comment-meta, .comment-content {
+      margin-inline-end: auto;
+    }
+  }
+}
+
+/** Article */
+
+.singular .hentry, .hentry {
+  padding: 0;
+}
+
+.singular .entry-header .entry-meta, .entry-header .entry-meta {
+  position: static;
+}
+
+.wrapper > article > .entry-content {
+  margin: 2rem 0;
+}
+
+article.post {
+  overflow: hidden;
+
+  h2:first-child {
+    a {
+      display: block;
+    }
+  }
+
+  /* Style-up blog post YouTube videos & Slideshare decks (center & frame) */
+  iframe {
+    &[src*=youtube],
+    &[src*=slideshare] {
+      border: 1px solid var(--color-text);
+      border-radius: 5px;
+      overflow: hidden;
+      display: block;
+      margin: 1em auto;
+      background: #999;
+
+      /* Fit width to page */
+      max-width: calc(100vw - 2rem);
+
+      /* Attempt to preserve aspect ratio */
+      max-height: calc(100vw * 1080 / 1920);
+    }
+  }
+
+  + article.post {
+    margin-block-start: 3em;
+  }
+}
+
+.articles {
+  h2.post-title {
+    margin: 2rem 0 1rem;
+  }
+}
+
+.post-meta {
+  margin: 1ex 0 0;
+  color: var(--color-grey-dark);
+
+  .tags {
+    ul {
+      display: inline;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      display: inline;
+      margin: 0;
+      padding: 0;
+
+      + li {
+        margin-inline-start: -1ex;
+
+        &:before {
+          content: ", ";
+        }
+      }
+
+      a {
+        padding: 0.5ex;
+      }
+    }
+  }
+}
+
+.author-card {
+  background: var(--color-author-card);
+  padding: var(--author-card-padding);
+  margin: var(--author-card-margin);
+}
+
+.author-photo {
+  vertical-align: middle;
+  text-align: right;
+
+  img {
+    border-radius: 48px;
+  }
+}
+
+.author-blurb {
+  overflow: hidden;
+
+  .follow-on,
+  .more-link {
+    line-height: 3;
+  }
+}
+
+.post-content {
+  p {
+    > :where(img:first-child),
+    > a[href*=flickr] img {
+      max-width: calc(100% - 2px);
+      height: auto;
+      display: block;
+      text-align: center;
+      margin: 1em auto;
+    }
+  }
+
+  > p:first-child {
+    > a > :where(img:first-child),
+    > :where(img:first-child) {
+      float: left;
+      margin: 0 3ex 1ex 0;
+      max-width: 33%;
+
+      @media screen and (max-width: 651px) {
+        max-width: 33%;
+        height: auto;
+      }
+    }
+  }
+
+  li > p {
+    margin: 0;
+  }
+
+  table:not([class]) {
+    margin: 2em 0;
+  }
+}
+
+#blog-comments {
+  border-top: 1px solid #ccc;
+  margin: 4em 0 0;
+  padding: 3em 0 3em;
+}
+
+.tag-cloud {
+  line-height: 2.5ex;
+  text-align: justify;
+
+  a {
+    padding: 0.25ex;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+}
+
+.tag-cloud + .tag-list {
+  margin-block-start: 4em;
+}
+
+.tag-list {
+  ul {
+    margin: 0 0 3em 0;
+  }
+
+  ul, li {
+    list-style: none;
+  }
+
+  li {
+    display: flex;
+    overflow: hidden;
+  }
+
+  .published {
+    @extend .post-meta;
+
+    font-size: inherit;
+    min-width: 12ex;
+    padding-inline-end: 1ex;
+    text-align: right;
+  }
+
+  a {
+    flex: 1;
+  }
+}
+
+/* Disclaimer */
+
+.blog-disclaimer {
+  border-top: 1px solid #ccc;
+  clear: both;
+  opacity: 0.75;
+  margin: 3em 0 0;
+  padding: 3em 0 0;
+}
+
+.article-tag-list {
+  padding: 0 0.5em 3em;
+  margin: 0;
+
+  li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    a {
+      font-size: 130%;
+      padding-block-start: 1.5em;
+      display: block;
+    }
+  }
+}
+
+/* Blog post summary */
+
+.blog-posts-list {
+  .post-content-subtitle {
+    font-size: inherit;
+    margin: 1rem 0 0.5rem;
+  }
+}
+
+/* Pagination */
+
+.blog-posts-list + nav > .pagination {
+  margin: 4rem 0 0;
+}

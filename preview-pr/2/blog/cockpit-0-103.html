@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html class=" -path-blog-cockpit-0-103.html" lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Cockpit 0.103 &mdash; Cockpit Project</title>
+
+    <link rel="canonical" href="https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/cockpit-0-103.html">
+
+    <link rel="manifest" href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/manifest.json">
+
+    <meta name="description" content="Cockpit makes it easy to administer your Linux servers via a web browser.
+">
+    <meta property="og:site_name" content="Cockpit Project">
+    <meta property="og:title" content="Cockpit 0.103">
+    <meta property="og:description" content="Cockpit releases every week. Here's highlights from 0.102">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/cockpit-0-103.html">
+    <meta name="author" content="">
+    <meta property="og:image" content="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/site/opengraph.png">
+    <meta name="theme-color" content="#3e5375">
+
+    <!-- Favicon -->
+    
+    
+      <link rel="shortcut icon" href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/favicon.png" type="image/png">
+    
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/assets/main.js"></script>
+    <link rel="stylesheet" href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/assets/main.css">
+  </head>
+
+
+  <body id="page-top">
+    
+    
+      
+      
+      
+      
+
+      
+        
+        <header class="masthead hidden-print" id="branding" role="banner">
+
+  <section class="hgroup">
+    
+    
+
+    
+      <h1><a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/site/cockpit-logo.svg"></a></h1>
+    
+
+    
+  </section>
+
+  
+
+    <div class="nav-wrap">
+      
+
+
+  <nav role="navigation" class="">
+
+
+  <ul class="nav-menu" role="menubar">
+    
+      
+
+      <li class="nav--home" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/"><span class="label">Home</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--install" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/running.html"><span class="label">Install</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--documentation" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/documentation.html"><span class="label">Documentation</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--contribute" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--blog" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/"><span class="label">Blog</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--search" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/search.html"><span class="label">Search</span></a>
+        
+        
+      </li>
+    
+
+  </ul>
+
+
+  </nav>
+
+
+    </div>
+
+  
+
+</header>
+
+
+<div class="page-content" id="page-wrap" role="main">
+  <div class="wrapper">
+    
+
+
+
+
+
+
+
+
+
+
+
+<article class="post hentry" id="-blog-cockpit-0-103.html">
+  <header class="post-header">
+    <h2 class="post-title entry-title">
+      
+        Cockpit 0.103
+      
+    </h2>
+    <header class="post-meta">
+      
+      <time class="published" datetime="3">
+        Apr 20, 2016
+      </time>
+
+      
+        
+        
+        
+
+        <div class="category">
+          
+            category: <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/category/release.html">release</a>
+          
+        </div>
+      
+    </header>
+  </header>
+
+  
+  
+  
+  
+
+  <section class="post-content entry-content">
+    
+      <p>Cockpit is the <a href="https://cockpit-project.org/">modern Linux admin interface</a>. There’s a new release every week. Here are the highlights from this weeks 0.103 release.</p>
+
+<h3 id="kubernetes-connection-configuration">Kubernetes connection configuration</h3>
+
+<p>When a Kubernetes client wants to access the API of the cluster, it looks for a “kubeconfig” file to tell it how to find the cluster and how to authenticate when accessing the API. The usual location for this file is in the current user’s home directory at the <code class="language-plaintext highlighter-rouge">~/.kube/config</code> file path. If that doesn’t exist, then usually the cluster isn’t available. This applies to both clients like the <code class="language-plaintext highlighter-rouge">kubectl</code> command as well as Cockpit’s cluster dashboard.</p>
+
+<p>Cockpit can now prompt for this information, and build this file for you. If it doesn’t exist, then there’s a helpful “Troubleshoot” button to help get this configuration in place.</p>
+
+<iframe width="853" height="480" src="//www.youtube-nocookie.com/embed/WSh7wYhAXrA" frameborder="0" allowfullscreen=""></iframe>
+
+<h3 id="upload-each-release-to-an-ubuntu-ppa">Upload each Release to an Ubuntu PPA</h3>
+
+<p>Each weekly release of Cockpit is now uploaded to an Ubuntu PPA. Here’s how to make use of it:</p>
+
+<pre><code class="language-unknown">sudo add-apt-repository ppa:cockpit-project/cockpit
+sudo apt-get update
+sudo apt-get install cockpit
+</code></pre>
+
+<h3 id="remove-jquery-usage-from-cockpitjs-api">Remove jQuery Usage from cockpit.js API</h3>
+
+<p>As part of stabilizing the internals of Cockpit, we removed jQuery usage from the cockpit.js file. <a href="https://cockpit-project.org/guide/latest/api-base1.html">The javascript API itself</a> hasn’t changed, but this change helps to help keep a stable API in the future.</p>
+
+<h3 id="try-it-out">Try it out</h3>
+
+<p>Cockpit 0.103 is available now:</p>
+
+<ul>
+  <li><a href="https://cockpit-project.org/running.html">For your Linux system</a></li>
+  <li><a href="https://github.com/cockpit-project/cockpit/releases/tag/0.103">Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/cockpit-0.103-1.fc24">Fedora 24</a></li>
+  <li><a href="https://copr.fedoraproject.org/coprs/g/cockpit/cockpit-preview/">COPR for Fedora 23, CentOS and RHEL</a></li>
+</ul>
+
+
+    
+  </section>
+
+  
+
+</article>
+
+
+  
+  <div class="author-info author-card" id="author-info">
+    <h2>Other posts</h2>
+    <div class="author-blurb">
+      
+
+
+      <div class="more-link">
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/authors#">
+          View all posts »
+        </a>
+      </div>
+
+      
+    </div>
+  </div>
+
+
+
+  </div>
+</div>
+
+<footer class="footer-cockpit" role="contentinfo">
+    <p class="copyright">
+        
+
+        © 2013 - 2026
+
+        &mdash;
+
+        Cockpit is a <a href="https://redhat.com/">Red Hat</a> sponsored
+        free software project released under the
+        <a href="https://opensource.org/licenses/lgpl-2.1.php">LGPL v2.1+</a>
+    </p>
+
+    <p class="policy">
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/privacy.html">
+            Privacy Policy
+        </a>
+        &mdash;
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/code-of-conduct.html">
+            Code of Conduct
+        </a>
+    </p>
+
+    <p class="edit-page"><a
+      href="https://github.com/Venefilyn/cockpit-project.github.io/edit/main/_posts/2016-04-20-cockpit-0.103.md">Edit page on GitHub</a>
+</p>
+</footer>
+
+
+      
+    
+  </body>
+
+</html>

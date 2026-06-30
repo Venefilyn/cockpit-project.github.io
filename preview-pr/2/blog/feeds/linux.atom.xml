@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cockpit Project - Linux</title>
+    <description>Cockpit makes it easy to administer your Linux servers via a web browser.
+</description>
+    <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2/</link>
+    <atom:link href="https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/feeds/linux.atom.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Tue, 30 Jun 2026 12:45:55 +0000</pubDate>
+    <lastBuildDate>Tue, 30 Jun 2026 12:45:55 +0000</lastBuildDate>
+    <generator>Jekyll v3.9.5</generator>
+    
+      <item>
+        <title>DBus is powerful IPC</title>
+        <description>
+          &lt;p&gt;D-Bus is powerful IPC Cockpit is heavily built around DBus. We send DBus over our
+&lt;a href=&quot;https://github.com/cockpit-project/cockpit/blob/master/doc/protocol.md&quot;&gt;WebSocket transport&lt;/a&gt;,
+and marshal them in JSON.&lt;/p&gt;
+
+&lt;p&gt;DBus is powerful, with lots of capabilities. Not all projects use all of these, but so many of
+these capabilities are what allow Cockpit to implement its UI.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Method Call Transactions&lt;/li&gt;
+  &lt;li&gt;Object Oriented&lt;/li&gt;
+  &lt;li&gt;Efficient Signalling&lt;/li&gt;
+  &lt;li&gt;Properties and notifications&lt;/li&gt;
+  &lt;li&gt;Race free watching of entire Object trees for changes&lt;/li&gt;
+  &lt;li&gt;Broadcasting&lt;/li&gt;
+  &lt;li&gt;Discovery&lt;/li&gt;
+  &lt;li&gt;Introspection&lt;/li&gt;
+  &lt;li&gt;Policy&lt;/li&gt;
+  &lt;li&gt;Activation&lt;/li&gt;
+  &lt;li&gt;Synchronization&lt;/li&gt;
+  &lt;li&gt;Type-safe Marshalling&lt;/li&gt;
+  &lt;li&gt;Caller Credentials&lt;/li&gt;
+  &lt;li&gt;Security&lt;/li&gt;
+  &lt;li&gt;Debug Monitoring&lt;/li&gt;
+  &lt;li&gt;File Descriptor Passing&lt;/li&gt;
+  &lt;li&gt;Language agnostic&lt;/li&gt;
+  &lt;li&gt;Network transparency&lt;/li&gt;
+  &lt;li&gt;No trust required&lt;/li&gt;
+  &lt;li&gt;High-level error concept&lt;/li&gt;
+  &lt;li&gt;Adhoc type definitions&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Lennart goes into these further &lt;a href=&quot;http://youtu.be/HPbQzm_iz_k?t=2m6s&quot;&gt;in a kdbus talk&lt;/a&gt;, as well as some of the weaknesses of DBus.&lt;/p&gt;
+
+        </description>
+        <pubDate>Tue, 04 Nov 2014 00:00:00 +0000</pubDate>
+        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2//blog/d-bus-is-powerful-ipc.html</link>
+        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2//blog/d-bus-is-powerful-ipc.html</guid>
+        
+        <category>dbus</category>
+        
+        <category>linux</category>
+        
+        
+        <category>linux</category>
+        
+      </item>
+    
+  </channel>
+</rss>
+
+

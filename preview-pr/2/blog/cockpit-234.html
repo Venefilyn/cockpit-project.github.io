@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html class=" -path-blog-cockpit-234.html" lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Cockpit 234 and Cockpit-Podman 26 &mdash; Cockpit Project</title>
+
+    <link rel="canonical" href="https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/cockpit-234.html">
+
+    <link rel="manifest" href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/manifest.json">
+
+    <meta name="description" content="Cockpit makes it easy to administer your Linux servers via a web browser.
+">
+    <meta property="og:site_name" content="Cockpit Project">
+    <meta property="og:title" content="Cockpit 234 and Cockpit-Podman 26">
+    <meta property="og:description" content="Cockpit with various bug fixes and performance improvements">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/cockpit-234.html">
+    <meta name="author" content="Marius Vollmer">
+    <meta property="og:image" content="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/site/opengraph.png">
+    <meta name="theme-color" content="#3e5375">
+
+    <!-- Favicon -->
+    
+    
+      <link rel="shortcut icon" href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/favicon.png" type="image/png">
+    
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/assets/main.js"></script>
+    <link rel="stylesheet" href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/assets/main.css">
+  </head>
+
+
+  <body id="page-top">
+    
+    
+      
+      
+      
+      
+
+      
+        
+        <header class="masthead hidden-print" id="branding" role="banner">
+
+  <section class="hgroup">
+    
+    
+
+    
+      <h1><a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/"><img id="logo" class="logo is-svg" alt="Cockpit Project" src="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/site/cockpit-logo.svg"></a></h1>
+    
+
+    
+  </section>
+
+  
+
+    <div class="nav-wrap">
+      
+
+
+  <nav role="navigation" class="">
+
+
+  <ul class="nav-menu" role="menubar">
+    
+      
+
+      <li class="nav--home" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/"><span class="label">Home</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--install" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/running.html"><span class="label">Install</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--documentation" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/documentation.html"><span class="label">Documentation</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--contribute" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/external/wiki/Contributing.html"><span class="label">Contribute</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--blog" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/"><span class="label">Blog</span></a>
+        
+        
+      </li>
+    
+      
+
+      <li class="nav--search" role="menuitem">
+        
+          <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/search.html"><span class="label">Search</span></a>
+        
+        
+      </li>
+    
+
+  </ul>
+
+
+  </nav>
+
+
+    </div>
+
+  
+
+</header>
+
+
+<div class="page-content" id="page-wrap" role="main">
+  <div class="wrapper">
+    
+
+
+
+
+
+
+
+
+
+
+
+<article class="post hentry" id="-blog-cockpit-234.html">
+  <header class="post-header">
+    <h2 class="post-title entry-title">
+      
+        Cockpit 234 and Cockpit-Podman 26
+      
+    </h2>
+    <header class="post-meta">
+      
+        
+          <span class="byline">
+            by
+            <span class="author vcard">
+              <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/authors#mvo">Marius Vollmer</a>
+            </span>
+          </span>
+        
+        –
+      
+      <time class="published" datetime="3">
+        Dec 9, 2020
+      </time>
+
+      
+        
+        
+        
+
+        <div class="category">
+          
+            category: <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/category/release.html">release</a>
+          
+        </div>
+      
+    </header>
+  </header>
+
+  
+  
+  
+  
+
+  <section class="post-content entry-content">
+    
+      <p>Cockpit is the <a href="https://cockpit-project.org/">modern Linux admin interface</a>.  We release regularly.</p>
+
+<p>Here are the release notes from Cockpit version 234 and Cockpit-Podman 26.</p>
+
+<h2 id="machines-select-virtual-machine-cpu-mode-and-model">Machines: Select virtual machine CPU mode and model</h2>
+
+<p>The Virtual Machines page now has the option to select a CPU model.</p>
+
+<p>Choosing a strategy may maximize performance, protect against various CPU hardware flaws, and allow for live migration between hosts with similar CPU models.</p>
+
+<p>Three different options are supported:</p>
+
+<ul>
+  <li>
+    <p><strong>Host passthrough</strong>
+The host CPU model, features, and stepping are passed directly to the guest. This is the fastest mode, but lacks compatibility for live migration of VMs to another host.</p>
+  </li>
+  <li>
+    <p><strong>Host model</strong>
+This balanced mode, also known as QEMU’s “named model”, makes tradeoffs to ensure live migration is safe while attempting to preserve performance. It does this by choosing a <em>compatible</em>—but not necessarily <em>identical</em>—CPU family, stepping, and feature set with the host and tries to preserve as much passthrough as possible.</p>
+  </li>
+  <li>
+    <p><strong>Custom / Named model</strong>
+Selecting a specific named CPU model maximizes the flexibility to live migrate between hosts with differing hardware, by abstracting the simulated CPU from the host’s own CPU. The list of CPU models comes directly from QEMU and referrers to specific generations of hardware released by Intel and AMD.</p>
+  </li>
+</ul>
+
+<p>More information about CPU model selection can be found in the <a href="https://www.qemu.org/docs/master/system/qemu-cpu-models.html">QEMU documentation page</a>.</p>
+
+<p><img loading="lazy" src="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/machines-cpu-model.png" alt="screenshot of the cpu mode configuration" /></p>
+
+<h2 id="machines-add-support-for-cloning-virtual-machines">Machines: Add support for cloning virtual machines</h2>
+
+<p>Cloning copies a virtual machine into a new VM, duplicating configuration and storage. After cloning, the original VM and its clone are nearly identical, with the exception of the few configuration changes that need to differ.</p>
+
+<p>Virtual machine cloning is often used for preparing an optimal virtual machine and then quickly spinning up several similar VMs without having to step through an installation process.</p>
+
+<p><img loading="lazy" src="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/machines-cloning.png" alt="screenshot of the machine cloning" /></p>
+
+<h2 id="the-dashboard-has-been-removed">The dashboard has been removed</h2>
+
+<p>Due to limited functionality, the dashboard page has been removed. Connecting to additional hosts is directly available in the Shell without the need for a separate package. The dashboard graphs were not providing enough information to be useful and were implemented with a performance cost on the servers and the browser. Individual machine metrics are available on a separate page on the Overview page. Multi-host monitoring is handled better by other tools (e.g. Grafana), which provide more useful data.</p>
+
+<h2 id="podman-set-ip-address-when-exposing-container-ports">Podman: Set IP address when exposing container ports</h2>
+
+<p>The Cockpit-Podman add-on now supports binding a container’s ports to a specific host IP address. If the host IP is unset or set to <code class="language-plaintext highlighter-rouge">0.0.0.0</code>, the port will be bound on all IPs on the host.</p>
+
+<p><img loading="lazy" src="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/podman-ip-for-ports.png" alt="screenshot of port IP configuration" /></p>
+
+<h3 id="try-it-out">Try it out</h3>
+
+<p>Cockpit 234 and Cockpit-Podman 26 are available now:</p>
+
+<ul>
+  <li><a href="https://cockpit-project.org/running.html">For your Linux system</a></li>
+  <li><a href="https://github.com/cockpit-project/cockpit/releases/tag/234">Cockpit Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2020-ea1ee62c3d">Cockpit Fedora 32</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2020-d10db68200">Cockpit Fedora 33</a></li>
+  <li><a href="https://github.com/cockpit-project/cockpit-podman/releases/tag/26">Cockpit-Podman Source Tarball</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2020-c37784f036">Cockpit-Podman Fedora 32</a></li>
+  <li><a href="https://bodhi.fedoraproject.org/updates/FEDORA-2020-1089febeaf">Cockpit-Podman Fedora 33</a></li>
+</ul>
+
+    
+  </section>
+
+  
+
+</article>
+
+
+  
+  <div class="author-info author-card" id="author-info">
+    <h2>About Marius Vollmer</h2>
+    <div class="author-blurb">
+      
+
+
+      <div class="more-link">
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/authors#mvo">
+          View all posts by Marius Vollmer »
+        </a>
+      </div>
+
+      
+    </div>
+  </div>
+
+
+
+  </div>
+</div>
+
+<footer class="footer-cockpit" role="contentinfo">
+    <p class="copyright">
+        
+
+        © 2013 - 2026
+
+        &mdash;
+
+        Cockpit is a <a href="https://redhat.com/">Red Hat</a> sponsored
+        free software project released under the
+        <a href="https://opensource.org/licenses/lgpl-2.1.php">LGPL v2.1+</a>
+    </p>
+
+    <p class="policy">
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/privacy.html">
+            Privacy Policy
+        </a>
+        &mdash;
+        <a href="https://Venefilyn.github.io/cockpit-project.github.io/preview/2/code-of-conduct.html">
+            Code of Conduct
+        </a>
+    </p>
+
+    <p class="edit-page"><a
+      href="https://github.com/Venefilyn/cockpit-project.github.io/edit/main/_posts/2020-12-09-cockpit-234.md">Edit page on GitHub</a>
+</p>
+</footer>
+
+
+      
+    
+  </body>
+
+</html>

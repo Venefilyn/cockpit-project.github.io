@@ -1,0 +1,121 @@
+.search-page {
+  --pf-v5-global--Color--100: red;
+
+  .search-icon path {
+    fill: green;
+  }
+
+  .search-form {
+    margin-block-end: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-flow: row wrap;
+  }
+
+  .search-input,
+  .search-button {
+    line-height: 2rem;
+    color: var(--color-text);
+    font: inherit;
+    padding: .75ex 2ex;
+  }
+
+  .search-input {
+    border-radius: 6px;
+    border: 1px solid var(--color-grey-dark);
+    background: var(--color-background);
+    position: relative;
+    flex: auto;
+    padding-inline-start: 1.5ex;
+
+    // Make room for the icon
+    @supports (mask: url()) {
+      padding-inline-start: 4.5ex;
+    }
+  }
+
+  .search-input-wrapper {
+    flex: auto;
+    display: flex;
+    position: relative;
+
+    @supports (mask: url()) {
+      &::after {
+        position: absolute;
+        inset: 10px;
+        content: '';
+        background: color-mix(in srgb, var(--color-text) 75%, var(--color-background));
+        mask: url("../images/site/search.svg#search-icon") 0 100% no-repeat;
+        pointer-events: none;
+      }
+    }
+  }
+
+  .search-button {
+    background: var(--color-grey-light);
+    border: 1px solid var(--color-grey-dark);
+    border-radius: 400px;
+
+    &:hover {
+      background: color-mix(in srgb, var(--color-grey-light) 80%, white);
+    }
+  }
+
+  .similar {
+    padding: 1ex 0 2ex;
+    color: var(--color-grey-dark);
+  }
+
+  .progress-container {
+    position: absolute;
+    inset-inline: 0;
+    text-align: center;
+  }
+
+  .spinner {
+    font-size: 6em;
+    margin: 1em auto;
+    color: var(--color-grey);
+  }
+
+  .articles {
+    margin: 1rem 0 0;
+  }
+
+  article.post {
+    padding: 1em 1em 1em;
+    margin: 0 -1em;
+
+    &.highlight {
+      background: rgba(yellow, 0.125);
+      outline: 1px solid rgba(orange, 0.25);
+      border-radius: 6px;
+
+      h2 {
+        background: inherit;
+      }
+    }
+
+    h2 {
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+  .date {
+    padding: 0 0 0.5ex;
+  }
+
+  .post-content {
+    margin: 0;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  #results-none {
+    text-align: center;
+    padding: 2em 0;
+  }
+}
