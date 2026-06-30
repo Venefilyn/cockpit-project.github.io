@@ -1,1 +1,1 @@
-Sitemap: https://github.com/pages/Venefilyn/cockpit-project.github.io/sitemap.xml
+Sitemap: https://github.com/cockpit-project.github.io/sitemap.xml
