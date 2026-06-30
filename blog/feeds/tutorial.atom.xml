@@ -4,10 +4,10 @@
     <title>Cockpit Project - Tutorial</title>
     <description>Cockpit makes it easy to administer your Linux servers via a web browser.
 </description>
-    <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2/</link>
-    <atom:link href="https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2/blog/feeds/tutorial.atom.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 30 Jun 2026 12:28:32 +0000</pubDate>
-    <lastBuildDate>Tue, 30 Jun 2026 12:28:32 +0000</lastBuildDate>
+    <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/</link>
+    <atom:link href="https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/blog/feeds/tutorial.atom.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Tue, 30 Jun 2026 12:45:31 +0000</pubDate>
+    <lastBuildDate>Tue, 30 Jun 2026 12:45:31 +0000</lastBuildDate>
     <generator>Jekyll v3.9.5</generator>
     
       <item>
@@ -154,8 +154,8 @@ excited about pixel tests in the beginning than I was. 😁&lt;/p&gt;
 
         </description>
         <pubDate>Thu, 03 Feb 2022 10:00:00 +0000</pubDate>
-        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2//blog/pixel-testing-update.html</link>
-        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2//blog/pixel-testing-update.html</guid>
+        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io//blog/pixel-testing-update.html</link>
+        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io//blog/pixel-testing-update.html</guid>
         
         <category>cockpit</category>
         
@@ -353,8 +353,8 @@ images.&lt;/p&gt;
 
         </description>
         <pubDate>Thu, 06 May 2021 10:00:00 +0000</pubDate>
-        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2//blog/pixel-testing.html</link>
-        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2//blog/pixel-testing.html</guid>
+        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io//blog/pixel-testing.html</link>
+        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io//blog/pixel-testing.html</guid>
         
         <category>cockpit</category>
         
@@ -370,7 +370,7 @@ images.&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://cockpit-project.org&quot;&gt;Cockpit is a web-based graphical interface for servers&lt;/a&gt;. You can easily add your own custom pages to the navigation.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/pages-menu-top.png&quot; alt=&quot;Navigation menu&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/images/pages-menu-top.png&quot; alt=&quot;Navigation menu&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;For this tutorial you need to &lt;a href=&quot;../running.html&quot;&gt;install your distribution’s cockpit packages&lt;/a&gt; or &lt;a href=&quot;https://github.com/cockpit-project/cockpit/blob/master/HACKING.md&quot;&gt;build it from git&lt;/a&gt;.&lt;/p&gt;
 
@@ -430,11 +430,11 @@ pinger: /home/.../.local/share/cockpit/pinger
 
 &lt;p&gt;You should now see a new item:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/cockpit-tools-pinger.png&quot; alt=&quot;Tools menu with pinger&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/images/cockpit-tools-pinger.png&quot; alt=&quot;Tools menu with pinger&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The pinger tool itself looks like this:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/cockpit-pinger-tool.png&quot; alt=&quot;Pinger tool&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/images/cockpit-pinger-tool.png&quot; alt=&quot;Pinger tool&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Lets take a look at the pinger HTML, and see how it works.&lt;/p&gt;
 
@@ -545,8 +545,8 @@ pinger: /home/.../.local/share/cockpit/pinger
 
         </description>
         <pubDate>Mon, 04 May 2020 00:00:00 +0000</pubDate>
-        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2//blog/creating-plugins-for-the-cockpit-user-interface.html</link>
-        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2//blog/creating-plugins-for-the-cockpit-user-interface.html</guid>
+        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io//blog/creating-plugins-for-the-cockpit-user-interface.html</link>
+        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io//blog/creating-plugins-for-the-cockpit-user-interface.html</guid>
         
         <category>cockpit</category>
         
@@ -565,7 +565,7 @@ pages to Cockpit.  We call them “Applications” and as of now, only two
 of them exist: We have Fleet Commander and Cockpit’s own Diagnostic
 Reports in Fedora.  You might have seen them on the Applications page:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/cockpit-two-apps.png&quot; alt=&quot;Two Cockpit Applications&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/images/cockpit-two-apps.png&quot; alt=&quot;Two Cockpit Applications&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;If you want your own page to appear there, you have to add suitable
 &lt;a href=&quot;https://www.freedesktop.org/wiki/Distributions/AppStream/&quot;&gt;AppStream&lt;/a&gt;
@@ -610,8 +610,8 @@ in the usual reverse-DNS style, and adjust the filename accordingly.&lt;/p&gt;
 
         </description>
         <pubDate>Mon, 09 Apr 2018 10:00:00 +0000</pubDate>
-        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2//blog/making-a-cockpit-application.html</link>
-        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2//blog/making-a-cockpit-application.html</guid>
+        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io//blog/making-a-cockpit-application.html</link>
+        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io//blog/making-a-cockpit-application.html</guid>
         
         <category>cockpit</category>
         
@@ -801,8 +801,8 @@ telling us about it, preferably by &lt;a href=&quot;https://github.com/cockpit-p
 
         </description>
         <pubDate>Wed, 28 Mar 2018 00:00:00 +0000</pubDate>
-        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2//blog/cockpit-custom-test-framework.html</link>
-        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2//blog/cockpit-custom-test-framework.html</guid>
+        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io//blog/cockpit-custom-test-framework.html</link>
+        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io//blog/cockpit-custom-test-framework.html</guid>
         
         <category>cockpit</category>
         
@@ -904,7 +904,7 @@ ln -s `pwd`/dist ~/.local/share/cockpit/starter-kit
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;Now you should be able to log into &lt;a href=&quot;https://localhost:9090&quot;&gt;https://localhost:9090&lt;/a&gt; and see the “Starter Kit” menu entry:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/starter-kit.png&quot; alt=&quot;starter kit&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/images/starter-kit.png&quot; alt=&quot;starter kit&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The symlink into your source code checkout is a very convenient and efficient way of development as you can just type
 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;make&lt;/code&gt; after changing code and directly see the effect in Cockpit after a page reload.&lt;/p&gt;
@@ -1003,8 +1003,8 @@ just have better documentation. If you run into trouble, please don’t hesitate
 
         </description>
         <pubDate>Fri, 09 Mar 2018 00:00:00 +0000</pubDate>
-        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2//blog/cockpit-starter-kit.html</link>
-        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2//blog/cockpit-starter-kit.html</guid>
+        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io//blog/cockpit-starter-kit.html</link>
+        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io//blog/cockpit-starter-kit.html</guid>
         
         <category>cockpit</category>
         
@@ -1093,7 +1093,7 @@ to be rebuilt, and testing it via Vagrant won’t work.&lt;/p&gt;
 
 &lt;p&gt;And after refreshing Cockpit, I can see that change:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/vagrant-change.png&quot; alt=&quot;Showing the change made&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/images/vagrant-change.png&quot; alt=&quot;Showing the change made&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The same applies to javascript or CSS changes as well. In order to actually contribute a change to Cockpit
 you’ll want to look at the information about
@@ -1107,7 +1107,7 @@ you can look at the &lt;a href=&quot;https://cockpit-project.org/guide/latest/de
 &lt;p&gt;After each Cockpit release, there will be new binary parts to Cockpit. In order to continue to use the
 Vagrant VM, you’ll need to rebuild it. A message like this should appear when that’s necessary.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/cockpit-incompatible-sources.png&quot; alt=&quot;Cockpit is incompatible with sources&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/images/cockpit-incompatible-sources.png&quot; alt=&quot;Cockpit is incompatible with sources&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Rebuild the Vagrant VM like this:&lt;/p&gt;
 
@@ -1125,8 +1125,8 @@ $ sudo firewall-cmd –set-default-zone=trusted&lt;/p&gt;
 
         </description>
         <pubDate>Thu, 08 Oct 2015 00:00:00 +0000</pubDate>
-        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2//blog/cockpit-vagrantfile.html</link>
-        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2//blog/cockpit-vagrantfile.html</guid>
+        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io//blog/cockpit-vagrantfile.html</link>
+        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io//blog/cockpit-vagrantfile.html</guid>
         
         <category>cockpit</category>
         
@@ -1168,7 +1168,7 @@ docker-info: .../.local/share/cockpit/docker-info
 
 &lt;p&gt;If you’re logged into Cockpit on this machine, first log out. And log in again. Make sure to log into Cockpit with your current user name, since you installed the package in your home directory. You should now see a new item in the &lt;em&gt;Tools&lt;/em&gt; menu called &lt;em&gt;Docker Info&lt;/em&gt;:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/cockpit-docker-info.png&quot; alt=&quot;Docker Info tool&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/images/cockpit-docker-info.png&quot; alt=&quot;Docker Info tool&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;After a moment, you should see numbers pop up with some stats about the docker daemon. Now in a terminal try to run something like:&lt;/p&gt;
 
@@ -1294,8 +1294,8 @@ docker-info: .../.local/share/cockpit/docker-info
 
         </description>
         <pubDate>Fri, 10 Jul 2015 00:00:00 +0000</pubDate>
-        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2//blog/making-rest-calls-from-javascript-in-cockpit.html</link>
-        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2//blog/making-rest-calls-from-javascript-in-cockpit.html</guid>
+        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io//blog/making-rest-calls-from-javascript-in-cockpit.html</link>
+        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io//blog/making-rest-calls-from-javascript-in-cockpit.html</guid>
         
         <category>cockpit</category>
         
@@ -1507,8 +1507,8 @@ mydbus
 
         </description>
         <pubDate>Tue, 16 Dec 2014 00:00:00 +0000</pubDate>
-        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2//blog/protocol-for-web-access-to-system-apis.html</link>
-        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2//blog/protocol-for-web-access-to-system-apis.html</guid>
+        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io//blog/protocol-for-web-access-to-system-apis.html</link>
+        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io//blog/protocol-for-web-access-to-system-apis.html</guid>
         
         <category>cockpit</category>
         
@@ -1548,7 +1548,7 @@ zoner: .../.local/share/cockpit/zoner
 
 &lt;p&gt;If you’re logged into Cockpit on this machine, first log out. And log in again. Make sure to log into Cockpit with your current user name, since you installed the package in your home directory. You should now see a new item in the &lt;em&gt;Tools&lt;/em&gt; menu called &lt;em&gt;Time Zone&lt;/em&gt;:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2/images/cockpit-zoner-tool.png&quot; alt=&quot;Pinger tool&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/images/cockpit-zoner-tool.png&quot; alt=&quot;Pinger tool&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Try it out by typing &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Australia/Tasmania&lt;/code&gt; in the box, and clicking &lt;em&gt;Change&lt;/em&gt;. You should see that the &lt;em&gt;Time Zone&lt;/em&gt; changes. You can verify this by typing the following on the same server in a terminal:&lt;/p&gt;
 
@@ -1673,8 +1673,8 @@ Next we attach a handler to the &lt;em&gt;Change&lt;/em&gt; button so that the &
 
         </description>
         <pubDate>Thu, 13 Nov 2014 00:00:00 +0000</pubDate>
-        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2//blog/using-dbus-from-javascript-in-cockpit.html</link>
-        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io/preview/2//blog/using-dbus-from-javascript-in-cockpit.html</guid>
+        <link>https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io//blog/using-dbus-from-javascript-in-cockpit.html</link>
+        <guid isPermaLink="true">https://github.comhttps://Venefilyn.github.io/cockpit-project.github.io//blog/using-dbus-from-javascript-in-cockpit.html</guid>
         
         <category>cockpit</category>
         
